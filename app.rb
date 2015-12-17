@@ -22,6 +22,10 @@ get '/' do
   erb :home
 end
 
+get '/test' do
+  { data: Time.new }.to_json
+end
+
 not_found do
   erb :not_found
 end
