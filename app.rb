@@ -6,6 +6,7 @@ require 'hieraviz'
 configure do
   set :public_folder, File.expand_path('../public', __FILE__)
   set :views_folder, File.expand_path('../views', __FILE__)
+  set :erb, layout: :_layout
 end
 
 configure :development do
@@ -13,6 +14,14 @@ configure :development do
   BetterErrors.application_root = File.expand_path('..', __FILE__)
 end
 
+helpers do
+
+end
+
 get '/' do
-  erb :home, layout: :template
+  erb :home
+end
+
+not_found do
+  erb :not_found
 end
