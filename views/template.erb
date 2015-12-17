@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hieraviz
+    <%= @title if @title %>
+    </title>
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="container">
+      <%= erb :header, :layout => false %>
+      <%= yield %>
+      <%= erb :footer, :layout => false %>
+    </div>
+  </body>
+</html>

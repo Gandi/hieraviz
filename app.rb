@@ -5,6 +5,7 @@ require 'hieraviz'
 
 configure do
   set :public_folder, File.expand_path('../public', __FILE__)
+  set :views_folder, File.expand_path('../views', __FILE__)
 end
 
 configure :development do
@@ -13,5 +14,5 @@ configure :development do
 end
 
 get '/' do
-  'Hello world!'
+  erb :home, layout: :template
 end

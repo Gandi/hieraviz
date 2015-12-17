@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
                           and production data in a unified interface. Its main goal is 
                           to enable a better visibility on the Puppet architecture for 
                           more actors to be able to interact with it.}
-                          
+
   spec.homepage      = "https://github.com/Gandi/hieraviz"
   spec.metadata      = { "changelog" => "https://github.com/Gandi/hieraviz/blob/master/CHANGELOG.md" }
   spec.license       = "MIT"
@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'shotgun'
   spec.add_development_dependency 'better_errors'
 
 end
