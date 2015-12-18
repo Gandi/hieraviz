@@ -16,16 +16,17 @@ function ready(fn) {
     document.addEventListener('DOMContentLoaded', fn);
   }
 }
+function addClass(el, className) {
+  if (el.classList)
+    el.classList.add(className);
+  else
+    el.className += ' ' + className;
+}
 
-ready( () => {
-  var clicker = document.querySelector('#click');
-  var area = document.querySelector('#area');
+function removeClass(el, className) {
+  if (el.classList)
+    el.classList.remove(className);
+  else
+    el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+}
 
-  clicker.addEventListener('click', function(el) {
-    fetch('/v1/test').
-      then(res => res.json()).
-      then(j => {
-        area.textContent = j['data'];
-      });
-  });
-});

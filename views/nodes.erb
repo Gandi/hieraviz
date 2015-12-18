@@ -1,0 +1,16 @@
+<% content_for :more_js do %>
+<script async="async" src="js/nodes.js"></script>
+<% end %>
+
+<div class="side">
+<form class="filter">
+<input type="text" name="filter" />
+</form>
+<ul>
+<% @nodes.each do |node| %>
+<li class="node"><%= node %></li>
+<% end %>
+</ul>
+</div>
+<pre class="meat">
+</pre>

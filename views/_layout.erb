@@ -5,7 +5,6 @@
     <%= @title if @title %>
     </title>
     <link href="css/main.css" rel="stylesheet" type="text/css">
-    <link href="css/main.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="container">
@@ -20,5 +19,6 @@
       </div>
     </div>
     <script async="async" src="js/main.js"></script>
+    <%= yield_content :more_js %>
   </body>
 </html>

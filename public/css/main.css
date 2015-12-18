@@ -5,7 +5,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #ccc;
+  background-color: #eee;
   font-family: sans serif;
 }
 a {
@@ -14,7 +14,12 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
+input {
+  padding: .1em .2em;
+  border: 1px solid #ccc;
+  border-radius: .1em;
+  background-color: #fff;
+}
 /* Layout elements */
 /* ----- Head ---- */
 .head {
@@ -24,25 +29,84 @@ a:hover {
   position: fixed;
   display: block;
   width: 100%;
+  z-index: 1;
 }
-.head .title {
+.head .title a {
   color: #fff;
   font-size: 2em;
   display: inline-block;
-  float: left;
+  float: right;
   line-height: .5em;
+}
+.head .nav {
+  position: relative;
+  float: left;
+  display: inline-block;
+}
+.head .nav a {
+  position: relative;
+  color: #fff;
+  background-color: #999;
+  padding: .5em 1em;
+  border-radius: .2em;
+  font-weight: bold;
+}
+.head .nav a.focus {
+  background-color: #fff;
+  color: #000;
+}
+.head .nav a:hover {
+  background-color: #fff;
+  color: #000;
 }
 
 /* ----- Content ---- */
 .content {
-  padding: 1em;
   background-color: #eee;
-  position: fixed;
+  position: absolute;
   top: 3em;
-  bottom: 3em;
+  bottom: 8em;
   width: 100%;
 }
-
+.side {
+  background-color: #eee;
+  display: inline-block;
+  float: left;
+}
+.side .filter {
+  margin: 0;
+  background-color: #999;
+  font-size: 1.2em;
+}
+.side .filter input {
+  width: 100%;
+  margin-bottom: .1em;
+  padding: .1em 1em;
+}
+.side ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-right: 1px solid #ccc;
+}
+.side ul li {
+  padding: .1em 1em;
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+}
+.side ul li:hover {
+  background-color: #fff;
+}
+.side ul li.focus {
+  background-color: #fff;
+}
+.meat {
+  padding: 1em;
+  border: 2px solid #900;
+  display: inline-block;
+  float: left;
+  position: fixed;
+}
 /* ----- Foot ---- */
 .foot {
   padding: 1em;
