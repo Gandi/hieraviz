@@ -47,3 +47,22 @@ function addTo(el, txt) {
 function shortParamFile(path) {
   return path.replace(/params\//, '').replace(/\.yaml/, '');
 }
+
+function filterBox(els) {
+  var filterinput = document.querySelector('.filter input');
+  filterinput.focus();
+  filterinput.addEventListener('keyup', (ev) => {
+    el = ev.target;
+    if (el.value == '') 
+      Array.prototype.forEach.call(els, (item, i) => {
+        item.style.display = 'block';
+      });
+    else
+      Array.prototype.forEach.call(els, (item, i) => {
+        if (item.innerText.match(el.value))
+          item.style.display = 'block';
+        else
+          item.style.display = 'none';
+      });
+  });
+}

@@ -22,6 +22,9 @@ ready( () => {
 
   var nodes = document.querySelectorAll('li.node');
   var meat = document.querySelector('div.meat');
+  // var debugarea = document.querySelector('span.debug');
+
+  filterBox(nodes);
 
   function build_list(top, title, array) {
     top.innerHTML = "<h3>Node "+title+"</h3>";
@@ -57,4 +60,5 @@ ready( () => {
         });
     });
   });
+
 });
