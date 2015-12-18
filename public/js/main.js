@@ -39,3 +39,11 @@ function focusNav(className) {
   var navFocus = document.querySelector('.nav a.' + className);
   addClass(navFocus, 'focus');
 }
+
+function addTo(el, txt) {
+  el.insertAdjacentHTML("beforeend", txt);
+}
+
+function shortParamFile(path) {
+  return path.replace(/params\//, '').replace(/\.yaml/, '');
+}

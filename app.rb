@@ -71,7 +71,7 @@ namespace '/v1' do
   get '/node/:n' do |node|
     config = Hieracles::Config.new(settings.config)
     node = Hieracles::Node.new(node, config)
-    json node.params
+    json node.params.map { |e| Hash[*e] }
   end
 
   get '/farms' do

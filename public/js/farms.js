@@ -21,13 +21,16 @@ ready( () => {
   focusNav('farms');
 
   var farms = document.querySelectorAll('li.farm');
-  var meat = document.querySelector('pre.meat');
+  var meat = document.querySelector('div.meat');
 
-  function build_list(top, array) {
-    top.textContent = '';
-    Array.prototype.forEach.call(array, (item, i) => {
-      top.insertAdjacentHTML("beforeend","<li>"+item+"</li>\n");
-    });
+  function build_list(top, title, array) {
+    top.innerHTML = "<h3>Farm "+title+"</h3>";
+    if (array.length > 0)
+      Array.prototype.forEach.call(array, (item, i) => {
+        addTo(top, "<div>"+item+"</div>\n");
+      });
+    else
+      addTo(top, "<div>There is no node in this farm.</div>\n");
   }
 
   Array.prototype.forEach.call(farms, (item, i) => {
@@ -37,7 +40,7 @@ ready( () => {
       fetch('/v1/farm/' + el.innerText).
         then(res => res.json()).
         then(j => {
-          build_list(meat, j);
+          build_list(meat, el.innerText, j);
           Array.prototype.forEach.call(farms, (item, i) => {
             removeClass(item, 'focus')
           });

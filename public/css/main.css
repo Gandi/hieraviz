@@ -102,14 +102,48 @@ input {
 }
 .meat {
   padding: 1em;
-  border: 2px solid #900;
-  display: inline-block;
+  border: 2px solid #999;
   float: left;
-  position: fixed;
   background-color: #fff;
+  width: auto;
 }
 .meat.wait {
   background-color: #000;
+}
+.meat h3 {
+  margin: -1em;
+  padding: .2em 1em;
+  margin-bottom: .5em;
+  background-color: #999;
+}
+.meat .row {
+  margin-bottom: .5em;
+}
+.meat .row .paramfile {
+  width: 100px;
+  overflow: hidden;
+  padding-right: 2em;
+  display: inline-block;
+  white-space: nowrap;
+  float: left;
+  cursor: pointer;
+  position: absolute;
+  background: #eee;
+}
+.meat .row .paramfile:hover {
+  width: auto;
+}
+.meat .row .data {
+  display: inline-block;
+  margin-left: 110px;
+  background-color: #bcd;
+  padding-right: 1em;
+  margin-right: 1em;
+}
+.meat .row .value {
+  font-family: monospace;
+  display: inline-block;
+  padding-left: 110px;
 }
 /* ----- Foot ---- */
 .foot {

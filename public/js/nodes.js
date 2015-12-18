@@ -21,19 +21,39 @@ ready( () => {
   focusNav('nodes');
 
   var nodes = document.querySelectorAll('li.node');
-  var meat = document.querySelector('pre.meat');
+  var meat = document.querySelector('div.meat');
+
+  function build_list(top, title, array) {
+    top.innerHTML = "<h3>Node "+title+"</h3>";
+    if (array.length > 0)
+      Array.prototype.forEach.call(array, (item, i) => {
+        Array.prototype.forEach.call(Object.keys(item), (param, ii) => {
+          Array.prototype.forEach.call(item[param], (values, i) => {
+            addTo(top,  "<div class=\"row\">" +
+                        "<span class=\"paramfile\">"+shortParamFile(values['file'])+"</span>\n" +
+                        "<span class=\"data\">"+param+"</span>\n" +
+                        "<br><span class=\"value\">"+values['value']+"</span>\n" +
+                        "</div>");
+          });
+        });
+      });
+    else
+      addTo(top, "<div>There is no params in this node.</div>\n");
+  }
 
   Array.prototype.forEach.call(nodes, (item, i) => {
     item.addEventListener('click', (ev) => {
+      addClass(meat, 'wait');
       el = ev.target;
       fetch('/v1/node/' + el.innerText).
         then(res => res.json()).
         then(j => {
-          meat.textContent = JSON.stringify(j);
+          build_list(meat, el.innerText, j);
           Array.prototype.forEach.call(nodes, (item, i) => {
             removeClass(item, 'focus')
           });
           addClass(el, 'focus')
+          removeClass(meat, 'wait');
         });
     });
   });
