@@ -15,3 +15,5 @@ mkmf.log
 /vendor/
 .pc/
 debian/*.log
+config/hieraviz.yml
+.env.production

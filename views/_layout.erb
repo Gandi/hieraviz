@@ -9,9 +9,15 @@
   </head>
   <body>
     <div id="container">
-      <%= erb :_header, :layout => false %>
-      <%= yield %>
-      <%= erb :_footer, :layout => false %>
+      <div class="head">
+        <%= erb :_head, :layout => false %>
+      </div>
+      <div class="content">
+        <%= yield %>
+      </div>
+      <div class="foot">
+        <%= erb :_foot, :layout => false %>
+      </div>
     </div>
     <script async="async" src="js/main.js"></script>
   </body>

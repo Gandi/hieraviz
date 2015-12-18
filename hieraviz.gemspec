@@ -25,7 +25,10 @@ Gem::Specification.new do |spec|
   spec.test_files    = Dir.glob("spec/**/*")
   spec.require_paths = ["lib"]
 
+  spec.add_dependency 'dotenv'
   spec.add_dependency 'sinatra'
+  spec.add_dependency 'yajl-ruby'
+  spec.add_dependency 'sinatra-contrib'
   spec.add_dependency 'hieracles'
 
   spec.add_development_dependency "bundler", "~> 1.10"

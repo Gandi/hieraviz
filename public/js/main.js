@@ -9,13 +9,23 @@ let's use the fetch API for ajax calls
 https://fetch.spec.whatwg.org
 */
 
-var clicker = document.querySelector('#click');
-var area = document.querySelector('#area');
+function ready(fn) {
+  if (document.readyState != 'loading') {
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
 
-clicker.addEventListener('click', function(el) {
-  fetch('/test').
-    then(res => res.json()).
-    then((j) => {
-      area.textContent = j['data'];
-    });
+ready( () => {
+  var clicker = document.querySelector('#click');
+  var area = document.querySelector('#area');
+
+  clicker.addEventListener('click', function(el) {
+    fetch('/v1/test').
+      then(res => res.json()).
+      then(j => {
+        area.textContent = j['data'];
+      });
+  });
 });

@@ -1,5 +1,56 @@
+/* general elements */
+* {
+  box-sizing: border-box;
+}
 body {
-  margin:0;
+  margin: 0;
   padding: 0;
   background-color: #ccc;
+  font-family: sans serif;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Layout elements */
+/* ----- Head ---- */
+.head {
+  padding: 1em;
+  background-color: #424242;
+  color: #fff;
+  position: fixed;
+  display: block;
+  width: 100%;
+}
+.head .title {
+  color: #fff;
+  font-size: 2em;
+  display: inline-block;
+  float: left;
+  line-height: .5em;
+}
+
+/* ----- Content ---- */
+.content {
+  padding: 1em;
+  background-color: #eee;
+  position: fixed;
+  top: 3em;
+  bottom: 3em;
+  width: 100%;
+}
+
+/* ----- Foot ---- */
+.foot {
+  padding: 1em;
+  background-color: #424242;
+  color: #fff;
+  position: fixed;
+  display: block;
+  bottom: 0;
+  line-height: 1em;
+  width: 100%;
 }
