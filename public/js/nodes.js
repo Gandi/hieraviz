@@ -9,11 +9,19 @@ let's use the fetch API for ajax calls
 https://fetch.spec.whatwg.org
 */
 
+function ready(fn) {
+  if (document.readyState != 'loading') {
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
 ready( () => {
+  focusNav('nodes');
+
   var nodes = document.querySelectorAll('li.node');
   var meat = document.querySelector('pre.meat');
-  var nav = document.querySelectorAll('.nav a');
-  var navFocus = document.querySelector('.nav a.nodes');
 
   Array.prototype.forEach.call(nodes, (item, i) => {
     item.addEventListener('click', (ev) => {
@@ -29,10 +37,4 @@ ready( () => {
         });
     });
   });
-
-  Array.prototype.forEach.call(nav, (item, i) => {
-    removeClass(item, 'focus')
-  });
-  addClass(navFocus, 'focus');
-  
 });

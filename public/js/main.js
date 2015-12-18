@@ -16,6 +16,7 @@ function ready(fn) {
     document.addEventListener('DOMContentLoaded', fn);
   }
 }
+
 function addClass(el, className) {
   if (el.classList)
     el.classList.add(className);
@@ -30,3 +31,12 @@ function removeClass(el, className) {
     el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
 }
 
+function focusNav(className) {
+  console.log(className);
+  var nav = document.querySelectorAll('.nav a');
+  Array.prototype.forEach.call(nav, (item, i) => {
+    removeClass(item, 'focus')
+  });
+  var navFocus = document.querySelector('.nav a.' + className);
+  addClass(navFocus, 'focus');
+}
