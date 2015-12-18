@@ -16,7 +16,7 @@ configure do
   set :public_folder, Proc.new { File.join(root, "public") }
   set :views_folder, Proc.new { File.join(root, "views") }
   set :erb, layout: :_layout
-  set :app_name, 'HeraViz'
+  set :app_name, 'HieraViz'
   set :configfile, ENV['HIERAVIZ_CONFIG_FILE'] || File.join(settings.root, "config", "hieraviz.yml")
   set :config, YAML.load_file(settings.configfile)
 end
