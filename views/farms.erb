@@ -2,7 +2,15 @@
 <script async="async" src="js/farms.js"></script>
 <% end %>
 
+<div class="side">
+<form class="filter">
+<input type="text" name="filter" />
+</form>
+<ul>
+<% @farms.each do |farm| %>
+<li class="farm"><%= farm %></li>
+<% end %>
+</ul>
+</div>
 <pre class="meat">
-WIP
 </pre>
-

@@ -20,21 +20,30 @@ function ready(fn) {
 ready( () => {
   focusNav('farms');
 
-  // var nodes = document.querySelectorAll('li.node');
-  // var meat = document.querySelector('pre.meat');
+  var farms = document.querySelectorAll('li.farm');
+  var meat = document.querySelector('pre.meat');
 
-  // Array.prototype.forEach.call(nodes, (item, i) => {
-  //   item.addEventListener('click', (ev) => {
-  //     el = ev.target;
-  //     fetch('/v1/node/' + el.innerText).
-  //       then(res => res.json()).
-  //       then(j => {
-  //         meat.textContent = JSON.stringify(j);
-  //         Array.prototype.forEach.call(nodes, (item, i) => {
-  //           removeClass(item, 'focus')
-  //         });
-  //         addClass(el, 'focus')
-  //       });
-  //   });
-  // });
+  function build_list(top, array) {
+    top.textContent = '';
+    Array.prototype.forEach.call(array, (item, i) => {
+      top.insertAdjacentHTML("beforeend","<li>"+item+"</li>\n");
+    });
+  }
+
+  Array.prototype.forEach.call(farms, (item, i) => {
+    item.addEventListener('click', (ev) => {
+      addClass(meat, 'wait');
+      el = ev.target;
+      fetch('/v1/farm/' + el.innerText).
+        then(res => res.json()).
+        then(j => {
+          build_list(meat, j);
+          Array.prototype.forEach.call(farms, (item, i) => {
+            removeClass(item, 'focus')
+          });
+          addClass(el, 'focus');
+          removeClass(meat, 'wait');
+        });
+    });
+  });
 });

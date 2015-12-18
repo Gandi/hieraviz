@@ -32,7 +32,6 @@ function removeClass(el, className) {
 }
 
 function focusNav(className) {
-  console.log(className);
   var nav = document.querySelectorAll('.nav a');
   Array.prototype.forEach.call(nav, (item, i) => {
     removeClass(item, 'focus')

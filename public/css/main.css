@@ -106,6 +106,10 @@ input {
   display: inline-block;
   float: left;
   position: fixed;
+  background-color: #fff;
+}
+.meat.wait {
+  background-color: #000;
 }
 /* ----- Foot ---- */
 .foot {

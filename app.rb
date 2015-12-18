@@ -41,6 +41,8 @@ get '/nodes' do
 end
 
 get '/farms' do
+  config = Hieracles::Config.new(settings.config)
+  @farms = Hieracles::Registry.farms(config)
   erb :farms
 end
 
@@ -70,6 +72,17 @@ namespace '/v1' do
     config = Hieracles::Config.new(settings.config)
     node = Hieracles::Node.new(node, config)
     json node.params
+  end
+
+  get '/farms' do
+    config = Hieracles::Config.new(settings.config)
+    json Hieracles::Registry.farms(config)
+  end
+
+  get '/farm/:n' do |farm|
+    req = Hieracles::Puppetdb::Request.new(settings.config['puppetdb'])
+    farm_nodes = req.facts('farm', farm)
+    json farm_nodes.data
   end
 
 end
