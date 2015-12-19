@@ -72,6 +72,7 @@ input {
   background-color: #eee;
   display: inline-block;
   float: left;
+  width: 330px;
 }
 .side .filter {
   margin: 0;
@@ -103,8 +104,8 @@ input {
 .meat {
   padding: 1em;
   border: 2px solid #999;
-  float: left;
   background-color: #fff;
+  margin-left: 330px;
 }
 .meat.wait {
   background-color: #000;
@@ -129,6 +130,7 @@ input {
 }
 .meat .row {
   margin-bottom: .5em;
+  word-wrap: break-word;
 }
 .meat .row .paramfile {
   font-size: .8em;
