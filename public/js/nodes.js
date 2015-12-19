@@ -24,24 +24,30 @@ ready( () => {
   var meat = document.querySelector('div.meat');
   // var debugarea = document.querySelector('span.debug');
 
-  filterBox(nodes);
+  filterBox(".filter input", nodes);
 
   function build_list(top, title, array) {
+    window.location.hash = '#'+title;
     top.innerHTML = "<h3>Node "+title+"</h3>";
-    if (array.length > 0)
+    addTo(top, "<div class=\"paramfilter\"><input type=\"text\" name=\"paramfilter\" /></div>");
+    if (array.length > 0) {
       Array.prototype.forEach.call(array, (item, i) => {
         Array.prototype.forEach.call(Object.keys(item), (param, ii) => {
           Array.prototype.forEach.call(item[param], (values, i) => {
             addTo(top,  "<div class=\"row\">" +
-                        "<span class=\"paramfile\">"+shortParamFile(values['file'])+"</span>\n" +
-                        "<span class=\"data\">"+param+"</span>\n" +
-                        "<br><span class=\"value\">"+values['value']+"</span>\n" +
+                        "<div class=\"paramfile\">"+shortParamFile(values['file'])+"</div>\n" +
+                        "<div class=\"data\">"+param.replace(/\./g,' . ')+"</div>\n" +
+                        "<div class=\"value\">"+values['value']+"</div>\n" +
                         "</div>");
           });
         });
       });
-    else
+      var rows = document.querySelectorAll('div.row');
+      filterBox(".paramfilter input", rows);
+
+    } else {
       addTo(top, "<div>There is no params in this node.</div>\n");
+    }
   }
 
   Array.prototype.forEach.call(nodes, (item, i) => {
@@ -60,5 +66,16 @@ ready( () => {
         });
     });
   });
+
+  if (window.location.hash != '') {
+    var target = window.location.hash.replace(/#/,'');
+    Array.prototype.forEach.call(nodes, (item, i) => {
+      if (item.textContent == target) {
+        var event = document.createEvent('HTMLEvents');
+        event.initEvent('click', true, false);
+        item.dispatchEvent(event);
+      }
+    });
+  }
 
 });

@@ -23,9 +23,10 @@ ready( () => {
   var farms = document.querySelectorAll('li.farm');
   var meat = document.querySelector('div.meat');
 
-  filterBox(farms);
+  filterBox(".filter input", farms);
 
   function build_list(top, title, array) {
+    window.location.hash = '#'+title;
     top.innerHTML = "<h3>Farm "+title+"</h3>";
     if (array.length > 0)
       Array.prototype.forEach.call(array, (item, i) => {

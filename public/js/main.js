@@ -48,8 +48,8 @@ function shortParamFile(path) {
   return path.replace(/params\//, '').replace(/\.yaml/, '');
 }
 
-function filterBox(els) {
-  var filterinput = document.querySelector('.filter input');
+function filterBox(input, els) {
+  var filterinput = document.querySelector(input);
   filterinput.focus();
   filterinput.addEventListener('keyup', (ev) => {
     el = ev.target;
