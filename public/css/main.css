@@ -132,6 +132,11 @@ input {
   margin-bottom: .5em;
   word-wrap: break-word;
 }
+.meat .row.overriden {
+  margin-left: 3em;
+  color: #777;
+  font-weight: .8em;
+}
 .meat .row .paramfile {
   font-size: .8em;
   overflow: hidden;
@@ -149,6 +154,7 @@ input {
 .meat .row .value {
   font-family: monospace;
   padding: .1em 1em;
+  margin: 0;
 }
 /* ----- Foot ---- */
 .foot {

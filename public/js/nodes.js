@@ -26,20 +26,48 @@ ready( () => {
 
   filterBox(".filter input", nodes);
 
+  function build_row(top, param, values, overriden, alone) {
+    if (overriden) {
+      rowclass = "row overriden";
+    } else {
+      rowclass = "row";
+    }
+    if (!overriden && !equals(values['merged'], values['value']) && !alone) {
+      merged = JSON.stringify(values['merged'], null, 2);
+      value = JSON.stringify(values['value'], null, 2);
+      addTo(top,  "<div class=\""+rowclass+"\">" +
+                  "<div class=\"paramfile\">- merged -</div>\n" +
+                  "<div class=\"data\">"+param.replace(/\./g,' . ')+"</div>\n" +
+                  "<pre class=\"value\">"+merged+"</pre>\n" +
+                  "</div>");
+      addTo(top,  "<div class=\"row overriden\">" +
+                  "<div class=\"paramfile\">"+shortParamFile(values['file'])+"</div>\n" +
+                  "<div class=\"data\">"+param.replace(/\./g,' . ')+"</div>\n" +
+                  "<pre class=\"value\">"+value+"</pre>\n" +
+                  "</div>");
+    } else {
+      merged = JSON.stringify(values['merged'], null, 2);
+      addTo(top,  "<div class=\""+rowclass+"\">" +
+                  "<div class=\"paramfile\">"+shortParamFile(values['file'])+"</div>\n" +
+                  "<div class=\"data\">"+param.replace(/\./g,' . ')+"</div>\n" +
+                  "<pre class=\"value\">"+merged+"</pre>\n" +
+                  "</div>");
+    }
+  }
+
   function build_list(top, title, array) {
-    window.location.hash = '#'+title;
     top.innerHTML = "<h3>Node "+title+"</h3>";
     addTo(top, "<div class=\"paramfilter\"><input type=\"text\" name=\"paramfilter\" /></div>");
     if (array.length > 0) {
       Array.prototype.forEach.call(array, (item, i) => {
         Array.prototype.forEach.call(Object.keys(item), (param, ii) => {
-          Array.prototype.forEach.call(item[param], (values, i) => {
-            addTo(top,  "<div class=\"row\">" +
-                        "<div class=\"paramfile\">"+shortParamFile(values['file'])+"</div>\n" +
-                        "<div class=\"data\">"+param.replace(/\./g,' . ')+"</div>\n" +
-                        "<div class=\"value\">"+values['value']+"</div>\n" +
-                        "</div>");
-          });
+          first = item[param].shift();
+          build_row(top, param, first, false, true);
+          if (item[param].length > 0) {
+            Array.prototype.forEach.call(item[param], (values, i) => {
+              build_row(top, param, values, true, false);
+            });
+          }
         });
       });
       var rows = document.querySelectorAll('div.row');
@@ -48,6 +76,7 @@ ready( () => {
     } else {
       addTo(top, "<div>There is no params in this node.</div>\n");
     }
+    window.location.hash = '#'+title;
   }
 
   Array.prototype.forEach.call(nodes, (item, i) => {
@@ -76,6 +105,7 @@ ready( () => {
         item.dispatchEvent(event);
       }
     });
+    window.location.hash = '#'+target;
   }
 
 });
