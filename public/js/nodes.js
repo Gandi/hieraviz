@@ -52,7 +52,13 @@ ready( () => {
 
   function build_list(top, title, hash) {
     top.innerHTML = "<h3>Node "+title+"</h3>";
-    addTo(top, "<div class=\"paramfilter\"><input type=\"text\" name=\"paramfilter\" /></div>");
+    addTo(top,  "<div class=\"nodenav\">" +
+                "<span class=\"showparams active\">Params</span>" +
+                "<span class=\"showallparams\">All params</span>" +
+                "</div>");
+    addTo(top,  "<div class=\"paramfilter\">" + 
+                "<input type=\"text\" name=\"paramfilter\" />" +
+                "</div>");
     if (Object.keys(hash).length > 0) {
       Array.prototype.forEach.call(Object.keys(hash), (item, k) => {
         build_row(top, item, hash[item]);

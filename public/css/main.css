@@ -102,26 +102,45 @@ input {
   background-color: #fff;
 }
 .meat {
-  padding: 1em;
   border: 2px solid #999;
   background-color: #fff;
   margin-left: 330px;
+  position: relative;
 }
 .meat.wait {
   background-color: #000;
 }
 .meat h3 {
-  margin: -1em;
+  margin: 0em;
   margin-bottom: 0;
   padding: .2em 1em;
   background-color: #999;
 }
+.meat .nodenav {
+  position: absolute;
+  top: 0;
+  line-height: 1.6em;
+  right: 1em;
+}
+.meat .nodenav span {
+  font-size: .8em;
+  cursor: pointer;
+  background-color: #ccc;
+  margin-left: 1em;
+  padding: 0.2em 1em;
+}
+.meat .nodenav span:hover {
+  background-color: #fff;
+}
+.meat .nodenav span.active {
+  background-color: #fff;
+}
 .meat .paramfilter {
-  margin: 0 -1em;
+  margin: 0;
   padding: 0 1em;
   background-color: #999;
   font-size: 1.2em;
-  margin-bottom: .5em;
+  padding-bottom: .5em;
 }
 .meat .paramfilter input {
   width: 100%;
@@ -129,7 +148,6 @@ input {
   padding: .1em 1em;
 }
 .meat .row {
-  margin-bottom: .5em;
   word-wrap: break-word;
 }
 .meat .row.overriden {
@@ -153,9 +171,19 @@ input {
 }
 .meat .row .value {
   font-family: monospace;
-  padding: .1em 1em;
+  padding: .1em 1em .6em;
   margin: 0;
 }
+.meat .row:hover {
+  background-color: #f3f3de;
+}
+.meat .row:hover .paramfile {
+  background-color: #ee9;
+}
+.meat .row:hover .data {
+  background-color: #dd6;
+}
+
 /* ----- Foot ---- */
 .foot {
   padding: 1em;
