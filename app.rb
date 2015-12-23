@@ -55,7 +55,7 @@ get '/resources' do
 end
 
 not_found do
-  erb :not_found
+  erb :not_found, layout: :_layout
 end
 
 namespace '/v1' do
@@ -71,7 +71,7 @@ namespace '/v1' do
   get '/node/:n' do |node|
     config = Hieracles::Config.new(settings.config)
     node = Hieracles::Node.new(node, config)
-    json node.params.map { |e| Hash[*e] }
+    json node.params
   end
 
   get '/farms' do
@@ -84,5 +84,10 @@ namespace '/v1' do
     farm_nodes = req.facts('farm', farm)
     json farm_nodes.data
   end
+
+  not_found do
+    json({ error: "data not found" })
+  end
+
 
 end

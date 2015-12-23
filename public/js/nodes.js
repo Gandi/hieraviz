@@ -26,49 +26,36 @@ ready( () => {
 
   filterBox(".filter input", nodes);
 
-  function build_row(top, param, values, overriden, alone) {
-    if (overriden) {
+  function build_line(top, file, key, value, overriden) {
+    if (overriden === true) {
       rowclass = "row overriden";
     } else {
       rowclass = "row";
     }
-    if (!overriden && !equals(values['merged'], values['value']) && !alone) {
-      merged = JSON.stringify(values['merged'], null, 2);
-      value = JSON.stringify(values['value'], null, 2);
-      addTo(top,  "<div class=\""+rowclass+"\">" +
-                  "<div class=\"paramfile\">- merged -</div>\n" +
-                  "<div class=\"data\">"+param.replace(/\./g,' . ')+"</div>\n" +
-                  "<pre class=\"value\">"+merged+"</pre>\n" +
-                  "</div>");
-      addTo(top,  "<div class=\"row overriden\">" +
-                  "<div class=\"paramfile\">"+shortParamFile(values['file'])+"</div>\n" +
-                  "<div class=\"data\">"+param.replace(/\./g,' . ')+"</div>\n" +
-                  "<pre class=\"value\">"+value+"</pre>\n" +
-                  "</div>");
-    } else {
-      merged = JSON.stringify(values['merged'], null, 2);
-      addTo(top,  "<div class=\""+rowclass+"\">" +
-                  "<div class=\"paramfile\">"+shortParamFile(values['file'])+"</div>\n" +
-                  "<div class=\"data\">"+param.replace(/\./g,' . ')+"</div>\n" +
-                  "<pre class=\"value\">"+merged+"</pre>\n" +
-                  "</div>");
+    console.log(key);
+    addTo(top,  "<div class=\""+rowclass+"\">" +
+                "<div class=\"paramfile\">"+shortParamFile(file)+"</div>\n" +
+                "<div class=\"data\">"+key.replace(/\./g,' . ')+"</div>\n" +
+                "<pre class=\"value\">"+JSON.stringify(value, null, 2)+"</pre>\n" +
+                "</div>");
+  }
+
+  function build_row(top, key, params) {
+    build_line(top, params['file'], key, params['value'], false);
+    if (params['overriden'] == true) {
+      Array.prototype.forEach.call(params['found_in'], (values, i) => {
+        console.log(values, key);
+        build_line(top, values['file'], key, values['value'], true);
+      });
     }
   }
 
-  function build_list(top, title, array) {
+  function build_list(top, title, hash) {
     top.innerHTML = "<h3>Node "+title+"</h3>";
     addTo(top, "<div class=\"paramfilter\"><input type=\"text\" name=\"paramfilter\" /></div>");
-    if (array.length > 0) {
-      Array.prototype.forEach.call(array, (item, i) => {
-        Array.prototype.forEach.call(Object.keys(item), (param, ii) => {
-          first = item[param].shift();
-          build_row(top, param, first, false, true);
-          if (item[param].length > 0) {
-            Array.prototype.forEach.call(item[param], (values, i) => {
-              build_row(top, param, values, true, false);
-            });
-          }
-        });
+    if (Object.keys(hash).length > 0) {
+      Array.prototype.forEach.call(Object.keys(hash), (item, k) => {
+        build_row(top, item, hash[item]);
       });
       var rows = document.querySelectorAll('div.row');
       filterBox(".paramfilter input", rows);
