@@ -47,7 +47,29 @@ ready( () => {
     }
   }
 
-  function build_list(top, title, hash) {
+  function rebuild_nav(title) {
+    var nodelinks = document.querySelectorAll('div.nodenav span');
+    Array.prototype.forEach.call(nodelinks, (item, i) => {
+      item.addEventListener('click', (ev) => {
+        addClass(meat, 'wait');
+        el = ev.target;
+        action = el.innerText.toLowerCase();
+        fetch('/v1/node/' + title + '/' + action).
+          then(res => res.json()).
+          then(j => {
+
+            Array.prototype.forEach.call(nodelinks, (item, i) => {
+              removeClass(item, 'focus');
+            });
+            addClass(el, 'focus');
+            removeClass(meat, 'wait');
+
+          });
+      });
+    });
+  }
+
+  function build_params(top, title, hash) {
     top.innerHTML = "<h3>Node "+title+"</h3>";
     addTo(top,  "<div class=\"nodenav\">" +
                 "<span class=\"showinfo\">Info</span>" +
@@ -67,39 +89,27 @@ ready( () => {
       addTo(top, "<div>There is no params in this node.</div>\n");
     }
     window.location.hash = '#'+title;
-    var nodelinks = document.querySelectorAll('div.nodenav span');
-    Array.prototype.forEach.call(nodelinks, (item, i) => {
-      item.addEventListener('click', (ev) => {
-        addClass(meat, 'wait');
-        el = ev.target;
-        action = el.innerText.toLowerCase();
-        fetch('/v1/node/' + title + '/' + action).
-          then(res => res.json()).
-          then(j => {
-            Array.prototype.forEach.call(nodelinks, (item, i) => {
-              removeClass(item, 'focus');
-            });
-            addClass(el, 'focus');
-            removeClass(meat, 'wait');
-          });
+  }
+
+  function get_nodeparams(title) {
+    fetch('/v1/node/' + title).
+      then(res => res.json()).
+      then(j => {
+        build_params(meat, title, j);
+        rebuild_nav(title);
+        Array.prototype.forEach.call(nodes, (item, i) => {
+          removeClass(item, 'focus');
+        });
+        addClass(el, 'focus');
+        removeClass(meat, 'wait');
       });
-    });
   }
 
   Array.prototype.forEach.call(nodes, (item, i) => {
     item.addEventListener('click', (ev) => {
       addClass(meat, 'wait');
       el = ev.target;
-      fetch('/v1/node/' + el.innerText).
-        then(res => res.json()).
-        then(j => {
-          build_list(meat, el.innerText, j);
-          Array.prototype.forEach.call(nodes, (item, i) => {
-            removeClass(item, 'focus');
-          });
-          addClass(el, 'focus');
-          removeClass(meat, 'wait');
-        });
+      get_nodeparams(el.innerText);
     });
   });
 
