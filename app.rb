@@ -68,6 +68,24 @@ namespace '/v1' do
     json Hieracles::Registry.nodes(config)
   end
 
+  get '/node/:n/info' do |node|
+    config = Hieracles::Config.new(settings.config)
+    node = Hieracles::Node.new(node, config)
+    json node.info
+  end
+
+  get '/node/:n/params' do |node|
+    config = Hieracles::Config.new(settings.config)
+    node = Hieracles::Node.new(node, config)
+    json node.params
+  end
+
+  get '/node/:n/allparams' do |node|
+    config = Hieracles::Config.new(settings.config)
+    node = Hieracles::Node.new(node, config)
+    json node.params(false)
+  end
+
   get '/node/:n' do |node|
     config = Hieracles::Config.new(settings.config)
     node = Hieracles::Node.new(node, config)

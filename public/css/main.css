@@ -68,6 +68,8 @@ input {
   bottom: 8em;
   width: 100%;
 }
+
+  /* ----- Sidebar ---- */
 .side {
   background-color: #eee;
   display: inline-block;
@@ -101,6 +103,8 @@ input {
 .side ul li.focus {
   background-color: #fff;
 }
+
+  /* ----- Meat ---- */
 .meat {
   border: 2px solid #999;
   background-color: #fff;
@@ -132,7 +136,7 @@ input {
 .meat .nodenav span:hover {
   background-color: #fff;
 }
-.meat .nodenav span.active {
+.meat .nodenav span.focus {
   background-color: #fff;
 }
 .meat .paramfilter {

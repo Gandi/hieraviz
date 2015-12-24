@@ -22,7 +22,6 @@ ready( () => {
 
   var nodes = document.querySelectorAll('li.node');
   var meat = document.querySelector('div.meat');
-  // var debugarea = document.querySelector('span.debug');
 
   filterBox(".filter input", nodes);
 
@@ -32,7 +31,6 @@ ready( () => {
     } else {
       rowclass = "row";
     }
-    console.log(key);
     addTo(top,  "<div class=\""+rowclass+"\">" +
                 "<div class=\"paramfile\">"+shortParamFile(file)+"</div>\n" +
                 "<div class=\"data\">"+key.replace(/\./g,' . ')+"</div>\n" +
@@ -44,7 +42,6 @@ ready( () => {
     build_line(top, params['file'], key, params['value'], false);
     if (params['overriden'] == true) {
       Array.prototype.forEach.call(params['found_in'], (values, i) => {
-        console.log(values, key);
         build_line(top, values['file'], key, values['value'], true);
       });
     }
@@ -53,8 +50,9 @@ ready( () => {
   function build_list(top, title, hash) {
     top.innerHTML = "<h3>Node "+title+"</h3>";
     addTo(top,  "<div class=\"nodenav\">" +
-                "<span class=\"showparams active\">Params</span>" +
-                "<span class=\"showallparams\">All params</span>" +
+                "<span class=\"showinfo\">Info</span>" +
+                "<span class=\"showparams focus\">Params</span>" +
+                "<span class=\"showallparams\">AllParams</span>" +
                 "</div>");
     addTo(top,  "<div class=\"paramfilter\">" + 
                 "<input type=\"text\" name=\"paramfilter\" />" +
@@ -65,11 +63,27 @@ ready( () => {
       });
       var rows = document.querySelectorAll('div.row');
       filterBox(".paramfilter input", rows);
-
     } else {
       addTo(top, "<div>There is no params in this node.</div>\n");
     }
     window.location.hash = '#'+title;
+    var nodelinks = document.querySelectorAll('div.nodenav span');
+    Array.prototype.forEach.call(nodelinks, (item, i) => {
+      item.addEventListener('click', (ev) => {
+        addClass(meat, 'wait');
+        el = ev.target;
+        action = el.innerText.toLowerCase();
+        fetch('/v1/node/' + title + '/' + action).
+          then(res => res.json()).
+          then(j => {
+            Array.prototype.forEach.call(nodelinks, (item, i) => {
+              removeClass(item, 'focus');
+            });
+            addClass(el, 'focus');
+            removeClass(meat, 'wait');
+          });
+      });
+    });
   }
 
   Array.prototype.forEach.call(nodes, (item, i) => {
@@ -81,9 +95,9 @@ ready( () => {
         then(j => {
           build_list(meat, el.innerText, j);
           Array.prototype.forEach.call(nodes, (item, i) => {
-            removeClass(item, 'focus')
+            removeClass(item, 'focus');
           });
-          addClass(el, 'focus')
+          addClass(el, 'focus');
           removeClass(meat, 'wait');
         });
     });
