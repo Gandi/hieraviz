@@ -9,20 +9,10 @@ let's use the fetch API for ajax calls
 https://fetch.spec.whatwg.org
 */
 
-function ready(fn) {
-  if (document.readyState != 'loading') {
-    fn();
-  } else {
-    document.addEventListener('DOMContentLoaded', fn);
-  }
-}
-
 ready( () => {
-  focusNav('nodes');
 
   var nodes = document.querySelectorAll('li.node');
-  var meat = document.querySelector('div.meat');
-
+  focusNav('nodes');
   filterBox(".filter input", nodes);
 
   function build_line(top, file, key, value, overriden) {
@@ -47,38 +37,31 @@ ready( () => {
     }
   }
 
-  function rebuild_nav(title) {
-    var nodelinks = document.querySelectorAll('div.nodenav span');
-    Array.prototype.forEach.call(nodelinks, (item, i) => {
-      item.addEventListener('click', (ev) => {
-        addClass(meat, 'wait');
-        el = ev.target;
-        action = el.innerText.toLowerCase();
-        fetch('/v1/node/' + title + '/' + action).
-          then(res => res.json()).
-          then(j => {
-
-            Array.prototype.forEach.call(nodelinks, (item, i) => {
-              removeClass(item, 'focus');
-            });
-            addClass(el, 'focus');
-            removeClass(meat, 'wait');
-
-          });
-      });
+  function focus_on(els, el) {
+    Array.prototype.forEach.call(els, (item, i) => {
+      removeClass(item, 'focus');
     });
+    addClass(el, 'focus');    
   }
 
+  function build_info(top, title, hash) {
+
+  }
+
+  function build_top(title) {
+    meat.innerHTML = "<h3>Node "+title+"</h3>";
+    addTo(meat,  "<div class=\"nodenav\">" +
+                 "<span class=\"showinfo\" data-node=\""+title+"\">Info</span>" +
+                 "<span class=\"showparams\" data-node=\""+title+"\">Params</span>" +
+                 "<span class=\"showallparams\" data-node=\""+title+"\">AllParams</span>" +
+                 "</div>");
+    addTo(meat,  "<div class=\"paramfilter\">" + 
+                 "<input type=\"text\" name=\"paramfilter\" />" +
+                 "</div>");
+   }
+
   function build_params(top, title, hash) {
-    top.innerHTML = "<h3>Node "+title+"</h3>";
-    addTo(top,  "<div class=\"nodenav\">" +
-                "<span class=\"showinfo\">Info</span>" +
-                "<span class=\"showparams focus\">Params</span>" +
-                "<span class=\"showallparams\">AllParams</span>" +
-                "</div>");
-    addTo(top,  "<div class=\"paramfilter\">" + 
-                "<input type=\"text\" name=\"paramfilter\" />" +
-                "</div>");
+    build_top(title);
     if (Object.keys(hash).length > 0) {
       Array.prototype.forEach.call(Object.keys(hash), (item, k) => {
         build_row(top, item, hash[item]);
@@ -91,28 +74,59 @@ ready( () => {
     window.location.hash = '#'+title;
   }
 
-  function get_nodeparams(title) {
-    fetch('/v1/node/' + title).
-      then(res => res.json()).
-      then(j => {
-        build_params(meat, title, j);
-        rebuild_nav(title);
-        Array.prototype.forEach.call(nodes, (item, i) => {
-          removeClass(item, 'focus');
-        });
-        addClass(el, 'focus');
-        removeClass(meat, 'wait');
+
+  function rebuild_nav(title) {
+    var nodelinks = document.querySelectorAll('div.nodenav span');
+    Array.prototype.forEach.call(nodelinks, (item, i) => {
+      item.addEventListener('click', (ev) => {
+        start_wait();
+        el = ev.target;
+        action = el.innerText.toLowerCase();
+        fetch('/v1/node/' + title + '/' + action).
+          then(res => res.json()).
+          then(j => {
+            focus_on(nodelinks, el);
+            end_wait();
+          });
       });
+    });
   }
 
+  var Node = {
+    params: function(el) {
+      start_wait();
+      title = el.dataset.node;
+      fetch('/v1/node/' + title).
+        then(res => res.json()).
+        then(j => {
+          build_params(meat, title, j);
+          rebuild_nav(title);
+          end_wait(nodes, el);
+        });
+    },
+
+    info: function(el) {
+      start_wait();
+      title = el.dataset.node;
+      fetch('/v1/node/' + title + '/info').
+        then(res => res.json()).
+        then(j => {
+          build_info(meat, title, j);
+          rebuild_nav(title);
+          end_wait(nodes, el);
+        });
+    },
+
+  }
+
+  /* declaration of events for the nodes menu */
   Array.prototype.forEach.call(nodes, (item, i) => {
     item.addEventListener('click', (ev) => {
-      addClass(meat, 'wait');
-      el = ev.target;
-      get_nodeparams(el.innerText);
+      Node.params(ev.target);
     });
   });
 
+  /* management of the hash navigation */
   if (window.location.hash != '') {
     var target = window.location.hash.replace(/#/,'');
     Array.prototype.forEach.call(nodes, (item, i) => {
@@ -122,7 +136,6 @@ ready( () => {
         item.dispatchEvent(event);
       }
     });
-    window.location.hash = '#'+target;
   }
 
 });

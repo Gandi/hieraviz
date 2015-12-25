@@ -3,14 +3,13 @@ require 'sinatra'
 require 'sinatra/content_for'
 require 'sinatra/config_file'
 require 'sinatra/namespace'
+require 'sinatra/cookies'
 require 'sinatra/json'
 require 'better_errors'
 require 'dotenv'
 
 require 'hieracles'
 require 'hieraviz'
-
-
 
 Dotenv.load
 
@@ -28,10 +27,10 @@ configure :development do
   BetterErrors.application_root = File.expand_path('..', __FILE__)
 end
 
-use Rack::Auth::Basic, "Puppet Private Access" do |username, password|
-  username == settings.config['http_auth']['username'] && 
-  password == settings.config['http_auth']['password']
-end
+# use Rack::Auth::Basic, "Puppet Private Access" do |username, password|
+#   username == settings.config['http_auth']['username'] && 
+#   password == settings.config['http_auth']['password']
+# end
 
 helpers do
 

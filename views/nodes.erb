@@ -8,7 +8,7 @@
 </form>
 <ul>
 <% @nodes.each do |node| %>
-<li class="node"><%= node %></li>
+<li class="node" data-node="<%= node %>"><%= node %></li>
 <% end %>
 </ul>
 </div>

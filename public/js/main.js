@@ -9,12 +9,20 @@ let's use the fetch API for ajax calls
 https://fetch.spec.whatwg.org
 */
 
+var meat = document.querySelector('div.meat');
+
 function ready(fn) {
   if (document.readyState != 'loading') {
     fn();
   } else {
     document.addEventListener('DOMContentLoaded', fn);
   }
+}
+
+function make_base_auth(user, password) {
+  var tok = user + ':' + password;
+  var hash = btoa(tok);
+  return "Basic " + hash;
 }
 
 function addClass(el, className) {
@@ -67,87 +75,10 @@ function filterBox(input, els) {
   });
 }
 
-/* from https://github.com/ReactiveSets/toubkal/blob/master/lib/util/value_equals.js */
-function equals( a, b, enforce_properties_order, cyclic ) {
-  return a === b
-    && a !== 0 
-    || _equals( a, b ) 
-  ;
-  
-  function _equals( a, b ) {
-    var s, l, p, x, y;
-    if ( ( s = toString.call( a ) ) !== toString.call( b ) ) return false;
-    switch( s ) {
-      default:
-        return a.valueOf() === b.valueOf();
-      case '[object Number]':
-        a = +a;
-        b = +b;
-        return a ? 
-            a === b
-          :
-            a === a ? 
-            1/a === 1/b 
-          : b !== b 
-        ;
-      case '[object RegExp]':
-        return a.source   == b.source
-          && a.global     == b.global
-          && a.ignoreCase == b.ignoreCase
-          && a.multiline  == b.multiline
-          && a.lastIndex  == b.lastIndex
-        ;
-      case '[object Function]':
-        return false;
-      case '[object Array]':
-        if ( cyclic && ( x = reference_equals( a, b ) ) !== null ) return x; 
-        if ( ( l = a.length ) != b.length ) return false;
-        while ( l-- ) {
-          if ( ( x = a[ l ] ) === ( y = b[ l ] ) && x !== 0 || _equals( x, y ) ) continue;
-          return false;
-        }
-        return true;
-      case '[object Object]':
-        if ( cyclic && ( x = reference_equals( a, b ) ) !== null ) return x; 
-        l = 0; 
-        if ( enforce_properties_order ) {
-          var properties = [];
-          for ( p in a ) {
-            if ( a.hasOwnProperty( p ) ) {
-              properties.push( p );
-              if ( ( x = a[ p ] ) === ( y = b[ p ] ) && x !== 0 || _equals( x, y ) ) continue;
-              return false;
-            }
-          }
-          for ( p in b )
-            if ( b.hasOwnProperty( p ) && properties[ l++ ] != p )
-              return false;
-        } else {
-          for ( p in a ) {
-            if ( a.hasOwnProperty( p ) ) {
-              ++l;
-              if ( ( x = a[ p ] ) === ( y = b[ p ] ) && x !== 0 || _equals( x, y ) ) continue;
-              return false;
-            }
-          }
-          for ( p in b )
-            if ( b.hasOwnProperty( p ) && --l < 0 )
-              return false;
-        }
-        return true;
-    }
-  }
+function start_wait() {
+  addClass(meat, 'wait');
+}
 
-  function reference_equals( a, b ) {
-    var object_references = [];
-    return ( reference_equals = _reference_equals )( a, b );
-    function _reference_equals( a, b ) {
-      var l = object_references.length;
-      while ( l-- )
-        if ( object_references[ l-- ] === b )
-          return object_references[ l ] === a;
-      object_references.push( a, b );
-      return null;
-    }
-  }
+function end_wait() {
+  removeClass(meat, 'wait');
 }
