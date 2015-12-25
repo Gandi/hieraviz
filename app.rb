@@ -10,6 +10,8 @@ require 'dotenv'
 require 'hieracles'
 require 'hieraviz'
 
+
+
 Dotenv.load
 
 configure do
@@ -24,6 +26,11 @@ end
 configure :development do
   use BetterErrors::Middleware
   BetterErrors.application_root = File.expand_path('..', __FILE__)
+end
+
+use Rack::Auth::Basic, "Puppet Private Access" do |username, password|
+  username == settings.config['http_auth']['username'] && 
+  password == settings.config['http_auth']['password']
 end
 
 helpers do
