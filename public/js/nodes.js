@@ -44,10 +44,6 @@ ready( () => {
     addClass(el, 'focus');    
   }
 
-  function build_info(top, title, hash) {
-
-  }
-
   function build_top(title) {
     meat.innerHTML = "<h3>Node "+title+"</h3>";
     addTo(meat,  "<div class=\"nodenav\">" +
@@ -60,8 +56,11 @@ ready( () => {
                  "</div>");
    }
 
+  function build_info(top, title, hash) {
+
+  }
+
   function build_params(top, title, hash) {
-    build_top(title);
     if (Object.keys(hash).length > 0) {
       Array.prototype.forEach.call(Object.keys(hash), (item, k) => {
         build_row(top, item, hash[item]);
@@ -99,6 +98,7 @@ ready( () => {
       fetch('/v1/node/' + title).
         then(res => res.json()).
         then(j => {
+          build_top(title);
           build_params(meat, title, j);
           rebuild_nav(title);
           end_wait(nodes, el);
@@ -111,6 +111,7 @@ ready( () => {
       fetch('/v1/node/' + title + '/info').
         then(res => res.json()).
         then(j => {
+          build_top(title);
           build_info(meat, title, j);
           rebuild_nav(title);
           end_wait(nodes, el);
