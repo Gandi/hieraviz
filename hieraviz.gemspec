@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.metadata      = { "changelog" => "https://github.com/Gandi/hieraviz/blob/master/CHANGELOG.md" }
   spec.license       = "MIT"
 
-  spec.files         = Dir.glob("{bin,lib,views,public,tmp}/**/*") + 
+  spec.files         = Dir.glob("{bin,lib,app}/**/*") + 
                        %w(CHANGELOG.md LICENSE.txt README.md app.rb config.ru)
   spec.bindir        = "bin"
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

@@ -12,10 +12,7 @@ Install it from Rubygens:
 
 Usage
 ----------
-`hv-ctl` is a control script to manipulate Hieraviz server:
-
-    hv-ctl configure
-    hv-ctl start
+`hv-ctl` is a control script to manipulate Hieraviz server. It is not written yet, unfortunately, but will be ready in the very next versions.
 
 Contributing
 ----------------
@@ -31,4 +28,4 @@ Hieraviz is available under [MIT License](http://opensource.org/licenses/MIT).
 
 Copyright
 ------------
-copyright (c) 2015 Gandi http://gandi.net
+copyright (c) 2015, 2016 Gandi http://gandi.net
