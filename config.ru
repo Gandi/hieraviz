@@ -1,5 +1,8 @@
 require 'rubygems'
 require 'sinatra'
-require File.expand_path '../app.rb', __FILE__
+require File.expand_path '../app/main.rb', __FILE__
 
-run Sinatra::Application
+run Rack::URLMap.new({
+  '/' => Web,
+  '/v1' => Api
+})

@@ -1,12 +1,14 @@
-require 'yajl'
 require 'sinatra'
-require 'sinatra/content_for'
-require 'sinatra/config_file'
-require 'sinatra/namespace'
-require 'sinatra/cookies'
 require 'sinatra/json'
+require 'sinatra/cookies'
+require 'sinatra/namespace'
+require 'sinatra/config_file'
+require 'sinatra/content_for'
+
 require 'better_errors'
+require 'digest/sha1'
 require 'dotenv'
+require 'yajl'
 
 require 'hieracles'
 require 'hieraviz'
@@ -20,6 +22,7 @@ configure do
   set :app_name, 'HieraViz'
   set :configfile, ENV['HIERAVIZ_CONFIG_FILE'] || File.join(settings.root, "config", "hieraviz.yml")
   set :config, YAML.load_file(settings.configfile)
+  enable :session
 end
 
 configure :development do
@@ -32,8 +35,19 @@ end
 #   password == settings.config['http_auth']['password']
 # end
 
-helpers do
+@store = Hieraviz::Store.new
 
+helpers do
+  def check_cookie
+    if !session[:hieraviz_key]
+      newkey = Digest::SHA1.hexdigest(Time.new.to_s)
+      @store.set(:hieraviz_key, newkey)
+      session[:hieraviz_key] = newkey
+    end
+  end
+  def verify_key(key)
+    
+  end
 end
 
 get '/' do

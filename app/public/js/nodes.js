@@ -11,6 +11,7 @@ https://fetch.spec.whatwg.org
 
 ready( () => {
 
+  var meat = document.querySelector('div.meat');
   var nodes = document.querySelectorAll('li.node');
   focusNav('nodes');
   filterBox(".filter input", nodes);
@@ -93,7 +94,7 @@ ready( () => {
 
   var Node = {
     params: function(el) {
-      start_wait();
+      start_wait(meat);
       title = el.dataset.node;
       fetch('/v1/node/' + title).
         then(res => res.json()).
@@ -101,12 +102,12 @@ ready( () => {
           build_top(title);
           build_params(meat, title, j);
           rebuild_nav(title);
-          end_wait(nodes, el);
+          end_wait(meat);
         });
     },
 
     info: function(el) {
-      start_wait();
+      start_wait(meat);
       title = el.dataset.node;
       fetch('/v1/node/' + title + '/info').
         then(res => res.json()).
@@ -114,7 +115,7 @@ ready( () => {
           build_top(title);
           build_info(meat, title, j);
           rebuild_nav(title);
-          end_wait(nodes, el);
+          end_wait(meat);
         });
     },
 

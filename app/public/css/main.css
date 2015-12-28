@@ -35,8 +35,9 @@ input {
   color: #fff;
   font-size: 2em;
   display: inline-block;
-  float: right;
+  float: left;
   line-height: .5em;
+  margin-right: 1em;
 }
 .head .nav {
   position: relative;
@@ -59,7 +60,24 @@ input {
   background-color: #fff;
   color: #000;
 }
-
+.head .auth {
+  position: relative;
+  display: inline-block;
+  float: right;
+}
+.head .auth a {
+  color: #fff;
+  padding: .5em 1em;
+  border-radius: .2em;
+  font-weight: bold;
+  background-color: #000;
+  border-radius: .2em;
+  cursor: pointer;
+}
+.head .auth a:hover {
+  background-color: #fff;
+  color: #000;
+}
 /* ----- Content ---- */
 .content {
   background-color: #eee;
@@ -111,8 +129,23 @@ input {
   margin-left: 330px;
   position: relative;
 }
+.meat.text {
+  padding: 1em 2em;
+}
 .meat.wait {
-  background-color: #000;
+  background-color: #ddd;
+  position: relative;
+}
+.meat.wait:after {
+  content: '\A';
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  opacity: 0.4;
+  background-color: #fff;
+  transition: all 1s;
 }
 .meat h3 {
   margin: 0em;

@@ -9,7 +9,6 @@ let's use the fetch API for ajax calls
 https://fetch.spec.whatwg.org
 */
 
-var meat = document.querySelector('div.meat');
 
 function ready(fn) {
   if (document.readyState != 'loading') {
@@ -18,6 +17,8 @@ function ready(fn) {
     document.addEventListener('DOMContentLoaded', fn);
   }
 }
+
+var meat = document.querySelector('div.meat');
 
 function make_base_auth(user, password) {
   var tok = user + ':' + password;
@@ -75,10 +76,11 @@ function filterBox(input, els) {
   });
 }
 
-function start_wait() {
+function start_wait(meat) {
   addClass(meat, 'wait');
 }
 
-function end_wait() {
+function end_wait(meat) {
   removeClass(meat, 'wait');
 }
+
