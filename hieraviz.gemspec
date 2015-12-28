@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files         = Dir.glob("{bin,lib,app}/**/*") + 
-                       %w(CHANGELOG.md LICENSE.txt README.md app.rb config.ru)
+                       %w(CHANGELOG.md LICENSE.txt README.md config.ru)
   spec.bindir        = "bin"
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = Dir.glob("spec/**/*")
