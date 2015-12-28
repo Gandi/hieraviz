@@ -143,9 +143,9 @@ input {
   top: 0;
   right: 0;
   left: 0;
-  opacity: 0.4;
-  background-color: #fff;
+  opacity: 0.7;
   transition: all 1s;
+  background: #fff url('/img/loader.gif') no-repeat center 200px;
 }
 .meat h3 {
   margin: 0em;
