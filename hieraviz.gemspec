@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sinatra'
   spec.add_dependency 'yajl-ruby'
   spec.add_dependency 'sinatra-contrib'
-  spec.add_dependency 'hieracles'
+  spec.add_dependency 'hieracles', '~> 0.3.1'
 
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
