@@ -44,17 +44,19 @@ module HieravizApp
 
 
     get '/' do
+      config = Hieracles::Config.new({ config: settings.configfile })
+      logger.info settings.config
       erb :home
     end
 
     get '/nodes' do
-      config = Hieracles::Config.new(settings.config)
+      config = Hieracles::Config.new({ config: settings.configfile })
       @nodes = Hieracles::Registry.nodes(config)
       erb :nodes
     end
 
     get '/farms' do
-      config = Hieracles::Config.new(settings.config)
+      config = Hieracles::Config.new({ config: settings.configfile })
       @farms = Hieracles::Registry.farms(config)
       erb :farms
     end

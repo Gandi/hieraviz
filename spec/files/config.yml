@@ -1,7 +1,7 @@
 ---
-basepath: "puppet"
+basepath: "spec/files/puppet"
 classpath: "farm_modules/%s/manifests/init.pp"
-hierafile: "hiera.yml"
+hierafile: "spec/files/hiera.yml"
 usedb: true
 puppetdb:
   usessl: false

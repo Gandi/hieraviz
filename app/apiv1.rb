@@ -17,36 +17,36 @@ module HieravizApp
     end
 
     get '/nodes' do
-      config = Hieracles::Config.new(settings.config)
+      config = Hieracles::Config.new({ config: settings.configfile })
       json Hieracles::Registry.nodes(config)
     end
 
     get '/node/:n/info' do |node|
-      config = Hieracles::Config.new(settings.config)
+      config = Hieracles::Config.new({ config: settings.configfile })
       node = Hieracles::Node.new(node, config)
       json node.info
     end
 
     get '/node/:n/params' do |node|
-      config = Hieracles::Config.new(settings.config)
+      config = Hieracles::Config.new({ config: settings.configfile })
       node = Hieracles::Node.new(node, config)
       json node.params
     end
 
     get '/node/:n/allparams' do |node|
-      config = Hieracles::Config.new(settings.config)
+      config = Hieracles::Config.new({ config: settings.configfile })
       node = Hieracles::Node.new(node, config)
       json node.params(false)
     end
 
     get '/node/:n' do |node|
-      config = Hieracles::Config.new(settings.config)
+      config = Hieracles::Config.new({ config: settings.configfile })
       node = Hieracles::Node.new(node, config)
       json node.params
     end
 
     get '/farms' do
-      config = Hieracles::Config.new(settings.config)
+      config = Hieracles::Config.new({ config: settings.configfile })
       json Hieracles::Registry.farms(config)
     end
 
