@@ -1,0 +1,13 @@
+---
+app_name: HieraViz
+basepath: "../puppet"
+classpath: "farm_modules/%s/manifests/init.pp"
+hierafile: "dev/hiera-local.yaml"
+usedb: true
+puppetdb:
+  usessl: false
+  host: puppetdb.example.com
+  port: 8080
+http_auth:
+  username: 'toto'
+  password: 'toto'

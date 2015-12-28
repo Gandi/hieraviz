@@ -5,6 +5,7 @@ require 'rack/test'
 require 'rspec'
 
 ENV['RACK_ENV'] = 'test'
+ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config.yml', __FILE__
 
 require File.expand_path '../../app/main.rb', __FILE__
 
@@ -19,5 +20,4 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
-
 end
