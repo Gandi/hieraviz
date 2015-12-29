@@ -8,7 +8,9 @@ module HieravizApp
 
     configure do
       set :app_name, 'HieraViz'
-      set :configfile, ENV['HIERAVIZ_CONFIG_FILE'] || File.join(root, "config", "hieraviz.yml")
+      configfile = ENV['HIERAVIZ_CONFIG_FILE'] || File.join("config", "hieraviz.yml")
+      configfile = File.join(root, configfile) unless configfile[0] == '/'
+      set :configfile, configfile
       set :config, YAML.load_file(configfile)
       enable :session
       enable :logging
