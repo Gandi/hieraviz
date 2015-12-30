@@ -58,11 +58,11 @@ module HieravizApp
     end
 
     get '/modules' do
-      erb :farms
+      erb :modules
     end
 
     get '/resources' do
-      erb :farms
+      erb :resources
     end
 
     get '/logout' do
