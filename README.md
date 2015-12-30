@@ -3,6 +3,7 @@ Hieraviz
 
 Hieraviz is a simple web application for accessing Puppet development code and production data in a unified interface. Its main goal is to enable a better visibility on the Puppet architecture for more actors to be able to interact with it.
 
+It's currently in very early stages of development, use at your own risk.
 
 Installation 
 -------------------
