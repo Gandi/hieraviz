@@ -1,6 +1,14 @@
 Hieraviz
 ===============
 
+[![Gem Version](https://img.shields.io/gem/v/hieraviz.svg)](http://rubygems.org/gems/hieraviz)
+[![Downloads](http://img.shields.io/gem/dt/hieraviz.svg)](https://rubygems.org/gems/hieraviz)
+[![Build Status](https://img.shields.io/travis/Gandi/hieraviz.svg)](https://travis-ci.org/Gandi/hieraviz)
+[![Coverage Status](https://img.shields.io/coveralls/Gandi/hieraviz.svg)](https://coveralls.io/github/Gandi/hieraviz?branch=master)
+[![Dependency Status](https://gemnasium.com/Gandi/hieraviz.svg)](https://gemnasium.com/Gandi/hieraviz)
+[![Code Climate](https://img.shields.io/codeclimate/github/Gandi/hieraviz.svg)](https://codeclimate.com/github/Gandi/hieraviz)
+
+
 Hieraviz is a simple web application for accessing Puppet development code and production data in a unified interface. Its main goal is to enable a better visibility on the Puppet architecture for more actors to be able to interact with it.
 
 It's currently in very early stages of development, use at your own risk.
