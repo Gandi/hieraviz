@@ -96,3 +96,8 @@ function restore_url(list) {
     });
   }
 }
+
+function update_footer(path) {
+  var debug = document.querySelector('.foot .debug');
+  debug.innerHTML = "curl -s http://" + window.location.host + path + " | jq '.'";
+}

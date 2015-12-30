@@ -246,3 +246,10 @@ input {
   line-height: 1em;
   width: 100%;
 }
+.foot .debug {
+  font-family: monospace;
+  font-size: .9em;
+  background-color: #333;
+  padding: .2em 1em;
+  float: right;
+}
