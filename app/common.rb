@@ -11,7 +11,8 @@ module HieravizApp
       configfile = ENV['HIERAVIZ_CONFIG_FILE'] || File.join("config", "hieraviz.yml")
       configfile = File.join(root, configfile) unless configfile[0] == '/'
       set :configfile, configfile
-      set :config, YAML.load_file(configfile)
+      set :configdata, YAML.load_file(configfile)
+      set :config, Hieracles::Config.new({ config: configfile })
       enable :session
       enable :logging
       set :store, Hieraviz::Store.new

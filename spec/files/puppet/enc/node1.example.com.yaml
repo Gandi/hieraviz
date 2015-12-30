@@ -1,4 +1,7 @@
 ---
 classes: 
   - farm1
-coutry: fr
+parameters:
+  country: fr
+  datacenter: equinix
+  farm: dev

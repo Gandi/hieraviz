@@ -9,9 +9,11 @@ body {
   font-family: sans serif;
 }
 a {
+  color: #369;
   text-decoration: none;
 }
 a:hover {
+  color: #993;
   text-decoration: underline;
 }
 input {
@@ -220,7 +222,12 @@ input {
 .meat .row:hover .data {
   background-color: #dd6;
 }
-
+.meat.farms div {
+  padding: .5em 1em;
+}
+.meat.farms div:hover {
+  background-color: #f3f3de;
+}
 /* ----- Foot ---- */
 .foot {
   padding: 1em;

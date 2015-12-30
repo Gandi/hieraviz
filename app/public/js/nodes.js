@@ -119,6 +119,18 @@ ready( () => {
         });
     },
 
+    allparams: function(el) {
+      start_wait(meat);
+      title = el.dataset.node;
+      fetch('/v1/node/' + title + '/all').
+        then(res => res.json()).
+        then(j => {
+          build_top(title);
+          build_info(meat, title, j);
+          rebuild_nav(title);
+          end_wait(meat);
+        });
+    },
   }
 
   /* declaration of events for the nodes menu */
@@ -128,16 +140,6 @@ ready( () => {
     });
   });
 
-  /* management of the hash navigation */
-  if (window.location.hash != '') {
-    var target = window.location.hash.replace(/#/,'');
-    Array.prototype.forEach.call(nodes, (item, i) => {
-      if (item.textContent == target) {
-        var event = document.createEvent('HTMLEvents');
-        event.initEvent('click', true, false);
-        item.dispatchEvent(event);
-      }
-    });
-  }
+  restore_url(nodes);
 
 });

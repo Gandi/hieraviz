@@ -38,26 +38,22 @@ module HieravizApp
     end
 
     use Rack::Auth::Basic, "Puppet Private Access" do |username, password|
-      username == settings.config['http_auth']['username'] && 
-      password == settings.config['http_auth']['password']
+      username == settings.configdata['http_auth']['username'] && 
+      password == settings.configdata['http_auth']['password']
     end
 
 
     get '/' do
-      config = Hieracles::Config.new({ config: settings.configfile })
-      logger.info settings.config
       erb :home
     end
 
     get '/nodes' do
-      config = Hieracles::Config.new({ config: settings.configfile })
-      @nodes = Hieracles::Registry.nodes(config)
+      @nodes = Hieracles::Registry.nodes(settings.config)
       erb :nodes
     end
 
     get '/farms' do
-      config = Hieracles::Config.new({ config: settings.configfile })
-      @farms = Hieracles::Registry.farms(config)
+      @farms = Hieracles::Registry.farms(settings.config)
       erb :farms
     end
 

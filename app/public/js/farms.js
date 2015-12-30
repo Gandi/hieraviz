@@ -30,7 +30,9 @@ ready( () => {
     top.innerHTML = "<h3>Farm "+title+"</h3>";
     if (array.length > 0)
       Array.prototype.forEach.call(array, (item, i) => {
-        addTo(top, "<div>"+item+"</div>\n");
+        addTo(top,  "<div><a href=\"/nodes#"+ item +"\">" +
+                    item +
+                    "</a></div>\n");
       });
     else
       addTo(top, "<div>There is no node in this farm.</div>\n");
@@ -52,4 +54,7 @@ ready( () => {
         });
     });
   });
+
+  restore_url(farms);
+
 });
