@@ -67,8 +67,9 @@ function filterBox(input, els) {
         item.style.display = 'block';
       });
     else
+      console.log(els);
       Array.prototype.forEach.call(els, (item, i) => {
-        if (item.innerText.match(el.value))
+        if (item.textContent.match(el.value))
           item.style.display = 'block';
         else
           item.style.display = 'none';

@@ -81,7 +81,7 @@ ready( () => {
       item.addEventListener('click', (ev) => {
         start_wait();
         el = ev.target;
-        action = el.innerText.toLowerCase();
+        action = el.textContent.toLowerCase();
         fetch('/v1/node/' + title + '/' + action).
           then(res => res.json()).
           then(j => {
