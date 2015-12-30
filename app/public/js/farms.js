@@ -50,7 +50,7 @@ ready( () => {
             removeClass(item, 'focus')
           });
           addClass(el, 'focus');
-          update_footer('v1/farm/' + el.dataset.item);
+          update_footer('/v1/farm/' + el.dataset.item);
           removeClass(meat, 'wait');
         });
     });

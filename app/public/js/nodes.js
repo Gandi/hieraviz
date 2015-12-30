@@ -102,7 +102,7 @@ ready( () => {
           build_top(title);
           build_params(meat, title, j);
           rebuild_nav(title);
-          update_footer('v1/node/' + title);
+          update_footer('/v1/node/' + title);
           end_wait(meat);
         });
     },
@@ -116,7 +116,7 @@ ready( () => {
           build_top(title);
           build_info(meat, title, j);
           rebuild_nav(title);
-          update_footer('v1/node/' + title + '/info');
+          update_footer('/v1/node/' + title + '/info');
           end_wait(meat);
         });
     },
@@ -130,7 +130,7 @@ ready( () => {
           build_top(title);
           build_info(meat, title, j);
           rebuild_nav(title);
-          update_footer('v1/node/' + title + '/all');
+          update_footer('/v1/node/' + title + '/all');
           end_wait(meat);
         });
     },
