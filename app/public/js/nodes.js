@@ -48,9 +48,9 @@ ready( () => {
   function build_top(title) {
     meat.innerHTML = "<h3>Node "+title+"</h3>";
     addTo(meat,  "<div class=\"nodenav\">" +
-                 "<span class=\"showinfo\" data-node=\""+title+"\">Info</span>" +
-                 "<span class=\"showparams\" data-node=\""+title+"\">Params</span>" +
-                 "<span class=\"showallparams\" data-node=\""+title+"\">AllParams</span>" +
+                 "<span class=\"showinfo\" data-item=\""+title+"\">Info</span>" +
+                 "<span class=\"showparams\" data-item=\""+title+"\">Params</span>" +
+                 "<span class=\"showallparams\" data-item=\""+title+"\">AllParams</span>" +
                  "</div>");
     addTo(meat,  "<div class=\"paramfilter\">" + 
                  "<input type=\"text\" name=\"paramfilter\" />" +
@@ -95,7 +95,7 @@ ready( () => {
   var Node = {
     params: function(el) {
       start_wait(meat);
-      title = el.dataset.node;
+      title = el.dataset.item;
       fetch('/v1/node/' + title).
         then(res => res.json()).
         then(j => {
@@ -108,7 +108,7 @@ ready( () => {
 
     info: function(el) {
       start_wait(meat);
-      title = el.dataset.node;
+      title = el.dataset.item;
       fetch('/v1/node/' + title + '/info').
         then(res => res.json()).
         then(j => {
@@ -121,7 +121,7 @@ ready( () => {
 
     allparams: function(el) {
       start_wait(meat);
-      title = el.dataset.node;
+      title = el.dataset.item;
       fetch('/v1/node/' + title + '/all').
         then(res => res.json()).
         then(j => {

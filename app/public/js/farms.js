@@ -42,10 +42,10 @@ ready( () => {
     item.addEventListener('click', (ev) => {
       addClass(meat, 'wait');
       el = ev.target;
-      fetch('/v1/farm/' + el.innerText).
+      fetch('/v1/farm/' + el.dataset.item).
         then(res => res.json()).
         then(j => {
-          build_list(meat, el.innerText, j);
+          build_list(meat, el.dataset.item, j);
           Array.prototype.forEach.call(farms, (item, i) => {
             removeClass(item, 'focus')
           });
