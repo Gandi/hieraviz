@@ -2,6 +2,7 @@ require 'sinatra/content_for'
 
 require 'better_errors'
 require 'digest/sha1'
+require 'directoryUser'
 require 'dotenv'
 
 require 'hieracles'
