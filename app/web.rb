@@ -2,8 +2,8 @@ require 'sinatra/content_for'
 
 require 'better_errors'
 require 'digest/sha1'
-require 'directoryUser'
 require 'dotenv'
+require 'oauth2'
 
 require 'hieracles'
 require 'hieraviz'
@@ -18,6 +18,7 @@ module HieravizApp
       set :public_folder, Proc.new { File.join(root, "public") }
       set :views_folder, Proc.new { File.join(root, "views") }
       set :erb, layout: :_layout
+      enable :sessions
     end
 
     configure :development do
@@ -26,15 +27,22 @@ module HieravizApp
     end
 
     helpers do
-      def check_cookie
-        if !session[:hieraviz_key]
-          newkey = Digest::SHA1.hexdigest(Time.new.to_s)
-          store.set(:hieraviz_key, newkey)
-          session[:hieraviz_key] = newkey
-        end
+      def oauth_client
+        @_client ||= OAuth2::Client.new(
+          settings.config['oauth2_auth']['application_key'], 
+          settings.config['oauth2_auth']['secret'], 
+          :site => settings.config['oauth2_auth']['host']
+          )
       end
-      def verify_key(key)
-        
+      def get_response(url)
+        access_token = OAuth2::AccessToken.new(oauth_client, session[:access_token])
+        JSON.parse(access_token.get("/api/v1/#{url}").body)
+      end
+      def redirect_uri
+        uri = URI.parse(request.url)
+        uri.path = '/logged-in'
+        uri.query = nil
+        uri.to_s
       end
     end
 
@@ -64,6 +72,17 @@ module HieravizApp
 
     get '/resources' do
       erb :resources
+    end
+
+    get '/login' do
+      redirect client.auth_code.authorize_url(:redirect_uri => redirect_uri)
+    end
+
+    get '/logged-in' do
+      access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
+      session[:access_token] = access_token.token
+      @message = "Successfully authenticated with the server"
+      redirect '/'
     end
 
     get '/logout' do
