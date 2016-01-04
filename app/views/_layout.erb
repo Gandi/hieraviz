@@ -15,10 +15,10 @@
         <%= erb :_head, :layout => false %>
       </div>
       <div class="content">
+        <%= styled_flash %>
         <%= yield %>
       </div>
       <div class="foot">
-        <%= styled_flash %>
         <%= erb :_foot, :layout => false %>
       </div>
     </div>

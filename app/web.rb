@@ -30,6 +30,7 @@ module HieravizApp
     end
 
     helpers do
+
       def oauth_client
         @_client ||= OAuth2::Client.new(
           settings.configdata['oauth2_auth']['application_id'], 
@@ -37,20 +38,23 @@ module HieravizApp
           :site => settings.configdata['oauth2_auth']['host']
           )
       end
+
       def get_response(url)
         access_token = OAuth2::AccessToken.new(oauth_client, session[:access_token])
         begin
           JSON.parse(access_token.get(url).body)
         rescue Exception => e
-          { 'error' => e.message }
+          { 'error' => JSON.parse(e.message.split(/\n/)[1])['message'] }
         end
       end
+
       def redirect_uri
         uri = URI.parse(request.url)
         uri.path = '/logged-in'
         uri.query = nil
         uri.to_s
       end
+
       def check_authorization
         if settings.configdata['auth_method'] == 'oauth2' &&
             settings.configdata['oauth2_auth']['resource_required']
@@ -60,11 +64,13 @@ module HieravizApp
              (resp[settings.configdata['oauth2_auth']['required_response_key']] &&
              resp[settings.configdata['oauth2_auth']['required_response_key']] != 
              resp[settings.configdata['oauth2_auth']['required_response_value']])
-            flash[:fatal] = resp['error']['message']
+             logger.info resp['error']
+            flash[:fatal] = resp['error']
             redirect '/'
           end
         end
       end
+
     end
 
     case settings.configdata['auth_method']
@@ -96,9 +102,6 @@ module HieravizApp
 
 
     get '/' do
-      flash['fatal'] = "hmm"
-      flash['warning'] = "hmm"
-      flash['info'] = "hmm"
       erb :home
     end
 

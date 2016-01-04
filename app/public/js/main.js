@@ -101,3 +101,13 @@ function update_footer(path) {
   var debug = document.querySelector('.foot .debug');
   debug.innerHTML = "curl -s http://" + window.location.host + path + " | jq '.'";
 }
+
+ready( () => {
+
+  var flash = document.querySelectorAll('div.flash');
+  Array.prototype.forEach.call(flash, (item, i) => {
+    item.addEventListener('click', (ev) => {
+      ev.target.style.display = 'none';
+    });
+  });
+});

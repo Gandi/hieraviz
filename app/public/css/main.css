@@ -257,12 +257,8 @@ input {
 /* ------ flash messages ----- */
 .flash {
   position: relative;
-  display: inline-block;
-  padding: 1em 2em;
-  margin: -1em;
-  margin-left: 1em;
-  right: 0;
-  float: right;
+  padding: 1em;
+  cursor: pointer;
 }
 .flash.info {
   background-color: #4d4;
