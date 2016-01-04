@@ -256,14 +256,16 @@ input {
 
 /* ------ flash messages ----- */
 .flash {
-  position: absolute;
+  position: relative;
   display: inline-block;
   padding: 1em 2em;
   margin: -1em;
+  margin-left: 1em;
   right: 0;
+  float: right;
 }
 .flash.info {
-  background-color: #dda;
+  background-color: #4d4;
   color: #000;
 }
 .flash.warning {
@@ -273,4 +275,5 @@ input {
 .flash.fatal {
   background-color: #a20;
   color: #fff;
+  font-weight: bold;
 }

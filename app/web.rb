@@ -96,7 +96,9 @@ module HieravizApp
 
 
     get '/' do
+      flash['fatal'] = "hmm"
       flash['warning'] = "hmm"
+      flash['info'] = "hmm"
       erb :home
     end
 
