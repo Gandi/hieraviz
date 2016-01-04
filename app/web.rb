@@ -15,6 +15,7 @@ module HieravizApp
     helpers Sinatra::ContentFor
 
     configure do
+      set :session_secret, settings.configdata['session_seed']
       set :public_folder, Proc.new { File.join(root, "public") }
       set :views_folder, Proc.new { File.join(root, "views") }
       set :erb, layout: :_layout
@@ -36,13 +37,20 @@ module HieravizApp
       end
       def get_response(url)
         access_token = OAuth2::AccessToken.new(oauth_client, session[:access_token])
-        JSON.parse(access_token.get("/api/v1/#{url}").body)
+        JSON.parse(access_token.get("/api/v3/#{url}").body)
       end
       def redirect_uri
         uri = URI.parse(request.url)
         uri.path = '/logged-in'
         uri.query = nil
         uri.to_s
+      end
+      def authorize
+        if settings.configdata['auth_method'] == 'oauth2'
+          resp = get_response('projects/devops/puppet')
+          # logger.info resp
+          redirect '/'
+        end
       end
     end
 
@@ -57,13 +65,13 @@ module HieravizApp
     when 'oauth2'
 
       get '/login' do
-        logger.info oauth_client
         redirect oauth_client.auth_code.authorize_url(:redirect_uri => redirect_uri)
       end
 
       get '/logged-in' do
         access_token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
         session[:access_token] = access_token.token
+        # logger.info session['access_token']
         @message = "Successfully authenticated with the server"
         redirect '/'
       end
@@ -73,10 +81,13 @@ module HieravizApp
 
 
     get '/' do
+      @sess = session['access_token']
+      # logger.info @sess
       erb :home
     end
 
     get '/nodes' do
+      authorize
       @nodes = Hieracles::Registry.nodes(settings.config)
       erb :nodes
     end

@@ -2,6 +2,7 @@
 basepath: "spec/files/puppet"
 classpath: "farm_modules/%s/manifests/init.pp"
 hierafile: "hiera.yml"
+session_seed: "toto"
 usedb: false
 puppetdb:
   usessl: false
