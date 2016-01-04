@@ -17,3 +17,6 @@ oauth2_auth:
   host: gitlab.example.com
   application_id: xxxxxxxx
   secret: xxxxxxxx
+  resource_required: '/api/v3/projects/namespace%2Fsome_repo'
+  required_response_key: 'id'
+  required_response_value: '42'

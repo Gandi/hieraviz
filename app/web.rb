@@ -37,7 +37,11 @@ module HieravizApp
       end
       def get_response(url)
         access_token = OAuth2::AccessToken.new(oauth_client, session[:access_token])
-        JSON.parse(access_token.get("/api/v3/#{url}").body)
+        begin
+          JSON.parse(access_token.get(url).body)
+        rescue Exception => e
+          { 'error' => e.mess}
+        end
       end
       def redirect_uri
         uri = URI.parse(request.url)
@@ -46,10 +50,15 @@ module HieravizApp
         uri.to_s
       end
       def authorize
-        if settings.configdata['auth_method'] == 'oauth2'
-          resp = get_response('projects/devops/puppet')
-          # logger.info resp
-          redirect '/'
+        if settings.configdata['auth_method'] == 'oauth2' &&
+            settings.configdata['oauth2_auth']['resource_required']
+          resp = get_response(settings.configdata['oauth2_auth']['resource_required'])
+          logger.info resp
+          if !resp[settings.configdata['oauth2_auth']['required_response_key']] ||
+             resp[settings.configdata['oauth2_auth']['required_response_key']] != 
+             resp[settings.configdata['oauth2_auth']['required_response_value']]
+            redirect '/'
+          end
         end
       end
     end
@@ -69,7 +78,9 @@ module HieravizApp
       end
 
       get '/logged-in' do
-        access_token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
+        authcode = oauth_client.auth_code
+        logger.info authcode
+        access_token = authcode.get_token(params[:code], :redirect_uri => redirect_uri)
         session[:access_token] = access_token.token
         # logger.info session['access_token']
         @message = "Successfully authenticated with the server"
