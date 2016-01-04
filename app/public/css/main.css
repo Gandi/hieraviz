@@ -253,3 +253,24 @@ input {
   padding: .2em 1em;
   float: right;
 }
+
+/* ------ flash messages ----- */
+.flash {
+  position: absolute;
+  display: inline-block;
+  padding: 1em 2em;
+  margin: -1em;
+  right: 0;
+}
+.flash.info {
+  background-color: #dda;
+  color: #000;
+}
+.flash.warning {
+  background-color: #d63;
+  color: #fff;
+}
+.flash.fatal {
+  background-color: #a20;
+  color: #fff;
+}

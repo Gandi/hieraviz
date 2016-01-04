@@ -1,4 +1,5 @@
 require 'sinatra/content_for'
+require 'sinatra/flash'
 
 require 'better_errors'
 require 'digest/sha1'
@@ -13,6 +14,7 @@ require File.expand_path '../common.rb', __FILE__
 module HieravizApp
   class Web < Common
     helpers Sinatra::ContentFor
+    register Sinatra::Flash
 
     configure do
       set :session_secret, settings.configdata['session_seed']
@@ -40,7 +42,7 @@ module HieravizApp
         begin
           JSON.parse(access_token.get(url).body)
         rescue Exception => e
-          { 'error' => e.mess}
+          { 'error' => e.message }
         end
       end
       def redirect_uri
@@ -49,14 +51,16 @@ module HieravizApp
         uri.query = nil
         uri.to_s
       end
-      def authorize
+      def check_authorization
         if settings.configdata['auth_method'] == 'oauth2' &&
             settings.configdata['oauth2_auth']['resource_required']
           resp = get_response(settings.configdata['oauth2_auth']['resource_required'])
           logger.info resp
-          if !resp[settings.configdata['oauth2_auth']['required_response_key']] ||
+          if resp['error'] ||
+             (resp[settings.configdata['oauth2_auth']['required_response_key']] &&
              resp[settings.configdata['oauth2_auth']['required_response_key']] != 
-             resp[settings.configdata['oauth2_auth']['required_response_value']]
+             resp[settings.configdata['oauth2_auth']['required_response_value']])
+            flash[:fatal] = resp['error']['message']
             redirect '/'
           end
         end
@@ -83,7 +87,7 @@ module HieravizApp
         access_token = authcode.get_token(params[:code], :redirect_uri => redirect_uri)
         session[:access_token] = access_token.token
         # logger.info session['access_token']
-        @message = "Successfully authenticated with the server"
+        flash['info'] = "Successfully authenticated with the server"
         redirect '/'
       end
 
@@ -92,27 +96,29 @@ module HieravizApp
 
 
     get '/' do
-      @sess = session['access_token']
-      # logger.info @sess
+      flash['warning'] = "hmm"
       erb :home
     end
 
     get '/nodes' do
-      authorize
+      check_authorization
       @nodes = Hieracles::Registry.nodes(settings.config)
       erb :nodes
     end
 
     get '/farms' do
+      check_authorization
       @farms = Hieracles::Registry.farms(settings.config)
       erb :farms
     end
 
     get '/modules' do
+      check_authorization
       erb :modules
     end
 
     get '/resources' do
+      check_authorization
       erb :resources
     end
 
