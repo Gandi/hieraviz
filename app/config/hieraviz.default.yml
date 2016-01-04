@@ -12,7 +12,7 @@ auth_method: http
 http_auth:
   username: 'xxx'
   password: 'xxx'
-gitlab_auth:
+oauth2_auth:
   host: gitlab.example.com
   application_id: xxxxxxxx
   secret: xxxxxxxx

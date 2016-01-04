@@ -29,9 +29,9 @@ module HieravizApp
     helpers do
       def oauth_client
         @_client ||= OAuth2::Client.new(
-          settings.config['oauth2_auth']['application_key'], 
-          settings.config['oauth2_auth']['secret'], 
-          :site => settings.config['oauth2_auth']['host']
+          settings.configdata['oauth2_auth']['application_key'], 
+          settings.configdata['oauth2_auth']['secret'], 
+          :site => settings.configdata['oauth2_auth']['host']
           )
       end
       def get_response(url)
@@ -46,9 +46,29 @@ module HieravizApp
       end
     end
 
-    use Rack::Auth::Basic, "Puppet Private Access" do |username, password|
-      username == settings.configdata['http_auth']['username'] && 
-      password == settings.configdata['http_auth']['password']
+    case settings.configdata['auth_method']
+    when 'http'
+
+      use Rack::Auth::Basic, "Puppet Private Access" do |username, password|
+        username == settings.configdata['http_auth']['username'] && 
+        password == settings.configdata['http_auth']['password']
+      end
+
+    when 'oauth2'
+
+      get '/login' do
+        logger.info redirect_uri
+        redirect oauth_client.auth_code.authorize_url(:redirect_uri => redirect_uri)
+      end
+
+      get '/logged-in' do
+        access_token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
+        session[:access_token] = access_token.token
+        @message = "Successfully authenticated with the server"
+        redirect '/'
+      end
+
+    else
     end
 
 
@@ -72,17 +92,6 @@ module HieravizApp
 
     get '/resources' do
       erb :resources
-    end
-
-    get '/login' do
-      redirect client.auth_code.authorize_url(:redirect_uri => redirect_uri)
-    end
-
-    get '/logged-in' do
-      access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
-      session[:access_token] = access_token.token
-      @message = "Successfully authenticated with the server"
-      redirect '/'
     end
 
     get '/logout' do
