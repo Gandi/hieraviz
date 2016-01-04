@@ -29,7 +29,7 @@ module HieravizApp
     helpers do
       def oauth_client
         @_client ||= OAuth2::Client.new(
-          settings.configdata['oauth2_auth']['application_key'], 
+          settings.configdata['oauth2_auth']['application_id'], 
           settings.configdata['oauth2_auth']['secret'], 
           :site => settings.configdata['oauth2_auth']['host']
           )
@@ -57,7 +57,7 @@ module HieravizApp
     when 'oauth2'
 
       get '/login' do
-        logger.info redirect_uri
+        logger.info oauth_client
         redirect oauth_client.auth_code.authorize_url(:redirect_uri => redirect_uri)
       end
 
