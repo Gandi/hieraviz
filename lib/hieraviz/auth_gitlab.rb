@@ -5,9 +5,9 @@ module Hieraviz
 
     def initialize(settings, session)
       @@client ||= OAuth2::Client.new(
-        settings.configdata['oauth2_auth']['application_id'], 
-        settings.configdata['oauth2_auth']['secret'], 
-        :site => settings.configdata['oauth2_auth']['host']
+        settings['application_id'], 
+        settings['secret'], 
+        :site => settings['host']
         )
       @session = session
     end

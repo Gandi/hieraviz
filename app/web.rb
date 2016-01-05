@@ -83,7 +83,7 @@ module HieravizApp
 
     when 'gitlab'
 
-      set :oauth, Hieraviz::AuthGitlab.new(settings.configdata['oauth2_auth'], session)
+      set :oauth, Hieraviz::AuthGitlab.new(settings.configdata['gitlab_auth'], session)
 
       get '/login' do
         redirect settings.oauth.login_url
