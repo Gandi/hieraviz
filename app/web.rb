@@ -40,7 +40,7 @@ module HieravizApp
       end
 
       def get_response(url)
-        access_token = OAuth2::AccessToken.new(oauth_client, session[:access_token])
+        access_token = OAuth2::AccessToken.new(oauth_client, session['access_token'])
         begin
           JSON.parse(access_token.get(url).body)
         rescue Exception => e
@@ -81,18 +81,18 @@ module HieravizApp
         password == settings.configdata['http_auth']['password']
       end
 
-    when 'oauth2'
+    when 'gitlab'
+
+      set :oauth, Hieraviz::AuthGitlab.new(settings.configdata['oauth2_auth'], session)
 
       get '/login' do
-        redirect oauth_client.auth_code.authorize_url(:redirect_uri => redirect_uri)
+        redirect settings.oauth.login_url
       end
 
       get '/logged-in' do
         authcode = oauth_client.auth_code
-        logger.info authcode
         access_token = authcode.get_token(params[:code], :redirect_uri => redirect_uri)
         session[:access_token] = access_token.token
-        # logger.info session['access_token']
         flash['info'] = "Successfully authenticated with the server"
         redirect '/'
       end
@@ -132,6 +132,7 @@ module HieravizApp
     end
 
     not_found do
+      session[:access_token] =
       erb :not_found, layout: :_layout
     end
 
