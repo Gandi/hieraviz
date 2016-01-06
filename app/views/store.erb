@@ -1,5 +1,6 @@
 <div class="meat text">
 <h1>Store</h1>
 <%= session['access_token'] %><br>
-<pre><%= settings.store.dump %></pre>
+<pre><%= Hieraviz::Store.dump %></pre>
+<pre><%= Hieraviz::Store.tmpdir %></pre>
 </div>

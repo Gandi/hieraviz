@@ -2,7 +2,6 @@ require 'sinatra/content_for'
 require 'sinatra/flash'
 
 require 'better_errors'
-require 'digest/sha1'
 require 'dotenv'
 require 'oauth2'
 
@@ -20,7 +19,6 @@ module HieravizApp
       set :session_secret, settings.configdata['session_seed']
       set :public_folder, Proc.new { File.join(root, "public") }
       set :views_folder, Proc.new { File.join(root, "views") }
-      set :store, Hieraviz::Store.new
       set :erb, layout: :_layout
       enable :sessions
     end
@@ -70,7 +68,7 @@ module HieravizApp
       get '/logged-in' do
         access_token = settings.oauth.access_token(request, params[:code])
         session[:access_token] = access_token.token
-        settings.store.set access_token.token, settings.oauth.user_info(access_token.token)
+        Hieraviz::Store.set access_token.token, settings.oauth.user_info(access_token.token)
         flash['info'] = "Successfully authenticated with the server"
         redirect '/'
       end
@@ -111,7 +109,17 @@ module HieravizApp
     end
 
     get '/store' do
+      # Hieraviz::Store.set 'woot', 'nada'
       erb :store
+    end
+
+    get '/user' do
+      if session[:access_token]
+        @data = settings.oauth.user_info(session[:access_token])
+      else
+        @data = 'nada'
+      end
+      erb :data
     end
 
     not_found do

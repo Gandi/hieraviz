@@ -3,6 +3,7 @@ app_name: HieraViz
 basepath: "../puppet"
 classpath: "farm_modules/%s/manifests/init.pp"
 hierafile: "dev/hiera-local.yaml"
+tmpdir: "/tmp"
 session_seed: "xxx"
 usedb: true
 puppetdb:

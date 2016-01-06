@@ -15,7 +15,6 @@ module HieravizApp
       set :config, Hieracles::Config.new({ config: configfile })
       enable :session
       enable :logging
-      set :store, Hieraviz::Store.new
     end
 
   end
