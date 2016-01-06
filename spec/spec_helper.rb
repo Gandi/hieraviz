@@ -1,11 +1,7 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'hieraviz'
 
 require 'rack/test'
 require 'rspec'
-
-ENV['RACK_ENV'] = 'test'
-ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config.yml', __FILE__
 
 if !ENV['BUILD']
   require 'rubygems'
@@ -25,6 +21,11 @@ if !ENV['BUILD']
     Coveralls.wear!
   end
 end
+
+ENV['RACK_ENV'] = 'test'
+ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config.yml', __FILE__
+
+require 'hieraviz'
 
 RSpec.configure do |config| 
   config.mock_with :rspec
