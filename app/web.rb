@@ -29,50 +29,6 @@ module HieravizApp
       BetterErrors.application_root = File.expand_path('..', __FILE__)
     end
 
-    helpers do
-
-      def oauth_client
-        @_client ||= OAuth2::Client.new(
-          settings.configdata['oauth2_auth']['application_id'], 
-          settings.configdata['oauth2_auth']['secret'], 
-          :site => settings.configdata['oauth2_auth']['host']
-          )
-      end
-
-      def get_response(url)
-        access_token = OAuth2::AccessToken.new(oauth_client, session['access_token'])
-        begin
-          JSON.parse(access_token.get(url).body)
-        rescue Exception => e
-          { 'error' => JSON.parse(e.message.split(/\n/)[1])['message'] }
-        end
-      end
-
-      def redirect_uri
-        uri = URI.parse(request.url)
-        uri.path = '/logged-in'
-        uri.query = nil
-        uri.to_s
-      end
-
-      def check_authorization
-        if settings.configdata['auth_method'] == 'oauth2' &&
-            settings.configdata['oauth2_auth']['resource_required']
-          resp = get_response(settings.configdata['oauth2_auth']['resource_required'])
-          logger.info resp
-          if resp['error'] ||
-             (resp[settings.configdata['oauth2_auth']['required_response_key']] &&
-             resp[settings.configdata['oauth2_auth']['required_response_key']] != 
-             resp[settings.configdata['oauth2_auth']['required_response_value']])
-             logger.info resp['error']
-            flash[:fatal] = resp['error']
-            redirect '/'
-          end
-        end
-      end
-
-    end
-
     case settings.configdata['auth_method']
     when 'http'
 
@@ -81,19 +37,44 @@ module HieravizApp
         password == settings.configdata['http_auth']['password']
       end
 
+      get '/logout' do
+        erb :logout, layout: :_layout
+      end
+
+      helpers do
+        def check_authorization
+          true
+        end
+      end
+
     when 'gitlab'
 
-      set :oauth, Hieraviz::AuthGitlab.new(settings.configdata['gitlab_auth'], session)
+      set :oauth, Hieraviz::AuthGitlab.new(settings.configdata['gitlab_auth'])
+
+      def check_authorization
+        if !session['access_token']
+          redirect settings.oauth.login_url(request)
+        else
+          if !settings.oauth.authorized?(session['access_token'])
+            flash[:fatal] = "Sorry you are not authorized to read puppet repo on gitlab."
+            redirect '/'
+          end
+        end
+      end
 
       get '/login' do
-        redirect settings.oauth.login_url
+        redirect settings.oauth.login_url(request)
       end
 
       get '/logged-in' do
-        authcode = oauth_client.auth_code
-        access_token = authcode.get_token(params[:code], :redirect_uri => redirect_uri)
+        access_token = settings.oauth.access_token(request, params[:code])
         session[:access_token] = access_token.token
         flash['info'] = "Successfully authenticated with the server"
+        redirect '/'
+      end
+
+      get '/logout' do
+        session.clear
         redirect '/'
       end
 
@@ -127,12 +108,7 @@ module HieravizApp
       erb :resources
     end
 
-    get '/logout' do
-      erb :logout, layout: :_layout
-    end
-
     not_found do
-      session[:access_token] =
       erb :not_found, layout: :_layout
     end
 
