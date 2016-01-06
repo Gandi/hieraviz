@@ -51,5 +51,9 @@ module Hieraviz
       true
     end
 
+    def user_info(token)
+      get_response('/api/v3/user', token)
+    end
+
   end
 end

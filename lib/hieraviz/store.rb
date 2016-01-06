@@ -13,5 +13,9 @@ module Hieraviz
       @data[key.to_sym]
     end
 
+    def dump
+      @data
+    end
+
   end
 end

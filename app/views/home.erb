@@ -1,4 +1,5 @@
 <div class="meat text">
 Welcome to hieraviz<br>
-<%= session['access_token'] %>
+<%= session['access_token'] %><br>
+<pre><%= settings.store.get session['access_token'] if session['access_token'] %></pre>
 </div>
