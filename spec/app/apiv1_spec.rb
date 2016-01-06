@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'sinatra_helper'
 
 describe HieravizApp::ApiV1 do
 

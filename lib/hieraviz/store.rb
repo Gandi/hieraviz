@@ -3,7 +3,7 @@ module Hieraviz
     extend self
 
     def data
-      @_data ||= {}
+      @_data ||= Hash.new
     end
 
     def set(key, value)
