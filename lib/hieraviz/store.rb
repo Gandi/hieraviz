@@ -30,9 +30,7 @@ module Hieraviz
     end
 
     def init_tmpdir
-      configfile = ENV['HIERAVIZ_CONFIG_FILE'] || File.join("config", "hieraviz.yml")
-      configfile = File.expand_path(File.join('../../../app', configfile), __FILE__) unless configfile[0] == '/'
-      config = YAML.load_file(configfile)
+      config = Hieraviz::Config.load
       tmp = config['tmpdir'] || '/tmp'
       begin
         FileUtils.mkdir_p(tmp) unless Dir.exist?(tmp)

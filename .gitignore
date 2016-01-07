@@ -15,7 +15,7 @@ mkmf.log
 /vendor/
 .pc/
 debian/*.log
-app/config/hieraviz.yml
+config/hieraviz.yml
 .env.production
 .ruby-version
 .ruby-gemset

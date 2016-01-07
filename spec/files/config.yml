@@ -3,6 +3,7 @@ basepath: "spec/files/puppet"
 classpath: "farm_modules/%s/manifests/init.pp"
 hierafile: "hiera.yml"
 session_seed: "toto"
+tmpdir: "spec/files/tmp"
 usedb: false
 puppetdb:
   usessl: false
