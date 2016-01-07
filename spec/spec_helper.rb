@@ -1,8 +1,5 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-require 'rack/test'
-require 'rspec'
-
 if !ENV['BUILD']
   require 'rubygems'
   require 'bundler'
@@ -21,6 +18,9 @@ if !ENV['BUILD']
     Coveralls.wear!
   end
 end
+
+require 'rack/test'
+require 'rspec'
 
 ENV['RACK_ENV'] = 'test'
 ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config.yml', __FILE__

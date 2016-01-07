@@ -13,3 +13,10 @@ auth_method: http
 http_auth:
   username: 'toto'
   password: 'toto'
+gitlab_auth:
+  host: https://gitlab.example.com
+  application_id: xxxid
+  secret: xxxsecret
+  resource_required: '/api/v3/projects/group%2Fpuppet'
+  required_response_key: 'id'
+  required_response_value: '42'
