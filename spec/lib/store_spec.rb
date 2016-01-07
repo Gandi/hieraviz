@@ -21,6 +21,35 @@ describe Hieraviz::Store do
     }
   end
 
+  describe '.get' do
+    let(:name) { '123456' }
+    let(:value) { { a: 1 } }
+    let(:tmpfile) { 'spec/files/tmp/123456' }
+    after do
+      File.unlink(tmpfile) if File.exist?(tmpfile)
+    end
+    it {
+      Hieraviz::Store.set name, value
+      expect(File).to exist tmpfile
+      expect(Hieraviz::Store.get(name)).to eq value
+    }
+  end
+
+  describe '.dump' do
+    let(:name) { '123456' }
+    let(:value) { { a: 1 } }
+    let(:tmpfile) { 'spec/files/tmp/123456' }
+    let(:expected) { { name => value } }
+    after do
+      File.unlink(tmpfile) if File.exist?(tmpfile)
+    end
+    it {
+      Hieraviz::Store.set name, value
+      expect(File).to exist tmpfile
+      expect(Hieraviz::Store.dump).to eq expected
+    }
+  end
+
   describe '.tmpfile' do
     context "when the filename has weird chars" do
       let(:name) { 'gdahsj#@!(scg78ud' }
