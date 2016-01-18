@@ -96,11 +96,6 @@ ready( () => {
     meat.innerHTML = "<div class=\"error\">" + message + "</div>\n";
   }
 
-  function auth_header() {
-    var h = new Headers({"x-auth": session_key});
-    return { headers: h }
-  }
-
   var Node = {
     params: function(el) {
       start_wait(meat);

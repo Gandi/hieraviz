@@ -102,6 +102,13 @@ function update_footer(path) {
   debug.innerHTML = "curl -s http://" + window.location.host + path + " | jq '.'";
 }
 
+
+function auth_header() {
+  var h = new Headers({"x-auth": session_key});
+  return { headers: h }
+}
+
+
 ready( () => {
 
   var flash = document.querySelectorAll('div.flash');
@@ -110,5 +117,5 @@ ready( () => {
       ev.target.style.display = 'none';
     });
   });
-  
+
 });

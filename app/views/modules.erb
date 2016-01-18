@@ -1,7 +1,4 @@
 <% content_for :more_js do %>
-<% if session['access_token'] -%>
-<script>var session_key = "<%= session['access_token'] %>";</script>
-<% end -%>
 <script async="async" src="js/modules.js"></script>
 <% end %>
 

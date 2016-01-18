@@ -42,7 +42,7 @@ ready( () => {
     item.addEventListener('click', (ev) => {
       addClass(meat, 'wait');
       el = ev.target;
-      fetch('/v1/farm/' + el.dataset.item, {'X-AUTH': session_key}).
+      fetch('/v1/farm/' + el.dataset.item, auth_header()).
         then(res => res.json()).
         then(j => {
           build_list(meat, el.dataset.item, j);
