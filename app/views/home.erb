@@ -1,5 +1,8 @@
 <div class="meat text">
 Welcome to hieraviz<br>
+
+<% if settings.configdata['debug'] -%>
 <%= session['access_token'] %><br>
-<pre><%= Hieraviz::Store.get session['access_token'] if session['access_token'] %></pre>
+<pre><%= ap Hieraviz::Store.get session['access_token'] if session['access_token'] %></pre>
 </div>
+<% end %>

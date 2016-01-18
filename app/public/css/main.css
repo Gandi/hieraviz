@@ -80,6 +80,14 @@ input {
   background-color: #fff;
   color: #000;
 }
+.head .auth a#login {
+  background-color: #fff;
+  color: #000;
+}
+.head .auth .username {
+  display: inline-block;
+  margin-right: 1em;
+}
 /* ----- Content ---- */
 .content {
   background-color: #eee;

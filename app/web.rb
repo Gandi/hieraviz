@@ -42,6 +42,7 @@ module HieravizApp
 
       helpers do
         def check_authorization
+          set :username, settings.configdata['http_auth']['username']
           true
         end
       end
@@ -49,6 +50,17 @@ module HieravizApp
     when 'gitlab'
 
       set :oauth, Hieraviz::AuthGitlab.new(settings.configdata['gitlab_auth'])
+
+      def get_username
+        if session['access_token']
+          session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
+          if session_info
+            session_info['username']
+          else
+            ''
+          end
+        end
+      end
 
       def check_authorization
         if !session['access_token']
@@ -61,8 +73,10 @@ module HieravizApp
               redirect '/'
             else
               Hieraviz::Store.set session['access_token'], settings.oauth.user_info(session['access_token'])
+              session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
             end
           end
+          session_info['username']
         end
       end
 
@@ -88,28 +102,29 @@ module HieravizApp
 
 
     get '/' do
+      @username = get_username
       erb :home
     end
 
     get '/nodes' do
-      check_authorization
+      @username = check_authorization
       @nodes = Hieracles::Registry.nodes(settings.config)
       erb :nodes
     end
 
     get '/farms' do
-      check_authorization
+      @username = check_authorization
       @farms = Hieracles::Registry.farms(settings.config)
       erb :farms
     end
 
     get '/modules' do
-      check_authorization
+      @username = check_authorization
       erb :modules
     end
 
     get '/resources' do
-      check_authorization
+      @username = check_authorization
       erb :resources
     end
 

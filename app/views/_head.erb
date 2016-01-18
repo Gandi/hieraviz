@@ -3,23 +3,21 @@
 <%= settings.app_name %>
 </a>
 </div>
+<% if session[:access_token] -%>
 <div class="nav">
 <a href="/nodes" class="nodes">Nodes</a>
 <a href="/farms" class="farms">Farms</a>
 <a href="/modules" class="modules">Modules</a>
 <a href="/resources" class="resources">Resources</a>
 </div>
-<% case settings.configdata['auth_method'] %>
-<% when 'http' %>
 <div class="auth">
-<a href="/logout" id="logout">http Logout</a>
+<div class="username">
+identified as <b><%= @username %></b>
 </div>
-<% when 'gitlab' %>
+<a href="/logout" id="logout">Logout</a>
+</div>
+<% else -%>
 <div class="auth">
-<a href="/logout" id="logout">gitlab Logout</a>
+<a href="/login" id="login">Connect</a>
 </div>
-<% else %>
-<div class="auth">
-No logout
-</div>
-<% end %>
+<% end -%>
