@@ -19,9 +19,9 @@ Install it from Rubygens:
 
     gem install hieraviz
 
-Usage
-----------
-`hv-ctl` is a control script to manipulate Hieraviz server. It is not written yet, unfortunately, but will be ready in the very next versions.
+Development
+--------------
+Launch it with `shotgun` or `rackup`.
 
 Contributing
 ----------------

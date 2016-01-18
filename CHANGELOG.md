@@ -1,9 +1,10 @@
 Hieraviz Changelog
 ========================
 
-### v0.0.2 - wip
+### v0.0.2 - 2016-01-18
 - add oauth2 auth method against gitlab server
 - add session persistence on disk
+- protect api calls with usage of the web session
 
 ### v0.0.1 - 2015-12-30
 - still pretty alpha at this stage, more to come soon
