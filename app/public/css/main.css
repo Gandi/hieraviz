@@ -97,8 +97,10 @@ input {
   width: 100%;
   height: 90%;
 }
-
-  /* ----- Sidebar ---- */
+.error {
+  padding: 2em;
+}
+/* ----- Sidebar ---- */
 .side {
   background-color: #eee;
   display: inline-block;

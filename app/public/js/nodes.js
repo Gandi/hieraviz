@@ -92,17 +92,31 @@ ready( () => {
     });
   }
 
+  function show_error(meat, message) {
+    meat.innerHTML = "<div class=\"error\">" + message + "</div>\n";
+  }
+
+  function auth_header() {
+    var h = new Headers({"x-auth": session_key});
+    return { headers: h }
+  }
+
   var Node = {
     params: function(el) {
       start_wait(meat);
       title = el.dataset.item;
-      fetch('/v1/node/' + title).
+      fetch('/v1/node/' + title, auth_header()).
         then(res => res.json()).
         then(j => {
-          build_top(title);
-          build_params(meat, title, j);
-          rebuild_nav(title);
-          update_footer('/v1/node/' + title);
+          console.log(auth_header().headers.getAll('x-auth'));
+          if (j.error != undefined) {
+            show_error(meat, j['error']);
+          } else {
+            build_top(title);
+            build_params(meat, title, j);
+            rebuild_nav(title);
+            update_footer('/v1/node/' + title);            
+          }
           end_wait(meat);
         });
     },
@@ -110,7 +124,7 @@ ready( () => {
     info: function(el) {
       start_wait(meat);
       title = el.dataset.item;
-      fetch('/v1/node/' + title + '/info').
+      fetch('/v1/node/' + title + '/info', auth_header()).
         then(res => res.json()).
         then(j => {
           build_top(title);
@@ -124,7 +138,7 @@ ready( () => {
     allparams: function(el) {
       start_wait(meat);
       title = el.dataset.item;
-      fetch('/v1/node/' + title + '/all').
+      fetch('/v1/node/' + title + '/all', auth_header()).
         then(res => res.json()).
         then(j => {
           build_top(title);
