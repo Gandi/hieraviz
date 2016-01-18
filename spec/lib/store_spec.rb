@@ -28,11 +28,39 @@ describe Hieraviz::Store do
     after do
       File.unlink(tmpfile) if File.exist?(tmpfile)
     end
-    it {
-      Hieraviz::Store.set name, value
-      expect(File).to exist tmpfile
-      expect(Hieraviz::Store.get(name)).to eq value
-    }
+    context "without expiration and existing session" do
+      before do
+        Hieraviz::Store.set name, value
+      end
+      it {
+        expect(Hieraviz::Store.get(name)).to eq value
+        expect(File).to exist tmpfile
+      }
+    end
+    context "with expiration and existing unexpired session" do
+      before do
+        Hieraviz::Store.set name, value
+      end
+      it {
+        expect(Hieraviz::Store.get(name, 300)).to eq value
+        expect(File).to exist tmpfile
+      }
+    end
+    context "with expiration and existing expired session" do
+      before do
+        Hieraviz::Store.set name, value
+        FileUtils.touch tmpfile, mtime: Time.now - 600
+      end
+      it {
+        expect(Hieraviz::Store.get(name, 300)).to be_falsey
+        expect(File).not_to exist tmpfile
+      }
+    end
+    context "without existing session" do
+      it {
+        expect(Hieraviz::Store.get(name)).to be_falsey
+      }
+    end
   end
 
   describe '.dump' do

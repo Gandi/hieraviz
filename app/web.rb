@@ -54,9 +54,14 @@ module HieravizApp
         if !session['access_token']
           redirect settings.oauth.login_url(request)
         else
-          if !settings.oauth.authorized?(session['access_token'])
-            flash[:fatal] = "Sorry you are not authorized to read puppet repo on gitlab."
-            redirect '/'
+          session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
+          if !session_info
+            if !settings.oauth.authorized?(session['access_token'])
+              flash[:fatal] = "Sorry you are not authorized to read puppet repo on gitlab."
+              redirect '/'
+            else
+              Hieraviz::Store.set session['access_token'], settings.oauth.user_info(session['access_token'])
+            end
           end
         end
       end

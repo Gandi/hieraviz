@@ -13,8 +13,14 @@ module Hieraviz
       data[key] = value
     end
 
-    def get(key)
-      data[key] ||= Marshal::load(File.read(tmpfile(key)).chomp)
+    def get(key, expiration=false)
+      f = tmpfile(key)
+      if File.exist?(f) && expiration && expired?(f, expiration)
+        File.unlink(f)
+      end
+      if File.exist?(f)
+        data[key] ||= Marshal::load(File.read(f).chomp)
+      end
     end
 
     def dump
@@ -38,6 +44,10 @@ module Hieraviz
         tmp = '/tmp'
       end
       tmp
+    end
+
+    def expired?(file, duration)
+      Time.now - duration > File.mtime(file)
     end
 
   end

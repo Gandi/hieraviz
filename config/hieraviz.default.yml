@@ -5,6 +5,7 @@ classpath: "farm_modules/%s/manifests/init.pp"
 hierafile: "dev/hiera-local.yaml"
 tmpdir: "/tmp"
 session_seed: "xxx"
+session_renew: 3600
 usedb: true
 puppetdb:
   usessl: false
