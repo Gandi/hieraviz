@@ -1,3 +1,4 @@
+require 'hieracles'
 require "hieraviz/version"
 require "hieraviz/config"
 require "hieraviz/store"

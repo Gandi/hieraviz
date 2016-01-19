@@ -1,4 +1,5 @@
-ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config_gitlab.yml', __FILE__
+ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config.yml', __FILE__
+
 require File.expand_path '../../app/main.rb', __FILE__
 
 module RSpecMixin
