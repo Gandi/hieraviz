@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Hieraviz::Config do
 
+  before do
+    ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../../files/config.yml', __FILE__
+  end
+
   describe '.load' do
     let(:expected) { "spec/files/puppet" }
     it { expect(Hieraviz::Config.load['basepath']).to eq expected }

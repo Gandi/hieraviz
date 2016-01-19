@@ -12,7 +12,7 @@ puppetdb:
   usessl: false
   host: puppetdb.example.com
   port: 8080
-auth_method: http
+auth_method: gitlab
 http_auth:
   username: 'toto'
   password: 'toto'
