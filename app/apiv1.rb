@@ -31,10 +31,6 @@ module HieravizApp
       end
     end
 
-    get '/test' do
-      json data: Time.new 
-    end
-
     get '/nodes' do
       check_authorization
       json Hieracles::Registry.nodes(settings.config)
