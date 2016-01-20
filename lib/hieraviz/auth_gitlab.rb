@@ -13,28 +13,28 @@ module Hieraviz
     end
 
     def access_token(request, code)
-      @@client.auth_code.get_token(code, :redirect_uri => redirect_uri(request))
+      @@client.auth_code.get_token(code, :redirect_uri => redirect_uri(request.url))
     end
 
     def get_response(url, token)
-      access_token = OAuth2::AccessToken.new(@@client, token)
+      a_token = OAuth2::AccessToken.new(@@client, token)
       begin
-        JSON.parse(access_token.get(url).body)
+        JSON.parse(a_token.get(url).body)
       rescue Exception => e
         { 'error' => JSON.parse(e.message.split(/\n/)[1])['message'] }
       end
     end
 
-
-    def redirect_uri(request)
-      uri = URI.parse(request.url)
+    def redirect_uri(url)
+      uri = URI.parse(url)
       uri.path = '/logged-in'
       uri.query = nil
+      uri.fragment = nil
       uri.to_s
     end
 
     def login_url(request)
-      @@client.auth_code.authorize_url(:redirect_uri => redirect_uri(request))
+      @@client.auth_code.authorize_url(:redirect_uri => redirect_uri(request.url))
     end
 
     def authorized?(token)
