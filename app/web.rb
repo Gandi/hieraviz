@@ -53,35 +53,37 @@ module HieravizApp
 
       set :oauth, Hieraviz::AuthGitlab.new(settings.configdata['gitlab_auth'])
 
-      def get_username
-        if session['access_token']
-          session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
-          if session_info
-            session_info['username']
-          else
-            ''
-          end
-        end
-      end
-
-      def check_authorization
-        if !session['access_token']
-          redirect settings.oauth.login_url(request)
-        else
-          session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
-          if !session_info
-            if !settings.oauth.authorized?(session['access_token'])
-              flash[:fatal] = "Sorry you are not authorized to read puppet repo on gitlab."
-              redirect '/'
+      helpers do
+        def get_username
+          if session['access_token']
+            session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
+            if session_info
+              session_info['username']
             else
-              Hieraviz::Store.set session['access_token'], settings.oauth.user_info(session['access_token'])
-              session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
+              ''
             end
           end
-          session_info['username']
+        end
+
+        def check_authorization
+          if !session['access_token']
+            redirect settings.oauth.login_url(request)
+          else
+            session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
+            if !session_info
+              if !settings.oauth.authorized?(session['access_token'])
+                flash[:fatal] = "Sorry you are not authorized to read puppet repo on gitlab."
+                redirect '/'
+              else
+                Hieraviz::Store.set session['access_token'], settings.oauth.user_info(session['access_token'])
+                session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
+              end
+            end
+            session_info['username']
+          end
         end
       end
-
+      
       get '/login' do
         redirect settings.oauth.login_url(request)
       end
