@@ -73,6 +73,103 @@ describe HieravizApp::ApiV1 do
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
+    describe "GET /v1/node/node1.example.com/info" do
+      let(:expected) {
+        {
+          'classes' => ['farm1'],
+          'country' => 'fr',
+          'datacenter' => 'equinix',
+          'farm' => 'dev',
+          'fqdn' => 'node1.example.com'
+        }
+      }
+      before do
+        get '/node/node1.example.com/info'
+      end
+      it { expect(last_response).to be_ok }
+      it { expect(JSON.parse last_response.body).to eq expected }
+    end
+    describe "GET /v1/node/node1.example.com/params" do
+      let(:expected) {
+        {
+          "param1.subparam1" => {
+            "value" => "value1", 
+            "file" => "params/nodes/node1.example.com.yaml", 
+            "overriden" => false, 
+            "found_in" => [
+              {
+                "value"=>"value1", 
+                "file"=>"params/nodes/node1.example.com.yaml"
+              }
+            ]
+          }
+        }
+      }
+      before do
+        get '/node/node1.example.com/params'
+      end
+      it { expect(last_response).to be_ok }
+      it { expect(JSON.parse last_response.body).to eq expected }
+    end
+    describe "GET /v1/node/node1.example.com" do
+      let(:expected) {
+        {
+          "param1.subparam1" => {
+            "value" => "value1", 
+            "file" => "params/nodes/node1.example.com.yaml", 
+            "overriden" => false, 
+            "found_in" => [
+              {
+                "value"=>"value1", 
+                "file"=>"params/nodes/node1.example.com.yaml"
+              }
+            ]
+          }
+        }
+      }
+      before do
+        get '/node/node1.example.com'
+      end
+      it { expect(last_response).to be_ok }
+      it { expect(JSON.parse last_response.body).to eq expected }
+    end
+    describe "GET /v1/node/node1.example.com/allparams" do
+      let(:expected) {
+         {
+          "param1.subparam1" => {
+            "value" => "value1", 
+            "file" => "-", 
+            "overriden" => true, 
+            "found_in" => [
+              {
+                "value" => "value1", 
+                "file" => "params/nodes/node1.example.com.yaml"
+              },
+              {
+                "value" => "value common", 
+                "file"=>"params/common/common.yaml"
+              }
+            ]
+          },
+          "param2.subparam2" => {
+            "value" => "another value", 
+            "file"=>"params/common/common.yaml", 
+            "overriden" => false, 
+            "found_in" => [
+              {
+                "value" => "another value", 
+                "file"=>"params/common/common.yaml"
+              }
+            ]
+          }
+        }
+      }
+      before do
+        get '/node/node1.example.com/allparams'
+      end
+      it { expect(last_response).to be_ok }
+      it { expect(JSON.parse last_response.body).to eq expected }
+    end
     describe "GET /v1/farms" do
       let(:expected) { ['farm1'] }
       before do
