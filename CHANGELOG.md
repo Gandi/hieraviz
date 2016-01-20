@@ -1,6 +1,9 @@
 Hieraviz Changelog
 ========================
 
+### v0.1.0 - 2016-01-20
+- extend test coverage
+
 ### v0.0.2 - 2016-01-18
 - add oauth2 auth method against gitlab server
 - add session persistence on disk
