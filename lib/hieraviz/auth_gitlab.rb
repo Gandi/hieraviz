@@ -4,11 +4,24 @@ module Hieraviz
   class AuthGitlab
 
     def initialize(settings)
-      @@client ||= OAuth2::Client.new(
-        settings['application_id'], 
-        settings['secret'], 
-        :site => settings['host']
+      if settings['proxy_uri']
+        @@client ||= OAuth2::Client.new(
+          settings['application_id'], 
+          settings['secret'], 
+          :site => settings['host'],
+          connection_opts: {
+            :proxy => {
+              :uri => settings['proxy_uri']
+            }
+          }
         )
+      else
+        @@client ||= OAuth2::Client.new(
+          settings['application_id'], 
+          settings['secret'], 
+          :site => settings['host']
+          )
+      end
       @settings = settings
     end
 
