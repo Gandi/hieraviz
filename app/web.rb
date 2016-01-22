@@ -111,73 +111,30 @@ module HieravizApp
     else
     end
 
-
     get '/' do
       @username = get_username
       erb :home
     end
 
-    get %r{/?([-_\.a-zA-Z0-9]+)?/nodes} do |e|
-      @username = check_authorization
-      path = validate_basepath(e, '/nodes')
-      if path
-        config = Hieracles::Config.new({ 
-          config: Hieraviz::Config.configfile,
-          basepath: path
-          })
-        @env = "/#{e}"
-        @nodes = Hieracles::Registry.nodes(config)
-      else
-        @env = ''
-        @nodes = Hieracles::Registry.nodes(settings.config)
-      end
+    get %r{/?([-_\.a-zA-Z0-9]+)?(/nodes)} do |e, r|
+      hieracles_config = prepare_env(e, r)
+      @nodes = Hieracles::Registry.nodes(hieracles_config)
       erb :nodes
     end
 
-    get %r{/?([-_\.a-zA-Z0-9]+)?/farms} do |e|
-      @username = check_authorization
-      path = validate_basepath(e, '/nodes')
-      if path
-        config = Hieracles::Config.new({ 
-          config: Hieraviz::Config.configfile,
-          basepath: path
-          })
-        @env = "/#{e}"
-        @farms = Hieracles::Registry.farms(config)
-      else
-        @env = ''
-        @farms = Hieracles::Registry.farms(settings.config)
-      end
+    get %r{/?([-_\.a-zA-Z0-9]+)?(/farms)} do |e, r|
+      hieracles_config = prepare_env(e, r)
+      @farms = Hieracles::Registry.farms(hieracles_config)
       erb :farms
     end
 
-    get %r{/?([-_\.a-zA-Z0-9]+)?/modules} do |e|
-      @username = check_authorization
-      path = validate_basepath(e, '/nodes')
-      if path
-        config = Hieracles::Config.new({ 
-          config: Hieraviz::Config.configfile,
-          basepath: path
-          })
-        @env = "/#{e}"
-      else
-        @env = ''
-      end
+    get %r{/?([-_\.a-zA-Z0-9]+)?(/modules)} do |e, r|
+      hieracles_config = prepare_env(e, r)
       erb :modules
     end
 
-    get %r{/?([-_\.a-zA-Z0-9]+)?/resources} do |e|
-      @username = check_authorization
-      path = validate_basepath(e, '/nodes')
-      if path
-        config = Hieracles::Config.new({ 
-          config: Hieraviz::Config.configfile,
-          basepath: path
-          })
-        @env = "/#{e}"
-      else
-        @env = ''
-      end
+    get %r{/?([-_\.a-zA-Z0-9]+)?(/resources)} do |e, r|
+      hieracles_config = prepare_env(e, r)
       erb :resources
     end
 
@@ -199,10 +156,10 @@ module HieravizApp
     # error 401 do
     #   'Access forbidden'
     # end
-    get '/paths' do
-      @data = settings.basepaths.map { |p| File.basename(p) }
-      erb :data
-    end
+    # get '/paths' do
+    #   @data = settings.basepaths.map { |p| File.basename(p) }
+    #   erb :data
+    # end
     # debug pages --------------------
 
     not_found do

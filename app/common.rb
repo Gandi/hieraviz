@@ -14,6 +14,17 @@ module HieravizApp
     end
 
     helpers do
+      def prepare_env(e, r)
+        @username = check_authorization
+        path = validate_basepath(e, r)
+        @env = get_env(path)
+        if @env == ''
+          @env_name = File.basename(settings.configdata['basepath'])
+        else
+          @env_name = @env.gsub(/\//,'')
+        end
+        get_config(path)
+      end
       def get_path(path)
         if settings.basepaths
           settings.basepaths.select do |p|
@@ -28,6 +39,25 @@ module HieravizApp
           else
             redirect url
           end
+        end
+      end
+      def get_config(path)
+        if path
+          Hieracles::Config.new({ 
+            config: Hieraviz::Config.configfile,
+            basepath: path
+            })
+        else
+          Hieracles::Config.new({ 
+            config: Hieraviz::Config.configfile
+            })
+        end     
+      end
+      def get_env(path)
+        if path
+          "/#{File.basename(path)}"
+        else
+          ''
         end
       end
     end

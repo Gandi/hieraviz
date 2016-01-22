@@ -41,10 +41,47 @@ input {
   line-height: .5em;
   margin-right: 1em;
 }
-.head .nav {
+.head .nav, .head .env {
   position: relative;
   float: left;
   display: inline-block;
+}
+.head .env .current {
+  position: relative;
+  color: #fff;
+  background-color: #666;
+  padding: .5em 1em;
+  border-radius: .2em;
+  font-weight: bold;
+  margin-right: 1em;  
+  cursor: pointer;
+}
+.head .env .allenvs {
+  position: absolute;
+  background-color: #fff;
+  width: auto;
+  overflow-x: visible;
+  margin-top: 1em;
+  border: 1px solid #666;
+}
+.head .env .allenvs .filter {
+  margin: 0;
+  background-color: #999;
+  font-size: 1.2em;
+}
+.head .env .allenvs .filter input {
+  width: 100%;
+  margin-bottom: .1em;
+  padding: .1em 1em;
+}
+.head .env .allenvs .selectenv {
+  padding: .2em 1em;
+  color: #666;
+  cursor: pointer;
+}
+.head .env .allenvs .selectenv:hover {
+  color: #000;
+  background-color: #ddd;
 }
 .head .nav a {
   position: relative;
@@ -61,6 +98,12 @@ input {
 .head .nav a:hover {
   background-color: #fff;
   color: #000;
+}
+.head .envs {
+  position: relative;
+  float: right;
+  display: inline-block;
+  margin-left: 2em;
 }
 .head .auth {
   position: relative;

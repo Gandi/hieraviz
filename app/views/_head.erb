@@ -3,13 +3,31 @@
 <%= settings.app_name %>
 </a>
 </div>
+
 <% if session[:access_token] -%>
 <div class="nav">
+<% if settings.basepaths -%>
+<div class="env">
+<span class="current"><%= @env_name %></span>
+<div class="allenvs">
+
+<form class="filter">
+<input type="text" name="filter" />
+</form>
+
+<% settings.basepaths.map { |p| File.basename(p) }.each do |e| -%>
+<div class="selectenv"><%= e %></div>
+<% end -%>
+</div>
+<% end -%>
+
+</div>
 <a href="<%= @env %>/nodes" class="nodes">Nodes</a>
 <a href="<%= @env %>/farms" class="farms">Farms</a>
 <a href="<%= @env %>/modules" class="modules">Modules</a>
 <a href="<%= @env %>/resources" class="resources">Resources</a>
 </div>
+
 <div class="auth">
 <div class="username">
 identified as <a href="/user" class="userlink"><%= @username %></a>

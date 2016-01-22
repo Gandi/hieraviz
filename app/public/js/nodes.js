@@ -14,7 +14,7 @@ ready( () => {
   var meat = document.querySelector('div.meat');
   var nodes = document.querySelectorAll('li.node');
   focusNav('nodes');
-  filterBox(".filter input", nodes);
+  filterBox(".side .filter input", nodes);
 
   function build_line(top, file, key, value, overriden) {
     if (overriden === true) {
