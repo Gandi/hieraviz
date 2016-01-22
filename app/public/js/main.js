@@ -27,7 +27,7 @@ function make_base_auth(user, password) {
 }
 
 function addClass(el, className) {
-  if (el.classList)
+  if (el.classList != null)
     el.classList.add(className);
   else
     el.className += ' ' + className;
@@ -111,11 +111,18 @@ function auth_header() {
 
 ready( () => {
 
+  var meat = document.querySelector('div.meat');
+
   var flash = document.querySelectorAll('div.flash');
   Array.prototype.forEach.call(flash, (item, i) => {
     item.addEventListener('click', (ev) => {
       ev.target.style.display = 'none';
     });
+  });
+
+  var login = document.querySelector('#login');
+  login.addEventListener('click', (ev) => {
+    start_wait(meat);
   });
 
 });
