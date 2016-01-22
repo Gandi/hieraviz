@@ -14,14 +14,13 @@ module HieravizApp
     end
 
     helpers do
-      def prepare_env(e, r)
-        @username = check_authorization
+      def prepare_base(e, r)
         path = validate_basepath(e, r)
-        @env = get_env(path)
-        if @env == ''
-          @env_name = File.basename(settings.configdata['basepath'])
+        @base = get_base(path)
+        if @base == ''
+          @base_name = File.basename(settings.configdata['basepath'])
         else
-          @env_name = @env.gsub(/\//,'')
+          @base_name = @base.gsub(/\//,'')
         end
         get_config(path)
       end
@@ -53,7 +52,7 @@ module HieravizApp
             })
         end     
       end
-      def get_env(path)
+      def get_base(path)
         if path
           "/#{File.basename(path)}"
         else

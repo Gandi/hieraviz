@@ -8,10 +8,9 @@
 </form>
 <ul>
 <% @nodes.each do |node| %>
-<li class="node" data-env="<%= @env %>" data-item="<%= node %>"><%= node %></li>
+<li class="node" data-env="<%= @base %>" data-item="<%= node %>"><%= node %></li>
 <% end %>
 </ul>
 </div>
 <div class="meat nodes">
-<%= @e %>
 </div>

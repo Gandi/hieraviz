@@ -113,28 +113,33 @@ module HieravizApp
 
     get '/' do
       @username = get_username
+      hieracles_config = prepare_base(nil, '/')
       erb :home
     end
 
     get %r{/?([-_\.a-zA-Z0-9]+)?(/nodes)} do |e, r|
-      hieracles_config = prepare_env(e, r)
+      @username = check_authorization
+      hieracles_config = prepare_base(e, r)
       @nodes = Hieracles::Registry.nodes(hieracles_config)
       erb :nodes
     end
 
     get %r{/?([-_\.a-zA-Z0-9]+)?(/farms)} do |e, r|
-      hieracles_config = prepare_env(e, r)
+      @username = check_authorization
+      hieracles_config = prepare_base(e, r)
       @farms = Hieracles::Registry.farms(hieracles_config)
       erb :farms
     end
 
     get %r{/?([-_\.a-zA-Z0-9]+)?(/modules)} do |e, r|
-      hieracles_config = prepare_env(e, r)
+      @username = check_authorization
+      hieracles_config = prepare_base(e, r)
       erb :modules
     end
 
     get %r{/?([-_\.a-zA-Z0-9]+)?(/resources)} do |e, r|
-      hieracles_config = prepare_env(e, r)
+      @username = check_authorization
+      hieracles_config = prepare_base(e, r)
       erb :resources
     end
 

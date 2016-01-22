@@ -8,7 +8,7 @@
 <div class="nav">
 <% if settings.basepaths -%>
 <div class="env">
-<span class="current"><%= @env_name %></span>
+<span class="current"><%= @base_name %></span>
 <div class="allenvs">
 
 <form class="filter">
@@ -22,10 +22,10 @@
 <% end -%>
 
 </div>
-<a href="<%= @env %>/nodes" class="nodes">Nodes</a>
-<a href="<%= @env %>/farms" class="farms">Farms</a>
-<a href="<%= @env %>/modules" class="modules">Modules</a>
-<a href="<%= @env %>/resources" class="resources">Resources</a>
+<a href="<%= @base %>/nodes" class="nodes">Nodes</a>
+<a href="<%= @base %>/farms" class="farms">Farms</a>
+<a href="<%= @base %>/modules" class="modules">Modules</a>
+<a href="<%= @base %>/resources" class="resources">Resources</a>
 </div>
 
 <div class="auth">
