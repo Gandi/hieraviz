@@ -143,8 +143,9 @@ module HieravizApp
       erb :resources
     end
 
-    get '/user' do
+    get %r{/?([-_\.a-zA-Z0-9]+)?(user)} do |e, r|
       @username = check_authorization
+      hieracles_config = prepare_base(e, r)
       if session[:access_token]
         @userinfo = get_userinfo 
       else
