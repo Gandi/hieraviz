@@ -1,6 +1,7 @@
 ---
 app_name: HieraViz
 basepath: "../puppet"
+basepath_dir: "../puppet*" # use patterns that Dir.glob can read
 classpath: "farm_modules/%s/manifests/init.pp"
 hierafile: "dev/hiera-local.yaml"
 tmpdir: "/tmp"

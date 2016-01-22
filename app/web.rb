@@ -117,25 +117,67 @@ module HieravizApp
       erb :home
     end
 
-    get '/nodes' do
+    get %r{/?([-_\.a-zA-Z0-9]+)?/nodes} do |e|
       @username = check_authorization
-      @nodes = Hieracles::Registry.nodes(settings.config)
+      path = validate_basepath(e, '/nodes')
+      if path
+        config = Hieracles::Config.new({ 
+          config: Hieraviz::Config.configfile,
+          basepath: path
+          })
+        @env = "/#{e}"
+        @nodes = Hieracles::Registry.nodes(config)
+      else
+        @env = ''
+        @nodes = Hieracles::Registry.nodes(settings.config)
+      end
       erb :nodes
     end
 
-    get '/farms' do
+    get %r{/?([-_\.a-zA-Z0-9]+)?/farms} do |e|
       @username = check_authorization
-      @farms = Hieracles::Registry.farms(settings.config)
+      path = validate_basepath(e, '/nodes')
+      if path
+        config = Hieracles::Config.new({ 
+          config: Hieraviz::Config.configfile,
+          basepath: path
+          })
+        @env = "/#{e}"
+        @farms = Hieracles::Registry.farms(config)
+      else
+        @env = ''
+        @farms = Hieracles::Registry.farms(settings.config)
+      end
       erb :farms
     end
 
-    get '/modules' do
+    get %r{/?([-_\.a-zA-Z0-9]+)?/modules} do |e|
       @username = check_authorization
+      path = validate_basepath(e, '/nodes')
+      if path
+        config = Hieracles::Config.new({ 
+          config: Hieraviz::Config.configfile,
+          basepath: path
+          })
+        @env = "/#{e}"
+      else
+        @env = ''
+      end
       erb :modules
     end
 
-    get '/resources' do
+    get %r{/?([-_\.a-zA-Z0-9]+)?/resources} do |e|
       @username = check_authorization
+      path = validate_basepath(e, '/nodes')
+      if path
+        config = Hieracles::Config.new({ 
+          config: Hieraviz::Config.configfile,
+          basepath: path
+          })
+        @env = "/#{e}"
+      else
+        @env = ''
+      end
       erb :resources
     end
 
@@ -154,11 +196,13 @@ module HieravizApp
     #   # Hieraviz::Store.set 'woot', 'nada'
     #   erb :store
     # end
-
-
     # error 401 do
     #   'Access forbidden'
     # end
+    get '/paths' do
+      @data = settings.basepaths.map { |p| File.basename(p) }
+      erb :data
+    end
     # debug pages --------------------
 
     not_found do

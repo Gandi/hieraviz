@@ -4,9 +4,9 @@
     <title>Hieraviz
     <%= @title if @title %>
     </title>
-    <link href="css/main.css" rel="stylesheet" type="text/css">
-    <script src="js/fetch.js"></script>
-    <script src="js/main.js"></script>
+    <link href="/css/main.css" rel="stylesheet" type="text/css">
+    <script src="/js/fetch.js"></script>
+    <script src="/js/main.js"></script>
     <% if session['access_token'] -%>
     <script>var session_key = "<%= session['access_token'] %>";</script>
     <% end -%>

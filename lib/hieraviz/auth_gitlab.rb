@@ -52,7 +52,6 @@ module Hieraviz
     end
 
     def user_info(token)
-      puts 'busted'
       get_response('/api/v3/user', token)
     end
 

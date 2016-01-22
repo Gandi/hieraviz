@@ -1,5 +1,5 @@
 <% content_for :more_js do %>
-<script src="js/farms.js"></script>
+<script src="/js/farms.js"></script>
 <% end %>
 
 <div class="side">
@@ -8,7 +8,7 @@
 </form>
 <ul>
 <% @farms.each do |farm| %>
-<li class="farm" data-item="<%= farm %>"><%= farm %></li>
+<li class="farm" data-env="<%= @env %>" data-item="<%= farm %>"><%= farm %></li>
 <% end %>
 </ul>
 </div>

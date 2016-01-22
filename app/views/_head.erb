@@ -5,10 +5,10 @@
 </div>
 <% if session[:access_token] -%>
 <div class="nav">
-<a href="/nodes" class="nodes">Nodes</a>
-<a href="/farms" class="farms">Farms</a>
-<a href="/modules" class="modules">Modules</a>
-<a href="/resources" class="resources">Resources</a>
+<a href="<%= @env %>/nodes" class="nodes">Nodes</a>
+<a href="<%= @env %>/farms" class="farms">Farms</a>
+<a href="<%= @env %>/modules" class="modules">Modules</a>
+<a href="<%= @env %>/resources" class="resources">Resources</a>
 </div>
 <div class="auth">
 <div class="username">
