@@ -67,7 +67,7 @@ input {
   display: inline-block;
   float: right;
 }
-.head .auth a {
+.head .auth a.link {
   color: #fff;
   padding: .5em 1em;
   border-radius: .2em;
@@ -76,7 +76,7 @@ input {
   border-radius: .2em;
   cursor: pointer;
 }
-.head .auth a:hover {
+.head .auth a.link:hover {
   background-color: #fff;
   color: #000;
 }
@@ -87,6 +87,10 @@ input {
 .head .auth .username {
   display: inline-block;
   margin-right: 1em;
+}
+.head .auth .username .userlink {
+  font-weight: bold;
+  color: #def;
 }
 /* ----- Content ---- */
 .content {
@@ -99,6 +103,9 @@ input {
 }
 .error {
   padding: 2em;
+}
+.info tr td {
+  padding-right: 2em;
 }
 /* ----- Sidebar ---- */
 .side {

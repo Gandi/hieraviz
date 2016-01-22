@@ -12,12 +12,12 @@
 </div>
 <div class="auth">
 <div class="username">
-identified as <b><%= @username %></b>
+identified as <a href="/user" class="userlink"><%= @username %></a>
 </div>
-<a href="/logout" id="logout">Logout</a>
+<a href="/logout" class="link" id="logout">Logout</a>
 </div>
 <% else -%>
 <div class="auth">
-<a href="/login" id="login">Connect</a>
+<a href="/login" class="link" id="login">Connect</a>
 </div>
 <% end -%>

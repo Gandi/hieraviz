@@ -44,6 +44,9 @@ module HieravizApp
         def get_username
           settings.configdata['http_auth']['username']
         end
+        def get_userinfo
+          { 'username' => settings.configdata['http_auth']['username'] }
+        end
         def check_authorization
           true
         end
@@ -65,6 +68,10 @@ module HieravizApp
           end
         end
 
+        def get_userinfo
+          settings.oauth.user_info(session[:access_token])
+        end
+
         def check_authorization
           if !session['access_token']
             redirect settings.oauth.login_url(request)
@@ -83,7 +90,7 @@ module HieravizApp
           end
         end
       end
-      
+
       get '/login' do
         redirect settings.oauth.login_url(request)
       end
@@ -132,20 +139,22 @@ module HieravizApp
       erb :resources
     end
 
+    get '/user' do
+      @username = check_authorization
+      if session[:access_token]
+        @userinfo = settings.oauth.user_info(session[:access_token])
+      else
+        @userinfo = {}
+      end
+      erb :user
+    end
+
     # debug pages --------------------
     # get '/store' do
     #   # Hieraviz::Store.set 'woot', 'nada'
     #   erb :store
     # end
 
-    # get '/user' do
-    #   if session[:access_token]
-    #     @data = settings.oauth.user_info(session[:access_token])
-    #   else
-    #     @data = 'nada'
-    #   end
-    #   erb :data
-    # end
 
     # error 401 do
     #   'Access forbidden'

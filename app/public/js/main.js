@@ -121,8 +121,10 @@ ready( () => {
   });
 
   var login = document.querySelector('#login');
-  login.addEventListener('click', (ev) => {
-    start_wait(meat);
-  });
+  if (login != null) {
+    login.addEventListener('click', (ev) => {
+      start_wait(meat);
+    });
+  }
 
 });

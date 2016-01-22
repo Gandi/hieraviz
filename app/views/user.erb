@@ -1,0 +1,19 @@
+<% content_for :more_js do %>
+<script>
+ready( () => {
+  var debug = document.querySelector('.foot .debug');
+  debug.innerHTML = "export HIERAVIZ_KEY=\"<%= session['access_token'] %>\"";
+});
+</script>
+<% end %>
+<div class="meat text">
+<h1>User information</h1>
+<table class="info">
+<% @userinfo.each do |k,v| -%>
+<% if %w(username id created_at email).include? k -%>
+<tr><td><%= k %></td><td><%= v %></td></tr>
+<% end -%>
+<% end -%>
+<tr><td>Session Key</td><td><%= session['access_token'] %></td></tr>
+</table>
+</div>
