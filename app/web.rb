@@ -69,7 +69,7 @@ module HieravizApp
         end
 
         def get_userinfo
-          settings.oauth.user_info(session[:access_token])
+          Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
         end
 
         def check_authorization
@@ -142,7 +142,7 @@ module HieravizApp
     get '/user' do
       @username = check_authorization
       if session[:access_token]
-        @userinfo = settings.oauth.user_info(session[:access_token])
+        @userinfo = get_userinfo 
       else
         @userinfo = {}
       end
