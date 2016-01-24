@@ -129,11 +129,11 @@ input {
 }
 .head .auth .username {
   display: inline-block;
-  margin-right: 1em;
+  margin-right: .2em;
 }
-.head .auth .username .userlink {
-  font-weight: bold;
-  color: #def;
+.head .auth .username .link {
+  color: #fff;
+  background-color: #999;
 }
 /* ----- Content ---- */
 .content {
