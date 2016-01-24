@@ -4,7 +4,7 @@
 </a>
 </div>
 
-<% if session[:access_token] -%>
+<% if session[:access_token] && @username != '' -%>
 <div class="nav">
 <% if settings.basepaths -%>
 <div class="env">
