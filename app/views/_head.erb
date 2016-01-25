@@ -4,19 +4,19 @@
 </a>
 </div>
 
-<% if session[:access_token] && @username != '' -%>
+<% if session[:access_token] && @username != ''  and @base -%>
 <div class="nav">
 <% if settings.basepaths -%>
-<div class="env">
+<div class="base">
 <span class="current"><%= @base_name %></span>
-<div class="allenvs">
+<div class="all">
 
 <form class="filter">
 <input type="text" name="filter" />
 </form>
 
 <% settings.basepaths.map { |p| File.basename(p) }.each do |e| -%>
-<div class="selectenv"><%= e %></div>
+<div class="select"><%= e %></div>
 <% end -%>
 </div>
 </div>
@@ -27,7 +27,9 @@
 <a href="<%= @base %>/modules" class="modules">Modules</a>
 <a href="<%= @base %>/resources" class="resources">Resources</a>
 </div>
+<% end -%>
 
+<% if session[:access_token] && @username != '' -%>
 <div class="auth">
 <div class="username">
 identified as <a href="<%= @base %>/user" class="link"><%= @username %></a>

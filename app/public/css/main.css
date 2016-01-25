@@ -41,12 +41,13 @@ input {
   line-height: .5em;
   margin-right: 1em;
 }
-.head .nav, .head .env {
+.head .nav, .head .nav .base {
   position: relative;
   float: left;
   display: inline-block;
 }
-.head .env .current {
+
+.head .base .current {
   position: relative;
   color: #fff;
   background-color: #666;
@@ -56,30 +57,31 @@ input {
   margin-right: 1em;  
   cursor: pointer;
 }
-.head .env .allenvs {
+.head .base .all {
   position: absolute;
+  /*display: none;*/
   background-color: #fff;
   width: auto;
   overflow-x: visible;
   margin-top: 1em;
   border: 1px solid #666;
 }
-.head .env .allenvs .filter {
+.head .base .all .filter {
   margin: 0;
   background-color: #999;
   font-size: 1.2em;
 }
-.head .env .allenvs .filter input {
+.head .base .all .filter input {
   width: 100%;
   margin-bottom: .1em;
   padding: .1em 1em;
 }
-.head .env .allenvs .selectenv {
+.head .base .all .select {
   padding: .2em 1em;
   color: #666;
   cursor: pointer;
 }
-.head .env .allenvs .selectenv:hover {
+.head .base .all .select:hover {
   color: #000;
   background-color: #ddd;
 }
@@ -99,7 +101,7 @@ input {
   background-color: #fff;
   color: #000;
 }
-.head .envs {
+.head .base {
   position: relative;
   float: right;
   display: inline-block;

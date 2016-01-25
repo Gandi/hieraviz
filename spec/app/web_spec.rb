@@ -39,8 +39,8 @@ describe HieravizApp::Web do
       before { get '/resources' }
       it { expect(last_response.body).to include 'Work In Progress' }
     end
-    describe "GET /toto" do
-      before { get '/toto' }
+    describe "GET /tata/toto" do
+      before { get '/tata/toto' }
       it { expect(last_response.status).to eq 404 }
       it { expect(last_response.body).to include 'Page not found' }
     end

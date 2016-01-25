@@ -15,29 +15,21 @@ module HieravizApp
 
     helpers do
       def prepare_base(e, r)
-        path = validate_basepath(e, r)
-        @base = get_base(path)
-        if @base == ''
-          @base_name = File.basename(settings.configdata['basepath'])
-        else
+        e = File.basename(settings.configdata['basepath']) unless e
+        path = get_path(e)[0]
+        if path
+          @base = get_base(path)
           @base_name = @base.gsub(/\//,'')
+          get_config(path)
         end
-        get_config(path)
       end
       def get_path(path)
         if settings.basepaths
           settings.basepaths.select do |p|
             path == File.basename(p)
           end
-        end
-      end
-      def validate_basepath(path, url)
-        if path
-          if get_path(path)
-            get_path(path)[0]
-          else
-            redirect url
-          end
+        else
+          [ settings.configdata['basepath'] ]
         end
       end
       def get_config(path)
@@ -53,11 +45,7 @@ module HieravizApp
         end     
       end
       def get_base(path)
-        if path
-          "/#{File.basename(path)}"
-        else
-          ''
-        end
+        "/#{File.basename(path)}"
       end
     end
 

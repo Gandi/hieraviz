@@ -121,33 +121,33 @@ module HieravizApp
       end
     end
 
-    get %r{/?([-_\.a-zA-Z0-9]+)?(/nodes)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?(/nodes)} do |e, r|
       @username = check_authorization
       hieracles_config = prepare_base(e, r)
       @nodes = Hieracles::Registry.nodes(hieracles_config)
-      erb :nodes
+      erb :nodes 
     end
 
-    get %r{/?([-_\.a-zA-Z0-9]+)?(/farms)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?(/farms)} do |e, r|
       @username = check_authorization
       hieracles_config = prepare_base(e, r)
       @farms = Hieracles::Registry.farms(hieracles_config)
       erb :farms
     end
 
-    get %r{/?([-_\.a-zA-Z0-9]+)?(/modules)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?(/modules)} do |e, r|
       @username = check_authorization
       hieracles_config = prepare_base(e, r)
       erb :modules
     end
 
-    get %r{/?([-_\.a-zA-Z0-9]+)?(/resources)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?(/resources)} do |e, r|
       @username = check_authorization
       hieracles_config = prepare_base(e, r)
-      erb :resources
+      erb :resources if hieracles_config
     end
 
-    get %r{/?([-_\.a-zA-Z0-9]+)?(user)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?(/user)} do |e, r|
       @username = check_authorization
       hieracles_config = prepare_base(e, r)
       if session[:access_token]
@@ -158,7 +158,7 @@ module HieravizApp
       erb :user
     end
 
-    get %r{/([-_\.a-zA-Z0-9]+)} do |e|
+    get %r{^/([-_\.a-zA-Z0-9]+)$} do |e|
       @username = get_username
       hieracles_config = prepare_base(e, '/')
       erb :home
@@ -179,6 +179,7 @@ module HieravizApp
     # debug pages --------------------
 
     not_found do
+      @username = get_username
       erb :not_found, layout: :_layout
     end
 
