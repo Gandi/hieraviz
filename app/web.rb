@@ -112,9 +112,7 @@ module HieravizApp
     end
 
     get '/' do
-      @username = get_username
-      hieracles_config = prepare_base(nil, '/')
-      erb :home
+      redirect "/#{File.basename(settings.configdata['basepath'])}"
     end
 
     get %r{/?([-_\.a-zA-Z0-9]+)?(/nodes)} do |e, r|
@@ -152,6 +150,12 @@ module HieravizApp
         @userinfo = {}
       end
       erb :user
+    end
+
+    get %r{/([-_\.a-zA-Z0-9]+)} do |e|
+      @username = get_username
+      hieracles_config = prepare_base(e, '/')
+      erb :home      
     end
 
     # debug pages --------------------

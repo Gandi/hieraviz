@@ -19,6 +19,7 @@
 <div class="selectenv"><%= e %></div>
 <% end -%>
 </div>
+</div>
 <% end -%>
 
 <a href="<%= @base %>/nodes" class="nodes">Nodes</a>
@@ -29,7 +30,7 @@
 
 <div class="auth">
 <div class="username">
-identified as <a href="/user" class="link"><%= @username %></a>
+identified as <a href="<%= @base %>/user" class="link"><%= @username %></a>
 </div>
 <a href="/logout" class="link" id="logout">Logout</a>
 </div>
