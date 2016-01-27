@@ -16,6 +16,25 @@ ready( () => {
   focusNav('nodes');
   filterBox(".side .filter input", nodes);
 
+  function restore_url(list) {
+    if (window.location.hash != '') {
+      var target = window.location.hash.replace(/#/,'');
+      var parts = target.split('/');
+      Array.prototype.forEach.call(list, (item, i) => {
+        if (item.textContent == parts[0]) {
+          if (parts[1] != undefined) {
+            Node[parts[1]](parts[0]);
+          } else {
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent('click', true, false);
+            item.dispatchEvent(event);
+          }
+        }
+      });
+    }
+  }
+
+
   function build_line(top, file, key, value, overriden) {
     if (overriden === true) {
       rowclass = "row overriden";
@@ -59,7 +78,22 @@ ready( () => {
    }
 
   function build_info(top, title, hash) {
-
+    if (Object.keys(hash).length > 0) {
+      var wrapper = document.createElement('div');
+      wrapper.className = 'rows';
+      top.appendChild(wrapper);
+      Array.prototype.forEach.call(Object.keys(hash), (item, k) => {
+        addTo(top,  "<div class=\"row\">" +
+                    "<span class=\"key\">" + k + "</span>" +
+                    "<span class=\"value\">" + item + "</span>" +
+                    "</div");
+      });
+      var rows = document.querySelectorAll('div.row');
+      filterBox(".paramfilter input", rows);
+    } else {
+      addTo(top, "<div>There is no params in this node.</div>\n");
+    }
+    window.location.hash = '#' + title +'/info';
   }
 
   function build_params(top, title, hash) {
@@ -83,15 +117,9 @@ ready( () => {
     var nodelinks = document.querySelectorAll('div.nodenav span');
     Array.prototype.forEach.call(nodelinks, (item, i) => {
       item.addEventListener('click', (ev) => {
-        start_wait();
         el = ev.target;
         action = el.textContent.toLowerCase();
-        fetch('/v1/node/' + title + '/' + action).
-          then(res => res.json()).
-          then(j => {
-            focus_on(nodelinks, el);
-            end_wait();
-          });
+        Node[action](el.dataset.item);
       });
     });
   }
@@ -101,49 +129,55 @@ ready( () => {
   }
 
   var Node = {
-    params: function(el) {
+    params: function(node) {
       start_wait(meat);
-      title = el.dataset.item;
-      fetch('/v1/node/' + title, auth_header()).
+      fetch('/v1/node/' + node, auth_header()).
         then(res => res.json()).
         then(j => {
           console.log(auth_header().headers.getAll('x-auth'));
           if (j.error != undefined) {
+            build_top(node);
             show_error(meat, j['error']);
           } else {
-            build_top(title);
-            build_params(meat, title, j);
-            rebuild_nav(title);
-            update_footer('/v1/node/' + title);            
+            build_top(node);
+            build_params(meat, node, j);
+            rebuild_nav(node);
+            update_footer('/v1/node/' + node);            
           }
           end_wait(meat);
         });
     },
 
-    info: function(el) {
+    info: function(node) {
       start_wait(meat);
-      title = el.dataset.item;
-      fetch('/v1/node/' + title + '/info', auth_header()).
+      fetch('/v1/node/' + node + '/info', auth_header()).
         then(res => res.json()).
         then(j => {
-          build_top(title);
-          build_info(meat, title, j);
-          rebuild_nav(title);
-          update_footer('/v1/node/' + title + '/info');
+          if (j.error != undefined) {
+            show_error(meat, j['error']);
+          } else {
+            build_top(node);
+            build_info(meat, node, j);
+            rebuild_nav(node);
+            update_footer('/v1/node/' + node + '/info');
+          }
           end_wait(meat);
         });
     },
 
-    allparams: function(el) {
+    allparams: function(node) {
       start_wait(meat);
-      title = el.dataset.item;
-      fetch('/v1/node/' + title + '/all', auth_header()).
+      fetch('/v1/node/' + node + '/allparams', auth_header()).
         then(res => res.json()).
         then(j => {
-          build_top(title);
-          build_info(meat, title, j);
-          rebuild_nav(title);
-          update_footer('/v1/node/' + title + '/all');
+          if (j.error != undefined) {
+            show_error(meat, j['error']);
+          } else {
+            build_top(node);
+            build_info(meat, node, j);
+            rebuild_nav(node);
+            update_footer('/v1/node/' + node + '/allparams');
+          }
           end_wait(meat);
         });
     },
@@ -152,7 +186,7 @@ ready( () => {
   /* declaration of events for the nodes menu */
   Array.prototype.forEach.call(nodes, (item, i) => {
     item.addEventListener('click', (ev) => {
-      Node.params(ev.target);
+      Node.params(ev.target.textContent);
     });
   });
 

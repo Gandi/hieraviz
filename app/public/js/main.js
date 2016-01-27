@@ -84,19 +84,6 @@ function end_wait(meat) {
   removeClass(meat, 'wait');
 }
 
-function restore_url(list) {
-  if (window.location.hash != '') {
-    var target = window.location.hash.replace(/#/,'');
-    Array.prototype.forEach.call(list, (item, i) => {
-      if (item.textContent == target) {
-        var event = document.createEvent('HTMLEvents');
-        event.initEvent('click', true, false);
-        item.dispatchEvent(event);
-      }
-    });
-  }
-}
-
 function update_footer(path) {
   var debug = document.querySelector('.foot .debug');
   debug.innerHTML = "curl -s http://" + window.location.host + path + " | jq '.'";
