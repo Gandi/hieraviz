@@ -46,15 +46,16 @@ ready( () => {
   }
 
   function build_top(title) {
-    meat.innerHTML = "<h3>Node "+title+"</h3>";
-    addTo(meat,  "<div class=\"nodenav\">" +
+    meat.innerHTML = "";
+    addTo(meat,  "<div class=\"filter\">" + 
+                 "<h3>Node "+title+"</h3>" +
+                 "<div class=\"nodenav\">" +
                  "<span class=\"showinfo\" data-item=\""+title+"\">Info</span>" +
                  "<span class=\"showparams\" data-item=\""+title+"\">Params</span>" +
                  "<span class=\"showallparams\" data-item=\""+title+"\">AllParams</span>" +
-                 "</div>");
-    addTo(meat,  "<div class=\"paramfilter\">" + 
+                 "</div><div class=\"paramfilter\">" + 
                  "<input type=\"text\" name=\"paramfilter\" />" +
-                 "</div>");
+                 "</div></div>");
    }
 
   function build_info(top, title, hash) {
@@ -63,8 +64,11 @@ ready( () => {
 
   function build_params(top, title, hash) {
     if (Object.keys(hash).length > 0) {
+      var wrapper = document.createElement('div');
+      wrapper.className = 'rows';
+      top.appendChild(wrapper);
       Array.prototype.forEach.call(Object.keys(hash), (item, k) => {
-        build_row(top, item, hash[item]);
+        build_row(wrapper, item, hash[item]);
       });
       var rows = document.querySelectorAll('div.row');
       filterBox(".paramfilter input", rows);

@@ -166,6 +166,10 @@ input {
   margin: 0;
   background-color: #999;
   font-size: 1.2em;
+  line-height: 1.4em;
+  height: 1.4em;
+  width: 100%;
+  position: fixed;
 }
 .side .filter input {
   width: 100%;
@@ -175,6 +179,7 @@ input {
 .side ul {
   margin: 0;
   padding: 0;
+  margin-top: 1.8em;
   list-style: none;
   border-right: 1px solid #ccc;
 }
@@ -243,6 +248,12 @@ input {
 .meat .nodenav span.focus {
   background-color: #fff;
 }
+.meat .filter {
+  height: 4em;
+  position: fixed;
+  left: 330px;
+  right: 0;
+}
 .meat .paramfilter {
   margin: 0;
   padding: 0 1em;
@@ -254,6 +265,9 @@ input {
   width: 100%;
   margin-bottom: .1em;
   padding: .1em 1em;
+}
+.meat .rows {
+  margin-top: 3.8em;
 }
 .meat .row {
   word-wrap: break-word;
