@@ -80,13 +80,14 @@ ready( () => {
   function build_info(top, title, hash) {
     if (Object.keys(hash).length > 0) {
       var wrapper = document.createElement('div');
-      wrapper.className = 'rows';
+      wrapper.className = 'rows info';
       top.appendChild(wrapper);
       Array.prototype.forEach.call(Object.keys(hash), (item, k) => {
-        addTo(top,  "<div class=\"row\">" +
-                    "<span class=\"key\">" + k + "</span>" +
-                    "<span class=\"value\">" + item + "</span>" +
-                    "</div");
+        console.log(item);
+        addTo(wrapper,  "<div class=\"row\">" +
+                        "<span class=\"infokey\">" + item + "</span>" +
+                        "<span class=\"infovalue\">" + JSON.stringify(hash[item], null, 2) + "</span>" +
+                        "</div");
       });
       var rows = document.querySelectorAll('div.row');
       filterBox(".paramfilter input", rows);
@@ -135,14 +136,15 @@ ready( () => {
         then(res => res.json()).
         then(j => {
           console.log(auth_header().headers.getAll('x-auth'));
+          build_top(node);
           if (j.error != undefined) {
-            build_top(node);
             show_error(meat, j['error']);
           } else {
-            build_top(node);
             build_params(meat, node, j);
             rebuild_nav(node);
-            update_footer('/v1/node/' + node);            
+            update_footer('/v1/node/' + node);
+            but = document.querySelector('.showparams');
+            addClass(but, 'focus');
           }
           end_wait(meat);
         });
@@ -153,13 +155,15 @@ ready( () => {
       fetch('/v1/node/' + node + '/info', auth_header()).
         then(res => res.json()).
         then(j => {
+          build_top(node);
           if (j.error != undefined) {
             show_error(meat, j['error']);
           } else {
-            build_top(node);
             build_info(meat, node, j);
             rebuild_nav(node);
             update_footer('/v1/node/' + node + '/info');
+            but = document.querySelector('.showinfo');
+            addClass(but, 'focus');
           }
           end_wait(meat);
         });
@@ -170,13 +174,15 @@ ready( () => {
       fetch('/v1/node/' + node + '/allparams', auth_header()).
         then(res => res.json()).
         then(j => {
+          build_top(node);
           if (j.error != undefined) {
             show_error(meat, j['error']);
           } else {
-            build_top(node);
-            build_info(meat, node, j);
+            build_params(meat, node, j);
             rebuild_nav(node);
             update_footer('/v1/node/' + node + '/allparams');
+            but = document.querySelector('.showallparams');
+            addClass(but, 'focus');
           }
           end_wait(meat);
         });

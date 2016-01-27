@@ -311,6 +311,24 @@ input {
 .meat.farms div:hover {
   background-color: #f3f3de;
 }
+/* ----- info ---- */
+.meat .info {
+  margin-top: 4.8em;
+  display: table;
+}
+.meat .info .row {
+  display: table-row;
+}
+.meat .info .row .infokey {
+  display: table-cell;
+  padding: .1em 1em;
+  text-align: right;
+}
+.meat .info .row .infovalue {
+  display: table-cell;
+  font-family: monospace;
+  padding: .1em 1em;
+}
 /* ----- Foot ---- */
 .foot {
   padding: 1em;
