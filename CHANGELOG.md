@@ -1,6 +1,10 @@
 Hieraviz Changelog
 ========================
 
+### v0.1.1 - wip
+- add multibase ability
+- fix node baivatiuon info/params/allparams
+
 ### v0.1.0 - 2016-01-20
 - extend test coverage
 
