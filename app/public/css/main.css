@@ -59,12 +59,15 @@ input {
 }
 .head .base .all {
   position: absolute;
-  /*display: none;*/
+  display: none;
   background-color: #fff;
   width: auto;
   overflow-x: visible;
   margin-top: 1em;
   border: 1px solid #666;
+}
+.head .base .all.focus {
+  display: block;
 }
 .head .base .all .filter {
   margin: 0;
