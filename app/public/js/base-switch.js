@@ -19,7 +19,8 @@ ready( () => {
   Array.prototype.forEach.call(bases, (item, i) => {
     item.addEventListener('click', (ev) => {
       var url = window.location;
-      url.pathname = url.pathname.replace(/^\/[^\/]+/,"/"+ev.target.textContent);
+      base = ev.target.textContent;
+      url.pathname = url.pathname.replace(/^\/[^\/]+/,"/"+base);
     });
   });
 

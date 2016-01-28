@@ -13,6 +13,7 @@ ready( () => {
 
   var meat = document.querySelector('div.meat');
   var nodes = document.querySelectorAll('li.node');
+  var base = window.location.pathname.split('/')[1];
   focusNav('nodes');
   filterBox(".side .filter input", nodes);
 
@@ -132,7 +133,7 @@ ready( () => {
   var Node = {
     params: function(node) {
       start_wait(meat);
-      fetch('/v1/node/' + node, auth_header()).
+      fetch('/v1/' + base + '/node/' + node, auth_header()).
         then(res => res.json()).
         then(j => {
           console.log(auth_header().headers.getAll('x-auth'));
@@ -152,7 +153,7 @@ ready( () => {
 
     info: function(node) {
       start_wait(meat);
-      fetch('/v1/node/' + node + '/info', auth_header()).
+      fetch('/v1/' + base + '/node/' + node + '/info', auth_header()).
         then(res => res.json()).
         then(j => {
           build_top(node);
@@ -171,7 +172,7 @@ ready( () => {
 
     allparams: function(node) {
       start_wait(meat);
-      fetch('/v1/node/' + node + '/allparams', auth_header()).
+      fetch('/v1/' + base + '/node/' + node + '/allparams', auth_header()).
         then(res => res.json()).
         then(j => {
           build_top(node);
