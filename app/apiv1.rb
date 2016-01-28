@@ -33,38 +33,42 @@ module HieravizApp
 
     get '/:base/nodes' do |base|
       check_authorization
-      json Hieracles::Registry.nodes(settings.config)
+      hieracles_config = prepare_config(base)
+      json Hieracles::Registry.nodes(hieracles_config)
     end
 
     get '/:base/node/:n/info' do |base, node|
       check_authorization
-      node = Hieracles::Node.new(node, settings.config)
+      hieracles_config = prepare_config(base)
+      node = Hieracles::Node.new(node, hieracles_config)
       json node.info
     end
 
     get '/:base/node/:n/params' do |base, node|
       check_authorization
-      node = Hieracles::Node.new(node, settings.config)
+      hieracles_config = prepare_config(base)
+      node = Hieracles::Node.new(node, hieracles_config)
       json node.params
     end
 
     get '/:base/node/:n/allparams' do |base, node|
       check_authorization
-      node = Hieracles::Node.new(node, settings.config)
+      hieracles_config = prepare_config(base)
+      node = Hieracles::Node.new(node, hieracles_config)
       json node.params(false)
     end
 
     get '/:base/node/:n' do |base, node|
       check_authorization
-      pp settings.config
-      hieracles_config = prepare_base(node, base)
+      hieracles_config = prepare_config(base)
       node = Hieracles::Node.new(node, hieracles_config)
       json node.params
     end
 
     get '/:base/farms' do |base|
       check_authorization
-      json Hieracles::Registry.farms(settings.config)
+      hieracles_config = prepare_config(base)
+      json Hieracles::Registry.farms(hieracles_config)
     end
 
     # get '/farm/:n' do |farm|

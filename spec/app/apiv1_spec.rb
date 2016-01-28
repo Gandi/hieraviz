@@ -15,10 +15,10 @@ describe HieravizApp::ApiV1 do
   end
 
   context "when no creds" do
-    describe "GET /v1/nodes" do
+    describe "GET /v1/puppet/nodes" do
       let(:expected) { 'http://example.org/v1/not_logged' }
       before do
-        get '/nodes'
+        get '/puppet/nodes'
       end
       it { expect(last_response).not_to be_ok }
       it { expect(last_response.header['Location']).to eq expected }
@@ -34,7 +34,7 @@ describe HieravizApp::ApiV1 do
   end
 
   context "with creds but no perms" do
-    describe "GET /v1/nodes" do
+    describe "GET /v1/puppet/nodes" do
       let(:expected) { 'http://example.org/v1/unauthorized' }
       before do
         current_session.rack_session[:access_token] = 'sada'
@@ -42,7 +42,7 @@ describe HieravizApp::ApiV1 do
           to receive(:get).
           with('sada', 3600).
           and_return(false)
-        get '/nodes'
+        get '/puppet/nodes'
       end
       it { expect(last_response).not_to be_ok }
       it { expect(last_response.header['Location']).to eq expected }
@@ -65,10 +65,10 @@ describe HieravizApp::ApiV1 do
         with('sada', 3600).
         and_return({})
     end
-    describe "GET /v1/nodes" do
+    describe "GET /v1/puppet/nodes" do
       let(:expected) { ['node1.example.com'] }
       before do
-        get '/nodes'
+        get '/puppet/nodes'
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
@@ -84,12 +84,12 @@ describe HieravizApp::ApiV1 do
         }
       }
       before do
-        get '/node/node1.example.com/info'
+        get '/puppet/node/node1.example.com/info'
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
-    describe "GET /v1/node/node1.example.com/params" do
+    describe "GET /v1/puppet/node/node1.example.com/params" do
       let(:expected) {
         {
           "param1.subparam1" => {
@@ -106,12 +106,12 @@ describe HieravizApp::ApiV1 do
         }
       }
       before do
-        get '/node/node1.example.com/params'
+        get '/puppet/node/node1.example.com/params'
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
-    describe "GET /v1/node/node1.example.com" do
+    describe "GET /v1/puppet/node/node1.example.com" do
       let(:expected) {
         {
           "param1.subparam1" => {
@@ -128,12 +128,12 @@ describe HieravizApp::ApiV1 do
         }
       }
       before do
-        get '/node/node1.example.com'
+        get '/puppet/node/node1.example.com'
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
-    describe "GET /v1/node/node1.example.com/allparams" do
+    describe "GET /v1/puppet/node/node1.example.com/allparams" do
       let(:expected) {
          {
           "param1.subparam1" => {
@@ -165,15 +165,15 @@ describe HieravizApp::ApiV1 do
         }
       }
       before do
-        get '/node/node1.example.com/allparams'
+        get '/puppet/node/node1.example.com/allparams'
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
-    describe "GET /v1/farms" do
+    describe "GET /v1/puppet/farms" do
       let(:expected) { ['farm1'] }
       before do
-        get '/farms'
+        get '/puppet/farms'
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }

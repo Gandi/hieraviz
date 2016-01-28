@@ -116,40 +116,40 @@ module HieravizApp
         redirect "/#{File.basename(settings.configdata['basepath'])}"
       else
         @username = get_username
-        hieracles_config = prepare_base(nil, '/')
+        hieracles_config = prepare_config(nil)
         erb :home
       end
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?(/nodes)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/nodes} do |base|
       @username = check_authorization
-      hieracles_config = prepare_base(e, r)
+      hieracles_config = prepare_config(base)
       @nodes = Hieracles::Registry.nodes(hieracles_config)
       erb :nodes 
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?(/farms)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/farms} do |base|
       @username = check_authorization
-      hieracles_config = prepare_base(e, r)
+      hieracles_config = prepare_config(base)
       @farms = Hieracles::Registry.farms(hieracles_config)
       erb :farms
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?(/modules)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/modules} do |base|
       @username = check_authorization
-      hieracles_config = prepare_base(e, r)
+      hieracles_config = prepare_config(base)
       erb :modules
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?(/resources)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/resources} do |base|
       @username = check_authorization
-      hieracles_config = prepare_base(e, r)
-      erb :resources if hieracles_config
+      hieracles_config = prepare_config(base)
+      erb :resources
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?(/user)} do |e, r|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/user} do |base|
       @username = check_authorization
-      hieracles_config = prepare_base(e, r)
+      hieracles_config = prepare_config(base)
       if session[:access_token]
         @userinfo = get_userinfo 
       else
@@ -158,9 +158,9 @@ module HieravizApp
       erb :user
     end
 
-    get %r{^/([-_\.a-zA-Z0-9]+)$} do |e|
+    get %r{^/([-_\.a-zA-Z0-9]+)$} do |base|
       @username = get_username
-      hieracles_config = prepare_base(e, '/')
+      hieracles_config = prepare_config(base)
       erb :home
     end
 
