@@ -1,7 +1,7 @@
 Hieraviz Changelog
 ========================
 
-### v0.1.1 - wip
+### v0.1.1 - 2016-01-29
 - add multibase ability
 - fix node navigation info/params/allparams
 
