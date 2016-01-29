@@ -143,7 +143,7 @@ ready( () => {
           } else {
             build_params(meat, node, j);
             rebuild_nav(node);
-            update_footer('/v1/node/' + node);
+            update_footer('/v1/' + base + '/node/' + node);
             but = document.querySelector('.showparams');
             addClass(but, 'focus');
           }
@@ -162,7 +162,7 @@ ready( () => {
           } else {
             build_info(meat, node, j);
             rebuild_nav(node);
-            update_footer('/v1/node/' + node + '/info');
+            update_footer('/v1/' + base + '/node/' + node + '/info');
             but = document.querySelector('.showinfo');
             addClass(but, 'focus');
           }
@@ -181,7 +181,7 @@ ready( () => {
           } else {
             build_params(meat, node, j);
             rebuild_nav(node);
-            update_footer('/v1/node/' + node + '/allparams');
+            update_footer('/v1/' + base + '/node/' + node + '/allparams');
             but = document.querySelector('.showallparams');
             addClass(but, 'focus');
           }
