@@ -7,7 +7,9 @@ hierafile: "dev/hiera-local.yaml"
 tmpdir: "/tmp"
 session_seed: "xxx"
 session_renew: 3600
-usedb: true
+defaultscope:
+  operatingsystem: Debian
+  lsbdistcodename: jessie
 debug: false
 puppetdb:
   usessl: false
