@@ -178,6 +178,14 @@ describe HieravizApp::ApiV1 do
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
+    describe "GET /v1/vars" do
+      let(:expected) { ['fqdn', 'farm'] }
+      before do
+        get '/vars'
+      end
+      it { expect(last_response).to be_ok }
+      it { expect(JSON.parse last_response.body).to eq expected }
+    end
   end
 
 end

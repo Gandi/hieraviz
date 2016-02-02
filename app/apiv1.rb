@@ -71,6 +71,13 @@ module HieravizApp
       json Hieracles::Registry.farms(hieracles_config)
     end
 
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/vars} do |base|
+      check_authorization
+      hieracles_config = prepare_config(base)
+      hiera = Hieracles::Hiera.new(hieracles_config)
+      json hiera.params
+    end
+
     # get '/farm/:n' do |farm|
     #   check_authorization
     #   req = Hieracles::Puppetdb::Request.new(settings.configdata['puppetdb'])
