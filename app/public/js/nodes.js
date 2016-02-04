@@ -98,6 +98,22 @@ ready( () => {
     window.location.hash = '#' + title +'/info';
   }
 
+  function build_hierarchy(top) {
+    var hierarchy = document.createElement('div');
+    hierarchy.className = 'hierarchy';
+    top.appendChild(hierarchy);
+    fetch('/v1/' + base + '/hierarchy', auth_header()).
+      then(res => res.json()).
+      then(j => {
+        var hierachy = document.querySelector('div.hierarchy');
+        if (j.error != undefined) {
+          show_error(hierachy, j['error']);
+        } else {
+          addTo(hierarchy, "hahaha");
+        }
+      });
+  }
+
   function build_params(top, title, hash) {
     if (Object.keys(hash).length > 0) {
       var wrapper = document.createElement('div');
@@ -108,6 +124,7 @@ ready( () => {
       });
       var rows = document.querySelectorAll('div.row');
       filterBox(".paramfilter input", rows);
+      build_hierarchy(top);
     } else {
       addTo(top, "<div>There is no params in this node.</div>\n");
     }
@@ -136,7 +153,7 @@ ready( () => {
       fetch('/v1/' + base + '/node/' + node, auth_header()).
         then(res => res.json()).
         then(j => {
-          console.log(auth_header().headers.getAll('x-auth'));
+          // console.log(auth_header().headers.getAll('x-auth'));
           build_top(node);
           if (j.error != undefined) {
             show_error(meat, j['error']);
