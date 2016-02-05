@@ -37,7 +37,7 @@ module HieravizApp
       json Hieracles::Registry.nodes(hieracles_config)
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/hierarchy} do |base, node|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/info} do |base, node|
       check_authorization
       hieracles_config = prepare_config(base)
       node = Hieracles::Node.new(node, hieracles_config)
@@ -101,7 +101,7 @@ module HieravizApp
     end
 
     not_found do
-      json({ error: "data not found" })
+      json({ error: "endpoint not found" })
     end
 
   end

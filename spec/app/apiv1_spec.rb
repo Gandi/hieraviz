@@ -5,7 +5,7 @@ describe HieravizApp::ApiV1 do
 
   context "page not found" do
     describe "GET /v1/blahblah" do
-      let(:expected) { { 'error' => "data not found" }  }
+      let(:expected) { { 'error' => "endpoint not found" }  }
       before do
         get '/blahblah'
       end
