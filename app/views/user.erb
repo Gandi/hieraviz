@@ -18,5 +18,11 @@ ready( () => {
 <% end -%>
 <% end -%>
 <tr><td>Session Key</td><td><%= session['access_token'] %></td></tr>
+<% if settings.configdata['auth_method'] == 'gitlab' -%>
+<tr><td>Manage authorization</td><td>
+<a href="<%= settings.configdata['gitlab_auth']['host'] %>/profile/applications">
+  <%= settings.configdata['gitlab_auth']['host'] %>/profile/applications
+</a></td></tr>
+<% end -%>
 </table>
 </div>
