@@ -155,16 +155,6 @@ input {
 .info tr td {
   padding-right: 2em;
 }
-/* hierarchy */
-.hierarchy {
-  background-color: #eee;
-  display: inline-block;
-  float: right;
-  width: 330px;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
 /* ----- Sidebar ---- */
 .side {
   background-color: #eee;
@@ -214,7 +204,6 @@ input {
   border: 2px solid #999;
   background-color: #fff;
   margin-left: 330px;
-  margin-right: 330px;
   position: relative;
   height: 100%;
   overflow-y: auto;
@@ -282,6 +271,7 @@ input {
 }
 .meat .rows {
   margin-top: 3.8em;
+  margin-right: 330px;
 }
 .meat .row {
   word-wrap: break-word;
@@ -325,6 +315,19 @@ input {
 .meat.farms div:hover {
   background-color: #f3f3de;
 }
+.meat .hierarchy {
+  margin-top: 3.8em;
+  background-color: #ccc;
+  position: fixed;
+  display: inline-block;
+  float: right;
+  width: 330px;
+  right: 0;
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 /* ----- info ---- */
 .meat .info {
   margin-top: 4.8em;

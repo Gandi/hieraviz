@@ -101,7 +101,7 @@ ready( () => {
   function build_hierarchy(top) {
     var hierarchy = document.createElement('div');
     hierarchy.className = 'hierarchy';
-    top.appendChild(hierarchy);
+    top.insertBefore(hierarchy, top.firstChild);
     fetch('/v1/' + base + '/hierarchy', auth_header()).
       then(res => res.json()).
       then(j => {
@@ -214,6 +214,7 @@ ready( () => {
     });
   });
 
+  update_footer('/v1/' + base + '/nodes');
   restore_url(nodes);
 
 });
