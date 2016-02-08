@@ -98,18 +98,20 @@ ready( () => {
     window.location.hash = '#' + title +'/info';
   }
 
-  function build_hierarchy(top) {
+  function build_hierarchy(top, node) {
     var hierarchy = document.createElement('div');
     hierarchy.className = 'hierarchy';
     top.insertBefore(hierarchy, top.firstChild);
-    fetch('/v1/' + base + '/hierarchy', auth_header()).
+    fetch('/v1/' + base + '/node/' + node + '/hierarchy', auth_header()).
       then(res => res.json()).
       then(j => {
         var hierachy = document.querySelector('div.hierarchy');
         if (j.error != undefined) {
           show_error(hierachy, j['error']);
         } else {
+          console.debug(j);
           addTo(hierarchy, "hahaha");
+
         }
       });
   }
@@ -124,7 +126,7 @@ ready( () => {
       });
       var rows = document.querySelectorAll('div.row');
       filterBox(".paramfilter input", rows);
-      build_hierarchy(top);
+      build_hierarchy(top, title);
     } else {
       addTo(top, "<div>There is no params in this node.</div>\n");
     }

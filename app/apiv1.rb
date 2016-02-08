@@ -78,11 +78,18 @@ module HieravizApp
       json hiera.params
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?/hierarchy} do |base|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/hierarchy} do |base, node|
       check_authorization
       hieracles_config = prepare_config(base)
       hiera = Hieracles::Hiera.new(hieracles_config)
-      json hiera.hierarchy
+      node = Hieracles::Node.new(node, hieracles_config)
+      res = { 
+        'hiera' => hiera.hierarchy,
+        'vars' => hiera.params,
+        'info' => node.info,
+        'files' => node.files
+      }
+      json res
     end
 
     # get '/farm/:n' do |farm|
