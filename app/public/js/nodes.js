@@ -84,7 +84,6 @@ ready( () => {
       wrapper.className = 'rows info';
       top.appendChild(wrapper);
       Array.prototype.forEach.call(Object.keys(hash), (item, k) => {
-        console.log(item);
         addTo(wrapper,  "<div class=\"row\">" +
                         "<span class=\"infokey\">" + item + "</span>" +
                         "<span class=\"infovalue\">" + JSON.stringify(hash[item], null, 2) + "</span>" +
@@ -110,8 +109,28 @@ ready( () => {
           show_error(hierachy, j['error']);
         } else {
           console.debug(j);
-          addTo(hierarchy, "hahaha");
-
+          var hierafiles = document.createElement('div');
+          hierafiles.className = "hierafiles";
+          hierarchy.appendChild(hierafiles);
+          Array.prototype.forEach.call(Object.keys(j.hiera), (item, k) => {
+            addTo(hierafiles, "<div>"+j.hiera[item]+"</div>");
+          });
+          var nodeinfo = document.createElement('div');
+          nodeinfo.className = "nodeinfo";
+          hierarchy.appendChild(nodeinfo);
+          Array.prototype.forEach.call(Object.keys(j.info), (item, k) => {
+            var index = j.vars.indexOf(item);
+            if (index > -1) {
+              addTo(nodeinfo, "<div><div>"+item+"</div><div><input type=\"text\" name=\""+item+"\" value=\""+j.info[item]+"\"></div></div>");
+              j.vars.splice(index, 1);
+            }
+          });
+          var nodefiles = document.createElement('div');
+          nodefiles.className = "nodefiles";
+          hierarchy.appendChild(nodefiles);
+          Array.prototype.forEach.call(Object.keys(j.files), (item, k) => {
+            addTo(nodefiles, "<div>"+j.files[item]+"</div>");
+          });
         }
       });
   }

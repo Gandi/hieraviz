@@ -297,8 +297,9 @@ input {
 }
 .meat .row .value {
   font-family: monospace;
-  padding: .1em 1em .6em;
+  padding: .1em 1em .4em;
   margin: 0;
+  margin-bottom: .2em;
 }
 .meat .row:hover {
   background-color: #f3f3de;
@@ -326,6 +327,20 @@ input {
   height: auto;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.meat .hierarchy .hierafiles {
+  padding: 1em;
+  font-family: monospace;
+}
+.meat .hierarchy .hierafiles div {
+  padding: .2em 0;
+}
+.meat .hierarchy .nodefiles {
+  padding: 1em;
+  font-family: monospace;
+}
+.meat .hierarchy .nodefiles div {
+  padding: .2em 0;
 }
 
 /* ----- info ---- */
