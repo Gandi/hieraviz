@@ -121,7 +121,7 @@ ready( () => {
           Array.prototype.forEach.call(Object.keys(j.info), (item, k) => {
             var index = j.vars.indexOf(item);
             if (index > -1) {
-              addTo(nodeinfo, "<div><div>"+item+"</div><div><input type=\"text\" name=\""+item+"\" value=\""+j.info[item]+"\"></div></div>");
+              addTo(nodeinfo, "<div class=\"var\"><div class=\"label\">"+item+"</div><div><input type=\"text\" name=\""+item+"\" value=\""+j.info[item]+"\"></div></div>");
               j.vars.splice(index, 1);
             }
           });

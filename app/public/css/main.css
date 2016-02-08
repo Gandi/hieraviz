@@ -335,6 +335,19 @@ input {
 .meat .hierarchy .hierafiles div {
   padding: .2em 0;
 }
+.meat .hierarchy .nodeinfo {
+  padding: 1em;
+}
+.meat .hierarchy .nodeinfo .var {
+  padding: .2em 0;
+}
+.meat .hierarchy .nodeinfo .label {
+  padding: 0 .5em;
+}
+.meat .hierarchy .nodeinfo input {
+  width: 100%;
+  padding: .2em .5em;
+}
 .meat .hierarchy .nodefiles {
   padding: 1em;
   font-family: monospace;
