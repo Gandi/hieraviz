@@ -109,12 +109,14 @@ ready( () => {
           show_error(hierachy, j['error']);
         } else {
           console.debug(j);
+          addTo(hierarchy, "<h3>From hiera config</h3>");
           var hierafiles = document.createElement('div');
           hierafiles.className = "hierafiles";
           hierarchy.appendChild(hierafiles);
           Array.prototype.forEach.call(Object.keys(j.hiera), (item, k) => {
             addTo(hierafiles, "<div>"+j.hiera[item]+"</div>");
           });
+          addTo(hierarchy, "<h3>From Node Data</h3>");
           var nodeinfo = document.createElement('div');
           nodeinfo.className = "nodeinfo";
           hierarchy.appendChild(nodeinfo);
@@ -125,6 +127,14 @@ ready( () => {
               j.vars.splice(index, 1);
             }
           });
+          addTo(hierarchy, "<h3>From Facts</h3>");
+          var factinfo = document.createElement('div');
+          factinfo.className = "factinfo";
+          hierarchy.appendChild(factinfo);
+          Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
+            addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div><div><input type=\"text\" name=\""+j.vars[item]+"\" value=\""+"\"></div></div>");
+          });
+          addTo(hierarchy, "<h3>Resulting files</h3>");
           var nodefiles = document.createElement('div');
           nodefiles.className = "nodefiles";
           hierarchy.appendChild(nodefiles);

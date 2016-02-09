@@ -348,6 +348,19 @@ input {
   width: 100%;
   padding: .2em .5em;
 }
+.meat .hierarchy .factinfo {
+  padding: 1em;
+}
+.meat .hierarchy .factinfo .var {
+  padding: .2em 0;
+}
+.meat .hierarchy .factinfo .label {
+  padding: 0 .5em;
+}
+.meat .hierarchy .factinfo input {
+  width: 100%;
+  padding: .2em .5em;
+}
 .meat .hierarchy .nodefiles {
   padding: 1em;
   font-family: monospace;
