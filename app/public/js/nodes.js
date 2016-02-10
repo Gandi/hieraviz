@@ -123,7 +123,8 @@ ready( () => {
           Array.prototype.forEach.call(Object.keys(j.info), (item, k) => {
             var index = j.vars.indexOf(item);
             if (index > -1) {
-              addTo(nodeinfo, "<div class=\"var\"><div class=\"label\">"+item+"</div><div><input type=\"text\" name=\""+item+"\" value=\""+j.info[item]+"\"></div></div>");
+              addTo(nodeinfo, "<div class=\"var\"><div class=\"label\">"+item+"</div>" + 
+                              "<div><input type=\"text\" name=\""+item+"\" value=\""+j.info[item]+"\" disabled></div></div>");
               j.vars.splice(index, 1);
             }
           });
@@ -132,7 +133,16 @@ ready( () => {
           factinfo.className = "factinfo";
           hierarchy.appendChild(factinfo);
           Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
-            addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div><div><input type=\"text\" name=\""+j.vars[item]+"\" value=\""+"\"></div></div>");
+            if (j.defaults[j.vars[item]] != undefined) {
+              addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
+                              "<div><input type=\"text\" name=\""+j.defaults[j.vars[item]]+"\" value=\""+"\"></div></div>");
+              // var index = j.vars.indexOf(item);
+              // j.vars.splice(k, 1);
+            }
+          });
+          Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
+            addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
+                            "<div><input type=\"text\" name=\""+j.vars[item]+"\" value=\""+"\"></div></div>");
           });
           addTo(hierarchy, "<h3>Resulting files</h3>");
           var nodefiles = document.createElement('div');

@@ -84,10 +84,11 @@ module HieravizApp
       hiera = Hieracles::Hiera.new(hieracles_config)
       node = Hieracles::Node.new(node, hieracles_config)
       res = { 
-        'hiera' => hiera.hierarchy,
-        'vars' => hiera.params,
-        'info' => node.info,
-        'files' => node.files
+        'hiera'    => hiera.hierarchy,
+        'vars'     => hiera.params,
+        'info'     => node.info,
+        'files'    => node.files,
+        'defaults' => settings.configdata['defaultscope']
       }
       json res
     end
