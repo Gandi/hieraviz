@@ -109,6 +109,7 @@ ready( () => {
           show_error(hierachy, j['error']);
         } else {
           console.debug(j);
+          // --------------------
           addTo(hierarchy, "<h3>From hiera config</h3>");
           var hierafiles = document.createElement('div');
           hierafiles.className = "hierafiles";
@@ -116,6 +117,7 @@ ready( () => {
           Array.prototype.forEach.call(Object.keys(j.hiera), (item, k) => {
             addTo(hierafiles, "<div>"+j.hiera[item]+"</div>");
           });
+          // --------------------
           addTo(hierarchy, "<h3>From Node Data</h3>");
           var nodeinfo = document.createElement('div');
           nodeinfo.className = "nodeinfo";
@@ -128,6 +130,7 @@ ready( () => {
               j.vars.splice(index, 1);
             }
           });
+          // --------------------
           addTo(hierarchy, "<h3>From Facts</h3>");
           var factinfo = document.createElement('div');
           factinfo.className = "factinfo";
@@ -135,15 +138,43 @@ ready( () => {
           Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
             if (j.defaults[j.vars[item]] != undefined) {
               addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
-                              "<div><input type=\"text\" name=\""+j.defaults[j.vars[item]]+"\" value=\""+"\"></div></div>");
-              // var index = j.vars.indexOf(item);
-              // j.vars.splice(k, 1);
+                              "<div><input type=\"text\" name=\""+j.vars[item]+"\" value=\""+j.defaults[j.vars[item]]+"\"></div></div>");
             }
           });
           Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
-            addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
-                            "<div><input type=\"text\" name=\""+j.vars[item]+"\" value=\""+"\"></div></div>");
+            if (j.defaults[j.vars[item]] == undefined) {
+              addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
+                              "<div><input type=\"text\" name=\""+j.vars[item]+"\" value=\""+"\"></div></div>");
+            }
           });
+          var updatediv = document.createElement('div');
+          updatediv.className = "updateinfo";
+          hierarchy.appendChild(updatediv);
+          // . . . . . . . . . . .
+          var updateinfo = document.createElement('button');
+          updateinfo.id = 'updateinfo';
+          updateinfo.innerText = 'Update';
+          updatediv.appendChild(updateinfo);
+          updateinfo.addEventListener('click', (ev) => {
+            console.log(ev.target);
+          });
+          // . . . . . . . . . . .
+          var checkinfo = document.createElement('button');
+          checkinfo.id = 'checkinfo';
+          checkinfo.innerText = 'Check';
+          updatediv.appendChild(checkinfo);
+          checkinfo.addEventListener('click', (ev) => {
+
+          });
+          // . . . . . . . . . . .
+          var restoreinfo = document.createElement('button');
+          restoreinfo.id = 'restoreinfo';
+          restoreinfo.innerText = 'Restore Defaults';
+          updatediv.appendChild(restoreinfo);
+          restoreinfo.addEventListener('click', (ev) => {
+
+          });
+          // --------------------
           addTo(hierarchy, "<h3>Resulting files</h3>");
           var nodefiles = document.createElement('div');
           nodefiles.className = "nodefiles";
