@@ -63,6 +63,11 @@ ready( () => {
       addTo(top, "<div>There is no node in this farm.</div>\n");
   }
 
+  function show_error(meat, message) {
+    meat.innerHTML = "<div class=\"error\">" + message + "</div>\n";
+  }
+
+
   var Farm = {
     show: function(el) {
       addClass(meat, 'wait');
@@ -70,12 +75,16 @@ ready( () => {
       fetch('/v1/' + base + '/farm/' + farm, auth_header()).
         then(res => res.json()).
         then(j => {
-          build_list(meat, farm, j);
-          Array.prototype.forEach.call(farms, (item, i) => {
-            removeClass(item, 'focus');
-          });
-          addClass(el, 'focus');
-          update_footer('/v1/' + base + '/farm/' + farm);
+          if (j.error != undefined) {
+            show_error(meat, j['error']);
+          } else {
+            build_list(meat, farm, j);
+            Array.prototype.forEach.call(farms, (item, i) => {
+              removeClass(item, 'focus');
+            });
+            addClass(el, 'focus');
+            update_footer('/v1/' + base + '/farm/' + farm);
+          }
           removeClass(meat, 'wait');
         });
     },
