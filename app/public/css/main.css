@@ -310,10 +310,10 @@ input {
 .meat .row:hover .data {
   background-color: #dd6;
 }
-.meat.farms div {
+.meat.farms .node {
   padding: .5em 1em;
 }
-.meat.farms div:hover {
+.meat.farms .node:hover {
   background-color: #f3f3de;
 }
 .meat .hierarchy {

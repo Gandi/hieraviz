@@ -96,8 +96,8 @@ module HieravizApp
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farm/([-_\.a-zA-Z0-9]+)$} do |base, farm|
       check_authorization
       hieracles_config = prepare_config(base)
-      nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).reduce([]) do |a, (k, v)|
-        a << k if v['farm'] == farm
+      nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).reduce({}) do |a, (k, v)|
+        a[k] = v if v['farm'] == farm
         a
       end
       json nodes
