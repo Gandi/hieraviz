@@ -93,12 +93,15 @@ module HieravizApp
       json res
     end
 
-    # get '/farm/:n' do |farm|
-    #   check_authorization
-    #   req = Hieracles::Puppetdb::Request.new(settings.configdata['puppetdb'])
-    #   farm_nodes = req.facts('farm', farm)
-    #   json farm_nodes.data
-    # end
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/farm/([-_\.a-zA-Z0-9]+)$} do |base, farm|
+      check_authorization
+      hieracles_config = prepare_config(base)
+      nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).reduce([]) do |a, (k, v)|
+        a << k if v['farm'] == farm
+        a
+      end
+      json nodes
+    end
 
     get '/not_logged' do
       json({ error: "Not connected." })
