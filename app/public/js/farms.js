@@ -22,7 +22,7 @@ ready( () => {
   var meat = document.querySelector('div.meat');
   var base = window.location.pathname.split('/')[1];
   focusNav('farms');
-  filterBox(".filter input", farms);
+  filterBox(".side .filter input", farms);
 
   function restore_url(list) {
     if (window.location.hash != '') {
