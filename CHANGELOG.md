@@ -1,6 +1,12 @@
 Hieraviz Changelog
 ========================
 
+### v0.1.2 - wip
+- add display of nodes info on node panel
+- make possible to change hiera variables per node
+- fix farms list to read local files instead of puppetdb
+- show actual number of nodes in farms list
+
 ### v0.1.1 - 2016-01-29
 - add multibase ability
 - fix node navigation info/params/allparams
