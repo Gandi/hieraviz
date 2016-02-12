@@ -171,7 +171,7 @@ describe HieravizApp::ApiV1 do
       it { expect(JSON.parse last_response.body).to eq expected }
     end
     describe "GET /v1/farms" do
-      let(:expected) { ['farm1'] }
+      let(:expected) { { "farm1" => 0 } }
       before do
         get '/farms'
       end

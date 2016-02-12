@@ -198,8 +198,14 @@ input {
 .side ul li.focus {
   background-color: #fff;
 }
-
-  /* ----- Meat ---- */
+.side ul li.none {
+  color: #999;
+}
+.side ul li .count {
+  float: right;
+  font-family: monospace;
+}
+/* ----- Meat ---- */
 .meat {
   border: 2px solid #999;
   background-color: #fff;

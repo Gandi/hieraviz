@@ -131,7 +131,7 @@ module HieravizApp
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farms} do |base|
       @username = check_authorization
       hieracles_config = prepare_config(base)
-      @farms = Hieracles::Registry.farms(hieracles_config)
+      @farms = Hieracles::Registry.farms_counted(hieracles_config, base)
       erb :farms
     end
 

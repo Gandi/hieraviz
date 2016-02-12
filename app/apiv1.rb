@@ -68,7 +68,7 @@ module HieravizApp
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farms} do |base|
       check_authorization
       hieracles_config = prepare_config(base)
-      json Hieracles::Registry.farms(hieracles_config)
+      json Hieracles::Registry.farms_counted(hieracles_config, base)
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/vars} do |base|
