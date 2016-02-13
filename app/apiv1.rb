@@ -103,6 +103,12 @@ module HieravizApp
       json nodes
     end
 
+    get '/ppdb/events' do
+      check_authorization
+      puppetdb = Hieraviz::Puppetdb.new settings.configdata['puppetdb']
+      json puppetdb.events
+    end
+
     get '/not_logged' do
       json({ error: "Not connected." })
     end
