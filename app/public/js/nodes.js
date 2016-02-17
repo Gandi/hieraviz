@@ -35,7 +35,6 @@ ready( () => {
     }
   }
 
-
   function build_line(top, file, key, value, overriden) {
     if (overriden === true) {
       rowclass = "row overriden";

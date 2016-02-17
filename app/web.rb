@@ -29,6 +29,24 @@ module HieravizApp
     end
 
     case settings.configdata['auth_method']
+    when 'dummy'
+
+      get '/logout' do
+        erb :logout, layout: :_layout
+      end
+
+      helpers do
+        def get_username
+          'Dummy'
+        end
+        def get_userinfo
+          { 'username' => 'Dummy' }
+        end
+        def check_authorization
+          true
+        end
+      end
+
     when 'http'
 
       use Rack::Auth::Basic, "Puppet Private Access" do |username, password|
