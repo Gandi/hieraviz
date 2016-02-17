@@ -15,7 +15,7 @@ module HieravizApp
 
     helpers do
       def prepare_config(e)
-        e = File.basename(settings.configdata['basepath']) unless e
+        e ||= File.basename(settings.configdata['basepath'])
         path = get_path(e)[0]
         if path
           @base = get_base(path)
@@ -24,7 +24,7 @@ module HieravizApp
         end
       end
       def prepare_params(e)
-        e = File.basename(settings.configdata['basepath']) unless e
+        e ||= File.basename(settings.configdata['basepath'])
         path = get_path(e)[0]
         if path
           settings.configdata['basepath'] = path
