@@ -96,6 +96,13 @@ ready( () => {
     window.location.hash = '#' + title +'/info';
   }
 
+  function update_facts(facts) {
+    fetch('/v1/' + base + '/node/' + node + '/facts', auth_header()).
+      then(res => res.json()).
+      then(j => {
+      });
+  }
+
   function build_hierarchy(top, node) {
     var hierarchy = document.createElement('div');
     hierarchy.className = 'hierarchy';
