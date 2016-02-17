@@ -24,7 +24,7 @@ module HieravizApp
           true
         end
       end
-    when 'gitlab'
+    when 'gitlab', 'http'
       helpers do
         def check_authorization
           if !session['access_token'] && !request.env['HTTP_X_AUTH']
