@@ -1,18 +1,20 @@
 module Hieraviz
   class Facts
 
-    def initialize(tmpdir)
-      @tmpdir = tmpdir
+    def initialize(tmpdir, base, node, user)
+      @filename = File.join(tmpdir, "#{base}__#{node}__#{user}")
     end
     
-    def read(base, node, user)
-      filename = File.join(@tmpdir, "#{base}__#{name}__#{user}")
-      Marshall.load(filename)
+    def exist?
+      File.exist? @filename
+    end
+
+    def read
+      Marshall.load(File.binread(@filename))
     end
     
-    def write(base, node, user, data)
-      filename = File.join(@tmpdir, "#{base}__#{name}__#{user}")
-      Marshal.dump(filename, data)
+    def write(data)
+      File.open(@filename, 'wb') {|f| f.write(Marshal.dump(data)) }
     end
 
   end

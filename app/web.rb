@@ -36,12 +36,6 @@ module HieravizApp
       end
 
       helpers do
-        def get_username
-          'Dummy'
-        end
-        def get_userinfo
-          { 'username' => 'Dummy' }
-        end
         def check_authorization
           true
         end
@@ -59,12 +53,6 @@ module HieravizApp
       end
 
       helpers do
-        def get_username
-          settings.configdata['http_auth']['username']
-        end
-        def get_userinfo
-          { 'username' => settings.configdata['http_auth']['username'] }
-        end
         def check_authorization
           true
         end
@@ -75,20 +63,6 @@ module HieravizApp
       set :oauth, Hieraviz::AuthGitlab.new(settings.configdata['gitlab_auth'])
 
       helpers do
-        def get_username
-          if session['access_token']
-            session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
-            if session_info
-              session_info['username']
-            else
-              ''
-            end
-          end
-        end
-
-        def get_userinfo
-          Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
-        end
 
         def check_authorization
           if !session['access_token']

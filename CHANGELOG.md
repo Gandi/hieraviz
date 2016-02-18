@@ -6,6 +6,7 @@ Hieraviz Changelog
 - make possible to change hiera variables per node
 - fix farms list to read local files instead of puppetdb
 - show actual number of nodes in farms list
+- add storage of custom params per user
 
 ### v0.1.1 - 2016-01-29
 - add multibase ability

@@ -40,6 +40,10 @@ module HieravizApp
       end
     end
 
+    helpers do
+
+    end
+
     get %r{^/?([-_\.a-zA-Z0-9]+)?/nodes} do |base|
       check_authorization
       hieracles_config = prepare_config(base)
@@ -55,28 +59,28 @@ module HieravizApp
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/params} do |base, node|
       check_authorization
-      hieracles_config = prepare_config(base)
+      hieracles_config = prepare_config(base, node)
       node = Hieracles::Node.new(node, hieracles_config)
       json node.params
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/allparams} do |base, node|
       check_authorization
-      hieracles_config = prepare_config(base)
+      hieracles_config = prepare_config(base, node)
       node = Hieracles::Node.new(node, hieracles_config)
       json node.params(false)
     end
 
     post %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/facts} do |base, node|
       check_authorization
-      hieracles_config = prepare_config(base)
+      hieracles_config = prepare_config(base, node)
       facts = Hieraviz::Facts.new(settings.configdata['tmpdir'])
       json facts.write(data)
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)$} do |base, node|
       check_authorization
-      hieracles_config = prepare_config(base)
+      hieracles_config = prepare_config(base, node)
       node = Hieracles::Node.new(node, hieracles_config)
       json node.params
     end
@@ -96,7 +100,7 @@ module HieravizApp
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/hierarchy} do |base, node|
       check_authorization
-      hieracles_config = prepare_config(base)
+      hieracles_config = prepare_config(base, node)
       hiera = Hieracles::Hiera.new(hieracles_config)
       node = Hieracles::Node.new(node, hieracles_config)
       res = { 
@@ -111,7 +115,7 @@ module HieravizApp
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farm/([-_\.a-zA-Z0-9]+)$} do |base, farm|
       check_authorization
-      hieracles_config = prepare_config(base)
+      hieracles_config = prepare_config(base, node)
       nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).reduce({}) do |a, (k, v)|
         a[k] = v if v['farm'] == farm
         a
