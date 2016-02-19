@@ -51,11 +51,11 @@ describe Hieraviz::Config do
     describe '.basepaths' do
       let(:expected) { 
         [
-          File.expand_path('../../../spec/files/puppet2', __FILE__),
-          File.expand_path('../../../spec/files/puppet', __FILE__)
+          File.expand_path('../../../spec/files/puppet', __FILE__),
+          File.expand_path('../../../spec/files/puppet2', __FILE__)
         ]
       }
-      it { expect(Hieraviz::Config.basepaths).to eq expected }
+      it { expect(Hieraviz::Config.basepaths).to match_array(expected) }
     end
 
   end
