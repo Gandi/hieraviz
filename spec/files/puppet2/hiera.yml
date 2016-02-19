@@ -1,0 +1,10 @@
+---
+:backends:
+  - yaml
+:hierarchy:
+  - "nodes/%{fqdn}"
+  - "farm/%{farm}"
+  - "common/common"
+:yaml:
+  :datadir: "params/"
+:merge_behavior: deeper

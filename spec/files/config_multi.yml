@@ -1,0 +1,26 @@
+---
+app_name: HieraViz
+basepath: "spec/files/puppet"
+basepath_dir: "spec/files/puppet*"
+classpath: "farm_modules/%s/manifests/init.pp"
+hierafile: "hiera.yml"
+session_seed: "toto"
+tmpdir: "spec/files/tmp"
+session_renew: 3600
+usedb: false
+debug: false
+puppetdb:
+  usessl: false
+  host: puppetdb.example.com
+  port: 8080
+auth_method: http
+http_auth:
+  username: 'toto'
+  password: 'toto'
+gitlab_auth:
+  host: https://gitlab.example.com
+  application_id: xxxid
+  secret: xxxsecret
+  resource_required: '/api/v3/projects/group%2Fpuppet'
+  required_response_key: 'id'
+  required_response_value: '42'

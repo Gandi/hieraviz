@@ -3,7 +3,7 @@ module Hieraviz
     extend self
 
     def load
-      @_config ||= YAML.load_file(configfile)
+      @_config = YAML.load_file(configfile)
     end
 
     def configfile

@@ -43,9 +43,7 @@ module Hieraviz
         if resp['error'] ||
            (resp[@settings['required_response_key']] &&
            resp[@settings['required_response_key']] != resp[@settings['required_response_value']])
-          false
-        else
-          true
+          return false
         end
       end
       true
