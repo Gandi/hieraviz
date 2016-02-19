@@ -10,7 +10,7 @@ module Hieraviz
     end
 
     def read
-      Marshall.load(File.binread(@filename))
+      Marshal.load(File.binread(@filename))
     end
     
     def write(data)
