@@ -54,7 +54,10 @@ module HieravizApp
 
       helpers do
         def check_authorization
-          true
+          if !session['access_token']
+            session[:access_token] = settings.configdata['http_auth']['access_token']
+          end
+          settings.configdata['http_auth']['username']
         end
       end
 

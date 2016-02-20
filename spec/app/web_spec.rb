@@ -44,6 +44,10 @@ describe HieravizApp::Web do
       it { expect(last_response.status).to eq 404 }
       it { expect(last_response.body).to include 'Page not found' }
     end
+    describe "GET /user" do
+      before { get '/user' }
+      it { expect(last_response.body).to include 'toto' }
+    end
   end
 
 

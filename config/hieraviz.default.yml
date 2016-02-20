@@ -19,6 +19,7 @@ auth_method: http
 http_auth:
   username: 'xxx'
   password: 'xxx'
+  access_token: '123456'
 gitlab_auth:
   host: gitlab.example.com
   application_id: xxxxxxxx

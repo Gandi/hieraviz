@@ -46,9 +46,11 @@ module HieravizApp
             end
           end
         end
+
         def get_userinfo
           Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
         end
+        
       end
 
       def prepare_config(e, node = nil)
