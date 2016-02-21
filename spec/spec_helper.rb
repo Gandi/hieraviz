@@ -25,8 +25,6 @@ require 'rspec'
 ENV['RACK_ENV'] = 'test'
 # ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config.yml', __FILE__
 
-require 'hieraviz'
-
 RSpec.configure do |config| 
   config.mock_with :rspec
   config.expect_with :rspec do |c|

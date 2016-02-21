@@ -32,12 +32,18 @@ module HieravizApp
     when 'dummy'
 
       get '/logout' do
-        erb :logout, layout: :_layout
+        session.delete :access_token
+        erb :logout
+      end
+
+      get '/login' do
+        session[:access_token] = '0000'
+        redirect '/'
       end
 
       helpers do
         def check_authorization
-          true
+          'dummy'
         end
       end
 
@@ -49,7 +55,7 @@ module HieravizApp
       end
 
       get '/logout' do
-        erb :logout, layout: :_layout
+        erb :logout
       end
 
       helpers do

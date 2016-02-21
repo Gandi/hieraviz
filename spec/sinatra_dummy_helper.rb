@@ -1,8 +1,8 @@
-ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config.yml', __FILE__
+ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config_dummy.yml', __FILE__
 
 require 'spec_helper'
 
-require File.expand_path '../../app/main.rb', __FILE__
+load File.expand_path '../../app/main.rb', __FILE__
 
 require 'sinatra/base'
 
@@ -14,5 +14,6 @@ module RSpecMixin
 end
 
 RSpec.configure do |config| 
+  config.reset
   config.include RSpecMixin
 end

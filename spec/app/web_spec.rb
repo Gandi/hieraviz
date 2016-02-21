@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'sinatra_helper'
 
 describe HieravizApp::Web do
@@ -49,6 +48,5 @@ describe HieravizApp::Web do
       it { expect(last_response.body).to include 'toto' }
     end
   end
-
 
 end
