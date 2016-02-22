@@ -1,6 +1,9 @@
 Hieraviz Changelog
 ========================
 
+### v0.2.0 - wip
+- fix button display on firefox
+
 ### v0.1.2 - 2016-02-22
 - add a way to write custom local facts
 - add display of nodes info on node panel

@@ -218,7 +218,7 @@ ready( () => {
           // . . . . . . . . . . .
           var updateinfo = document.createElement('button');
           updateinfo.id = 'updateinfo';
-          updateinfo.innerText = 'Update';
+          updateinfo.textContent = 'Update';
           updatediv.appendChild(updateinfo);
           updateinfo.addEventListener('click', (ev) => {
             var fields = get_input();
@@ -227,7 +227,7 @@ ready( () => {
           // // . . . . . . . . . . .
           // var checkinfo = document.createElement('button');
           // checkinfo.id = 'checkinfo';
-          // checkinfo.innerText = 'Check';
+          // checkinfo.textContent = 'Check';
           // updatediv.appendChild(checkinfo);
           // checkinfo.addEventListener('click', (ev) => {
 
@@ -235,7 +235,7 @@ ready( () => {
           // . . . . . . . . . . .
           var restoreinfo = document.createElement('button');
           restoreinfo.id = 'restoreinfo';
-          restoreinfo.innerText = 'Restore Defaults';
+          restoreinfo.textContent = 'Restore Defaults';
           updatediv.appendChild(restoreinfo);
           restoreinfo.addEventListener('click', (ev) => {
             clear_input(node);
