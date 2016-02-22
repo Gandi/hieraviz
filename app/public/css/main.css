@@ -330,7 +330,7 @@ input {
   float: right;
   width: 330px;
   right: 0;
-  height: auto;
+  height: 80%;
   overflow-y: auto;
   overflow-x: hidden;
 }

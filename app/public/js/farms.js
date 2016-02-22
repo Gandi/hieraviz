@@ -55,7 +55,6 @@ ready( () => {
         node_title.innerHTML = '<div><a href="/'+base+'/nodes#'+ item +'">' + item + '</a></div>';
         node.appendChild(node_title);
         Array.prototype.forEach.call(Object.keys(hash[item]), (itemvar, i) => {
-          console.log(itemvar);
           addTo(node, "<div>"+itemvar+": "+hash[item][itemvar]+"</div>")
         });
       });

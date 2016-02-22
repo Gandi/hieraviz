@@ -17,5 +17,9 @@ module Hieraviz
       File.open(@filename, 'wb') {|f| f.write(Marshal.dump(data)) }
     end
 
+    def remove
+      File.unlink @filename
+    end
+
   end
 end

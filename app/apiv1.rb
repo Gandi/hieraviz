@@ -71,11 +71,26 @@ module HieravizApp
       json node.params(false)
     end
 
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/facts} do |base, node|
+      check_authorization
+      hieracles_config = prepare_config(base, node)
+      facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+      json facts.read
+    end
+
     post %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/facts} do |base, node|
       check_authorization
       hieracles_config = prepare_config(base, node)
-      facts = Hieraviz::Facts.new(settings.configdata['tmpdir'])
+      facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+      data = JSON.parse(request.body.read.to_s)
       json facts.write(data)
+    end
+
+    delete %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/facts} do |base, node|
+      check_authorization
+      hieracles_config = prepare_config(base, node)
+      facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+      json facts.remove
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)$} do |base, node|
@@ -115,7 +130,7 @@ module HieravizApp
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farm/([-_\.a-zA-Z0-9]+)$} do |base, farm|
       check_authorization
-      hieracles_config = prepare_config(base, node)
+      hieracles_config = prepare_config(base)
       nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).reduce({}) do |a, (k, v)|
         a[k] = v if v['farm'] == farm
         a

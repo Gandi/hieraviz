@@ -96,10 +96,51 @@ ready( () => {
     window.location.hash = '#' + title +'/info';
   }
 
-  function update_facts(facts) {
-    fetch('/v1/' + base + '/node/' + node + '/facts', auth_header()).
+  function update_facts(node, facts) {
+    var req = new Request(
+      '/v1/' + base + '/node/' + node + '/facts',
+      { 
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(facts)
+      }
+    );
+    fetch(req, auth_header()).
       then(res => res.json()).
       then(j => {
+        if (j.error != undefined) {
+          show_error(hierachy, j['error']);
+        } else {
+          location.reload();
+        }
+      });
+  }
+
+  function get_input() {
+    var input = document.querySelectorAll('input.userinput');
+    var output = {};
+    Array.prototype.forEach.call(Object.keys(input), (item, k) => {
+      output[input[item].name] = input[item].value;
+    });
+    return output;
+  }
+
+  function clear_input(node) {
+    var req = new Request(
+      '/v1/' + base + '/node/' + node + '/facts',
+      { method: 'DELETE' }
+    );
+    fetch(req, auth_header()).
+      then(res => res.json()).
+      then(j => {
+        if (j.error != undefined) {
+          show_error(hierachy, j['error']);
+        } else {
+          location.reload();
+        }
       });
   }
 
@@ -138,19 +179,21 @@ ready( () => {
           });
           // --------------------
           addTo(hierarchy, "<h3>From Facts</h3>");
-          var factinfo = document.createElement('div');
+          var factinfo = document.createElement('form');
           factinfo.className = "factinfo";
           hierarchy.appendChild(factinfo);
           Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
-            if (j.defaults[j.vars[item]] != undefined) {
+            if (j.defaults != null && j.defaults[j.vars[item]] != undefined) {
               addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
-                              "<div><input type=\"text\" name=\""+j.vars[item]+"\" value=\""+j.defaults[j.vars[item]]+"\"></div></div>");
+                              "<div><input type=\"text\" name=\""+j.vars[item]+"\" value=\"" + 
+                              j.defaults[j.vars[item]]+"\"></div></div>");
             }
           });
           Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
-            if (j.defaults[j.vars[item]] == undefined) {
+            if (j.defaults == null || j.defaults[j.vars[item]] == undefined) {
               addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
-                              "<div><input type=\"text\" name=\""+j.vars[item]+"\" value=\""+"\"></div></div>");
+                              "<div><input type=\"text\" class=\"userinput\" name=\"" + 
+                              j.vars[item]+"\" value=\""+"\"></div></div>");
             }
           });
           var updatediv = document.createElement('div');
@@ -162,7 +205,8 @@ ready( () => {
           updateinfo.innerText = 'Update';
           updatediv.appendChild(updateinfo);
           updateinfo.addEventListener('click', (ev) => {
-            console.log(ev.target);
+            var fields = get_input();
+            update_facts(node, fields);
           });
           // . . . . . . . . . . .
           var checkinfo = document.createElement('button');
@@ -178,7 +222,8 @@ ready( () => {
           restoreinfo.innerText = 'Restore Defaults';
           updatediv.appendChild(restoreinfo);
           restoreinfo.addEventListener('click', (ev) => {
-
+            clear_input(node);
+            location.reload();
           });
           // --------------------
           addTo(hierarchy, "<h3>Resulting files</h3>");
