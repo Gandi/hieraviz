@@ -10,7 +10,9 @@ module Hieraviz
     end
 
     def read
-      Marshal.load(File.binread(@filename))
+      if exist?
+        Marshal.load(File.binread(@filename))
+      end
     end
     
     def write(data)

@@ -171,7 +171,7 @@ ready( () => {
           hierarchy.appendChild(nodeinfo);
           Array.prototype.forEach.call(Object.keys(j.info), (item, k) => {
             var index = j.vars.indexOf(item);
-            if (index > -1) {
+            if (index > -1 && (j.facts == null || j.facts[item] == undefined)) {
               addTo(nodeinfo, "<div class=\"var\"><div class=\"label\">"+item+"</div>" + 
                               "<div><input type=\"text\" name=\""+item+"\" value=\""+j.info[item]+"\" disabled></div></div>");
               j.vars.splice(index, 1);
@@ -179,23 +179,39 @@ ready( () => {
           });
           // --------------------
           addTo(hierarchy, "<h3>From Facts</h3>");
-          var factinfo = document.createElement('form');
+          var factinfo = document.createElement('div');
           factinfo.className = "factinfo";
           hierarchy.appendChild(factinfo);
-          Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
-            if (j.defaults != null && j.defaults[j.vars[item]] != undefined) {
-              addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
-                              "<div><input type=\"text\" name=\""+j.vars[item]+"\" value=\"" + 
-                              j.defaults[j.vars[item]]+"\"></div></div>");
-            }
-          });
-          Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
-            if (j.defaults == null || j.defaults[j.vars[item]] == undefined) {
-              addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
-                              "<div><input type=\"text\" class=\"userinput\" name=\"" + 
-                              j.vars[item]+"\" value=\""+"\"></div></div>");
-            }
-          });
+          if (j.facts == null) {
+            Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
+              if (j.defaults != null && j.defaults[j.vars[item]] != undefined) {
+                addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
+                                "<div><input type=\"text\" class=\"userinput\" name=\"" +
+                                j.vars[item]+"\" value=\"" + 
+                                j.defaults[j.vars[item]]+"\"></div></div>");
+              }
+            });
+            Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
+              if (j.defaults == null || j.defaults[j.vars[item]] == undefined) {
+                addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
+                                "<div><input type=\"text\" class=\"userinput\" name=\"" + 
+                                j.vars[item]+"\" value=\"\"></div></div>");
+              }
+            });
+          } else {
+            Array.prototype.forEach.call(Object.keys(j.facts), (item, k) => {
+              var override = '';
+              if (j.defaults != null && j.defaults[item] != undefined) {
+                override = " <i>("+j.defaults[item]+")</i>";
+              }
+              addTo(factinfo, "<div class=\"var\"><div class=\"label\">" +
+                              item + override + "</div>" +
+                              "<div><input type=\"text\" class=\"userinput\" name=\"" +
+                              item + "\" value=\"" + 
+                              j.facts[item]+"\"></div></div>");
+            
+            });
+          }
           var updatediv = document.createElement('div');
           updatediv.className = "updateinfo";
           hierarchy.appendChild(updatediv);
@@ -208,14 +224,14 @@ ready( () => {
             var fields = get_input();
             update_facts(node, fields);
           });
-          // . . . . . . . . . . .
-          var checkinfo = document.createElement('button');
-          checkinfo.id = 'checkinfo';
-          checkinfo.innerText = 'Check';
-          updatediv.appendChild(checkinfo);
-          checkinfo.addEventListener('click', (ev) => {
+          // // . . . . . . . . . . .
+          // var checkinfo = document.createElement('button');
+          // checkinfo.id = 'checkinfo';
+          // checkinfo.innerText = 'Check';
+          // updatediv.appendChild(checkinfo);
+          // checkinfo.addEventListener('click', (ev) => {
 
-          });
+          // });
           // . . . . . . . . . . .
           var restoreinfo = document.createElement('button');
           restoreinfo.id = 'restoreinfo';

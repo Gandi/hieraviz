@@ -363,6 +363,10 @@ input {
 .meat .hierarchy .factinfo .label {
   padding: 0 .5em;
 }
+.meat .hierarchy .factinfo .label i {
+  font-size: .8em;
+  color: #666;
+}
 .meat .hierarchy .factinfo input {
   width: 100%;
   padding: .2em .5em;

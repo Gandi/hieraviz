@@ -117,12 +117,15 @@ module HieravizApp
       check_authorization
       hieracles_config = prepare_config(base, node)
       hiera = Hieracles::Hiera.new(hieracles_config)
-      node = Hieracles::Node.new(node, hieracles_config)
+      nodeinfo = Hieracles::Node.new(node, hieracles_config)
+      facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+      puts facts.instance_variable_get(:@filename)
       res = { 
         'hiera'    => hiera.hierarchy,
         'vars'     => hiera.params,
-        'info'     => node.info,
-        'files'    => node.files,
+        'info'     => nodeinfo.info,
+        'files'    => nodeinfo.files,
+        'facts'    => facts.read,
         'defaults' => settings.configdata['defaultscope']
       }
       json res
