@@ -1,7 +1,8 @@
 Hieraviz Changelog
 ========================
 
-### v0.1.2 - wip
+### v0.1.2 - 2016-02-22
+- add a way to write custom local facts
 - add display of nodes info on node panel
 - make possible to change hiera variables per node
 - fix farms list to read local files instead of puppetdb
