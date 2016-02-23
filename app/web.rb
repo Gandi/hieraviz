@@ -138,19 +138,16 @@ module HieravizApp
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/modules} do |base|
       @username = check_authorization
-      hieracles_config = prepare_config(base)
       erb :modules
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/resources} do |base|
       @username = check_authorization
-      hieracles_config = prepare_config(base)
       erb :resources
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/user} do |base|
       @username = check_authorization
-      hieracles_config = prepare_config(base)
       if session[:access_token]
         @userinfo = get_userinfo 
       else
@@ -161,7 +158,6 @@ module HieravizApp
 
     get %r{^/([-_\.a-zA-Z0-9]+)$} do |base|
       @username = get_username
-      hieracles_config = prepare_config(base)
       erb :home
     end
 
