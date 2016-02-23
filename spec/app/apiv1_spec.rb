@@ -282,6 +282,23 @@ describe HieravizApp::ApiV1 do
       it { expect(JSON.parse last_response.body).to eq expected }
     end
 
+    describe "GET /v1/farm/dev" do
+      let(:expected) { 
+        {
+          'node1.example.com' => {
+            "country" => "fr",
+            "datacenter" => "equinix",
+            "farm" => "dev"
+          }
+        }
+      }
+      before do
+        get '/farm/dev'
+      end
+      it { expect(last_response).to be_ok }
+      it { expect(JSON.parse last_response.body).to eq expected }
+    end
+
 
   end
 
