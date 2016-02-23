@@ -8,6 +8,8 @@ engines:
       languages:
       - ruby
       - javascript
+  rubocop:
+    enabled: true
   eslint:
     enabled: true
   bundler-audit:
@@ -16,5 +18,12 @@ engines:
 ratings:
    paths:
    - Gemfile.lock
+   - "app/**"
+   - "lib/**"
    - "**.rb"
    - "**.js"
+   - "**.css"
+
+exclude_paths:
+- spec/**/*
+- config/**/*

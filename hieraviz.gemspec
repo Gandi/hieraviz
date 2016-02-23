@@ -41,5 +41,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'shotgun'
   spec.add_development_dependency 'better_errors'
   spec.add_development_dependency 'bundler-audit'
+  spec.add_development_dependency 'rubocop'
 
 end
