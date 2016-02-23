@@ -1,10 +1,9 @@
 require 'sinatra_helper'
 
 describe HieravizApp::ApiV1 do
-
-  context "page not found" do
-    describe "GET /v1/blahblah" do
-      let(:expected) { { 'error' => "Endpoint not found" }  }
+  context 'page not found' do
+    describe 'GET /v1/blahblah' do
+      let(:expected) { { 'error' => 'Endpoint not found' } }
       before do
         get '/blahblah'
       end
@@ -13,8 +12,8 @@ describe HieravizApp::ApiV1 do
     end
   end
 
-  context "when no creds" do
-    describe "GET /v1/nodes" do
+  context 'when no creds' do
+    describe 'GET /v1/nodes' do
       let(:expected) { 'http://example.org/v1/not_logged' }
       before do
         get '/nodes'
@@ -23,7 +22,7 @@ describe HieravizApp::ApiV1 do
       it { expect(last_response.header['Location']).to eq expected }
     end
     describe 'GET /v1/not_logged' do
-      let(:expected) { { 'error' => "Not connected." }  }
+      let(:expected) { { 'error' => 'Not connected.' } }
       before do
         get '/not_logged'
       end
@@ -32,22 +31,22 @@ describe HieravizApp::ApiV1 do
     end
   end
 
-  context "with creds but no perms" do
-    describe "GET /v1/nodes" do
+  context 'with creds but no perms' do
+    describe 'GET /v1/nodes' do
       let(:expected) { 'http://example.org/v1/unauthorized' }
       before do
         current_session.rack_session[:access_token] = 'sada'
-        allow(Hieraviz::Store).
-          to receive(:get).
-          with('sada', 3600).
-          and_return(false)
+        allow(Hieraviz::Store)
+          .to receive(:get)
+          .with('sada', 3600)
+          .and_return(false)
         get '/nodes'
       end
       it { expect(last_response).not_to be_ok }
       it { expect(last_response.header['Location']).to eq expected }
     end
     describe 'GET /v1/unauthorized' do
-      let(:expected) { { 'error' => "Unauthorized" }  }
+      let(:expected) { { 'error' => 'Unauthorized' } }
       before do
         get '/unauthorized'
       end
@@ -56,16 +55,16 @@ describe HieravizApp::ApiV1 do
     end
   end
 
-  context "with proper creds" do
+  context 'with proper creds' do
     before do
       current_session.rack_session[:access_token] = 'sada'
-      allow(Hieraviz::Store).
-        to receive(:get).
-        with('sada', 3600).
-        and_return({})
+      allow(Hieraviz::Store)
+        .to receive(:get)
+        .with('sada', 3600)
+        .and_return({})
     end
 
-    describe "GET /v1/nodes" do
+    describe 'GET /v1/nodes' do
       let(:expected) { ['node1.example.com'] }
       before do
         get '/nodes'
@@ -74,8 +73,8 @@ describe HieravizApp::ApiV1 do
       it { expect(JSON.parse last_response.body).to eq expected }
     end
 
-    describe "GET /v1/node/node1.example.com/info" do
-      let(:expected) {
+    describe 'GET /v1/node/node1.example.com/info' do
+      let(:expected) do
         {
           'classes' => ['farm1'],
           'country' => 'fr',
@@ -83,7 +82,7 @@ describe HieravizApp::ApiV1 do
           'farm' => 'dev',
           'fqdn' => 'node1.example.com'
         }
-      }
+      end
       before do
         get '/node/node1.example.com/info'
       end
@@ -91,22 +90,22 @@ describe HieravizApp::ApiV1 do
       it { expect(JSON.parse last_response.body).to eq expected }
     end
 
-    describe "GET /v1/node/node1.example.com/params" do
-      let(:expected) {
+    describe 'GET /v1/node/node1.example.com/params' do
+      let(:expected) do
         {
-          "param1.subparam1" => {
-            "value" => "value1", 
-            "file" => "params/nodes/node1.example.com.yaml", 
-            "overriden" => false, 
-            "found_in" => [
+          'param1.subparam1' => {
+            'value' => 'value1',
+            'file' => 'params/nodes/node1.example.com.yaml',
+            'overriden' => false,
+            'found_in' => [
               {
-                "value"=>"value1", 
-                "file"=>"params/nodes/node1.example.com.yaml"
+                'value' => 'value1',
+                'file' => 'params/nodes/node1.example.com.yaml'
               }
             ]
           }
         }
-      }
+      end
       before do
         get '/node/node1.example.com/params'
       end
@@ -114,22 +113,22 @@ describe HieravizApp::ApiV1 do
       it { expect(JSON.parse last_response.body).to eq expected }
     end
 
-    describe "GET /v1/node/node1.example.com" do
-      let(:expected) {
+    describe 'GET /v1/node/node1.example.com' do
+      let(:expected) do
         {
-          "param1.subparam1" => {
-            "value" => "value1", 
-            "file" => "params/nodes/node1.example.com.yaml", 
-            "overriden" => false, 
-            "found_in" => [
+          'param1.subparam1' => {
+            'value' => 'value1',
+            'file' => 'params/nodes/node1.example.com.yaml',
+            'overriden' => false,
+            'found_in' => [
               {
-                "value"=>"value1", 
-                "file"=>"params/nodes/node1.example.com.yaml"
+                'value' => 'value1',
+                'file' => 'params/nodes/node1.example.com.yaml'
               }
             ]
           }
         }
-      }
+      end
       before do
         get '/node/node1.example.com'
       end
@@ -137,37 +136,37 @@ describe HieravizApp::ApiV1 do
       it { expect(JSON.parse last_response.body).to eq expected }
     end
 
-    describe "GET /v1/node/node1.example.com/allparams" do
-      let(:expected) {
-         {
-          "param1.subparam1" => {
-            "value" => "value1", 
-            "file" => "-", 
-            "overriden" => true, 
-            "found_in" => [
+    describe 'GET /v1/node/node1.example.com/allparams' do
+      let(:expected) do
+        {
+          'param1.subparam1' => {
+            'value' => 'value1',
+            'file' => '-',
+            'overriden' => true,
+            'found_in' => [
               {
-                "value" => "value1", 
-                "file" => "params/nodes/node1.example.com.yaml"
+                'value' => 'value1',
+                'file' => 'params/nodes/node1.example.com.yaml'
               },
               {
-                "value" => "value common", 
-                "file"=>"params/common/common.yaml"
+                'value' => 'value common',
+                'file' => 'params/common/common.yaml'
               }
             ]
           },
-          "param2.subparam2" => {
-            "value" => "another value", 
-            "file"=>"params/common/common.yaml", 
-            "overriden" => false, 
-            "found_in" => [
+          'param2.subparam2' => {
+            'value' => 'another value',
+            'file' => 'params/common/common.yaml',
+            'overriden' => false,
+            'found_in' => [
               {
-                "value" => "another value", 
-                "file"=>"params/common/common.yaml"
+                'value' => 'another value',
+                'file' => 'params/common/common.yaml'
               }
             ]
           }
         }
-      }
+      end
       before do
         get '/node/node1.example.com/allparams'
       end
@@ -175,8 +174,8 @@ describe HieravizApp::ApiV1 do
       it { expect(JSON.parse last_response.body).to eq expected }
     end
 
-    describe "GET /v1/node/node1.example.com/facts" do
-      context "when no facts are recorded" do
+    describe 'GET /v1/node/node1.example.com/facts' do
+      context 'when no facts are recorded' do
         let(:expected) { Hash.new }
         before do
           get '/node/node1.example.com/facts'
@@ -184,14 +183,14 @@ describe HieravizApp::ApiV1 do
         it { expect(last_response).to be_ok }
         it { expect(JSON.parse last_response.body).to eq expected }
       end
-      context "when some facts are recorded" do
-        let(:tmpdir) { "spec/files/tmp" }
-        let(:base) { "" }
-        let(:node) { "node1.example.com" }
-        let(:user) { "toto" }
+      context 'when some facts are recorded' do
+        let(:tmpdir) { 'spec/files/tmp' }
+        let(:base) { '' }
+        let(:node) { 'node1.example.com' }
+        let(:user) { 'toto' }
         let(:facts) { Hieraviz::Facts.new tmpdir, base, node, user }
         let(:data) { { 'a' => 'b' } }
-        let(:factsfile) { "spec/files/tmp/__node1.example.com__toto" }
+        let(:factsfile) { 'spec/files/tmp/__node1.example.com__toto' }
         after  { File.unlink factsfile }
         before do
           facts.write(data)
@@ -202,9 +201,9 @@ describe HieravizApp::ApiV1 do
       end
     end
 
-    describe "POST /v1/node/node1.example.com/facts" do
+    describe 'POST /v1/node/node1.example.com/facts' do
       let(:data) { { 'a' => 'b' } }
-      let(:factsfile) { "spec/files/tmp/__node1.example.com__toto" }
+      let(:factsfile) { 'spec/files/tmp/__node1.example.com__toto' }
       after  { File.unlink factsfile }
       before do
         post '/node/node1.example.com/facts', data.to_json
@@ -213,14 +212,14 @@ describe HieravizApp::ApiV1 do
       it { expect(File).to exist(factsfile) }
     end
 
-    describe "DELETE /v1/node/node1.example.com/facts" do
-      let(:tmpdir) { "spec/files/tmp" }
-      let(:base) { "" }
-      let(:node) { "node1.example.com" }
-      let(:user) { "toto" }
+    describe 'DELETE /v1/node/node1.example.com/facts' do
+      let(:tmpdir) { 'spec/files/tmp' }
+      let(:base) { '' }
+      let(:node) { 'node1.example.com' }
+      let(:user) { 'toto' }
       let(:facts) { Hieraviz::Facts.new tmpdir, base, node, user }
       let(:data) { { 'a' => 'b' } }
-      let(:factsfile) { "spec/files/tmp/__node1.example.com__toto" }
+      let(:factsfile) { 'spec/files/tmp/__node1.example.com__toto' }
       before do
         facts.write(data)
         delete '/node/node1.example.com/facts'
@@ -229,17 +228,17 @@ describe HieravizApp::ApiV1 do
       it { expect(File).not_to exist(factsfile) }
     end
 
-    describe "GET /v1/farms" do
-      let(:expected) { { "farm1" => 0 } }
+    describe 'GET /v1/farms' do
+      let(:expected) { { 'farm1' => 0 } }
       before do
         get '/farms'
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
-    
-    describe "GET /v1/vars" do
-      let(:expected) { ['fqdn', 'farm'] }
+
+    describe 'GET /v1/vars' do
+      let(:expected) { %w(fqdn farm) }
       before do
         get '/vars'
       end
@@ -247,34 +246,33 @@ describe HieravizApp::ApiV1 do
       it { expect(JSON.parse last_response.body).to eq expected }
     end
 
-    describe "GET /v1/node/node1.example.com/hierarchy" do
-      let(:expected) {
+    describe 'GET /v1/node/node1.example.com/hierarchy' do
+      let(:expected) do
         {
-          "hiera" => [
-            "nodes/%{fqdn}",
-            "farm/%{farm}",
-            "common/common"
+          'hiera' => [
+            'nodes/%{fqdn}',
+            'farm/%{farm}',
+            'common/common'
           ],
-          "vars" => [
-            "fqdn",
-            "farm"
-          ],
-          "info" => {
-            "fqdn" => "node1.example.com",
-            "country" => "fr",
-            "datacenter" => "equinix",
-            "farm" => "dev",
-            "classes" => [
-              "farm1"
+          'vars' => %w(
+            fqdn
+            farm),
+          'info' => {
+            'fqdn' => 'node1.example.com',
+            'country' => 'fr',
+            'datacenter' => 'equinix',
+            'farm' => 'dev',
+            'classes' => [
+              'farm1'
             ]
           },
-          "files" => [
-            "params/nodes/node1.example.com.yaml"
+          'files' => [
+            'params/nodes/node1.example.com.yaml'
           ],
-          "facts" => {},
-          "defaults" => nil
+          'facts' => {},
+          'defaults' => nil
         }
-      }
+      end
       before do
         get '/node/node1.example.com/hierarchy'
       end
@@ -282,24 +280,21 @@ describe HieravizApp::ApiV1 do
       it { expect(JSON.parse last_response.body).to eq expected }
     end
 
-    describe "GET /v1/farm/dev" do
-      let(:expected) { 
+    describe 'GET /v1/farm/dev' do
+      let(:expected) do
         {
           'node1.example.com' => {
-            "country" => "fr",
-            "datacenter" => "equinix",
-            "farm" => "dev"
+            'country' => 'fr',
+            'datacenter' => 'equinix',
+            'farm' => 'dev'
           }
         }
-      }
+      end
       before do
         get '/farm/dev'
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
-
-
   end
-
 end

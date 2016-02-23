@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Hieraviz::Config do
-
   context 'with a single puppet dir' do
     before do
       ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../../files/config.yml', __FILE__
@@ -9,7 +8,7 @@ describe Hieraviz::Config do
     end
 
     describe '.load' do
-      let(:expected) { "spec/files/puppet" }
+      let(:expected) { 'spec/files/puppet' }
       it { expect(Hieraviz::Config.load['basepath']).to eq expected }
     end
 
@@ -49,15 +48,13 @@ describe Hieraviz::Config do
     end
 
     describe '.basepaths' do
-      let(:expected) { 
+      let(:expected) do
         [
           File.expand_path('../../../spec/files/puppet', __FILE__),
           File.expand_path('../../../spec/files/puppet2', __FILE__)
         ]
-      }
+      end
       it { expect(Hieraviz::Config.basepaths).to match_array(expected) }
     end
-
   end
-
 end

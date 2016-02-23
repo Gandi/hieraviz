@@ -1,13 +1,11 @@
 module Hieraviz
   module Config
-    extend self
-
     def load
       @_config = YAML.load_file(configfile)
     end
 
     def configfile
-      root_path(ENV['HIERAVIZ_CONFIG_FILE'] || File.join("config", "hieraviz.yml"))
+      root_path(ENV['HIERAVIZ_CONFIG_FILE'] || File.join('config', 'hieraviz.yml'))
     end
 
     def basepaths
@@ -27,6 +25,6 @@ module Hieraviz
         File.join(root, path)
       end
     end
-
+    module_function :load, :configfile, :basepaths, :root, :root_path
   end
 end

@@ -8,11 +8,11 @@ require 'sinatra/base'
 
 module RSpecMixin
   include Rack::Test::Methods
-  def app() 
+  def app
     described_class
   end
 end
 
-RSpec.configure do |config| 
+RSpec.configure do |config|
   config.include RSpecMixin
 end

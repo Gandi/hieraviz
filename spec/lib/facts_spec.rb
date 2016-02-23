@@ -1,13 +1,12 @@
 require 'spec_helper'
 
 describe Hieraviz::Facts do
-
-  let(:tmpdir) { "spec/files/tmp" }
-  let(:base) { "base" }
-  let(:node) { "node" }
-  let(:user) { "dummy" }
+  let(:tmpdir) { 'spec/files/tmp' }
+  let(:base) { 'base' }
+  let(:node) { 'node' }
+  let(:user) { 'dummy' }
   let(:facts) { Hieraviz::Facts.new tmpdir, base, node, user }
-  let(:expected) { "spec/files/tmp/base__node__dummy" }
+  let(:expected) { 'spec/files/tmp/base__node__dummy' }
 
   describe '.new' do
     it { expect(facts.instance_variable_get(:@filename)).to eq expected }
@@ -32,15 +31,14 @@ describe Hieraviz::Facts do
   end
 
   describe '.read' do
-    context "when there is facts recorded" do
-      let(:data) { { a: 'b'} }
+    context 'when there is facts recorded' do
+      let(:data) { { a: 'b' } }
       before { facts.write(data) }
       after  { File.unlink expected }
       it { expect(facts.read).to eq data }
     end
-    context "when there is no facts recorded" do
+    context 'when there is no facts recorded' do
       it { expect(facts.read).to eq Hash.new }
     end
   end
-
 end

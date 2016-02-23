@@ -1,26 +1,20 @@
 module Hieraviz
   module Store
-    extend self
-
     def data
-      @_data ||= Hash.new
+      @_data ||= {}
     end
 
     def set(key, value)
       File.open(tmpfile(key), 'w') do |f|
-        f.print Marshal::dump(value)
+        f.print Marshal.dump(value)
       end
       data[key] = value
     end
 
-    def get(key, expiration=false)
+    def get(key, expiration = false)
       f = tmpfile(key)
-      if File.exist?(f) && expiration && expired?(f, expiration)
-        File.unlink(f)
-      end
-      if File.exist?(f)
-        data[key] ||= Marshal::load(File.read(f).chomp)
-      end
+      File.unlink(f) if File.exist?(f) && expiration && expired?(f, expiration)
+      data[key] ||= Marshal.load(File.read(f).chomp) if File.exist?(f)
     end
 
     def dump
@@ -28,11 +22,11 @@ module Hieraviz
     end
 
     def tmpfile(name)
-      File.join tmpdir, name.gsub(/[^a-z0-9]/,'')
+      File.join tmpdir, name.gsub(/[^a-z0-9]/, '')
     end
 
     def tmpdir
-      @_tmpdir ||= init_tmpdir 
+      @_tmpdir ||= init_tmpdir
     end
 
     def init_tmpdir
@@ -40,7 +34,7 @@ module Hieraviz
       tmp = config['tmpdir'] || '/tmp'
       begin
         FileUtils.mkdir_p(tmp) unless Dir.exist?(tmp)
-      rescue Exception => e
+      rescue
         tmp = '/tmp'
       end
       tmp
@@ -50,5 +44,6 @@ module Hieraviz
       Time.now - duration > File.mtime(file)
     end
 
+    module_function :data, :set, :get, :dump, :tmpfile, :tmpdir, :init_tmpdir, :expired?
   end
 end

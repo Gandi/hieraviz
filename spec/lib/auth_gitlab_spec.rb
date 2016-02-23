@@ -2,8 +2,7 @@ require 'spec_helper'
 require 'oauth2_helper'
 
 describe Hieraviz::AuthGitlab do
-
-  let(:settings) {
+  let(:settings) do
     {
       'application_id' => '',
       'secret' => '',
@@ -12,12 +11,12 @@ describe Hieraviz::AuthGitlab do
       'required_response_key' => '',
       'required_response_value' => ''
     }
-  }
+  end
   let(:oauth2) { Hieraviz::AuthGitlab.new(settings) }
   before do
-    allow(OAuth2::Client).
-      to receive(:new).
-      and_return(Oauth2Mock.new)
+    allow(OAuth2::Client)
+      .to receive(:new)
+      .and_return(Oauth2Mock.new)
   end
 
   describe '.new' do
@@ -32,25 +31,25 @@ describe Hieraviz::AuthGitlab do
     let(:url) { 'http://example.com/something' }
     let(:token) { '123456' }
     let(:urlfail) { 'fail' }
-    let(:expected) {
+    let(:expected) do
       {
-        "somekey" => "somevalue"
+        'somekey' => 'somevalue'
       }
-    }
-    let(:expectedfail) {
-      {
-        "error" => "message"
-      }
-    }
-    before do
-      allow(OAuth2::AccessToken).
-        to receive(:new).
-        and_return(AccessTokenMock.new)
     end
-    context "when there is an error" do
+    let(:expectedfail) do
+      {
+        'error' => 'message'
+      }
+    end
+    before do
+      allow(OAuth2::AccessToken)
+        .to receive(:new)
+        .and_return(AccessTokenMock.new)
+    end
+    context 'when there is an error' do
       it { expect(oauth2.get_response(urlfail, token)).to eq expectedfail }
     end
-    context "when everything is fine" do
+    context 'when everything is fine' do
       it { expect(oauth2.get_response(url, token)).to eq expected }
     end
   end
@@ -67,7 +66,7 @@ describe Hieraviz::AuthGitlab do
 
   describe '.authorized?' do
     context 'when authorization is required' do
-      let(:settings) {
+      let(:settings) do
         {
           'application_id' => '',
           'secret' => '',
@@ -76,18 +75,18 @@ describe Hieraviz::AuthGitlab do
           'required_response_key' => 'id',
           'required_response_value' => '42'
         }
-      }
+      end
       context 'with a valid authorization' do
         let(:token) { '123456' }
         before do
-          allow(OAuth2::AccessToken).
-            to receive(:new).
-            and_return(AccessTokenMock.new)
+          allow(OAuth2::AccessToken)
+            .to receive(:new)
+            .and_return(AccessTokenMock.new)
         end
         it { expect(oauth2.authorized? token).to eq true }
       end
       context 'without a valid authorization' do
-        let(:settings) {
+        let(:settings) do
           {
             'application_id' => '',
             'secret' => '',
@@ -96,12 +95,12 @@ describe Hieraviz::AuthGitlab do
             'required_response_key' => 'id',
             'required_response_value' => '42'
           }
-        }
+        end
         let(:token) { '123456' }
         before do
-          allow(OAuth2::AccessToken).
-            to receive(:new).
-            and_return(AccessTokenMock.new)
+          allow(OAuth2::AccessToken)
+            .to receive(:new)
+            .and_return(AccessTokenMock.new)
         end
         it { expect(oauth2.authorized? token).to eq false }
       end
@@ -114,13 +113,12 @@ describe Hieraviz::AuthGitlab do
 
   describe '.user_info' do
     let(:token) { '123456' }
-    let(:expected) { { "somekey" => "somevalue" } }
+    let(:expected) { { 'somekey' => 'somevalue' } }
     before do
-      allow(OAuth2::AccessToken).
-        to receive(:new).
-        and_return(AccessTokenMock.new)
+      allow(OAuth2::AccessToken)
+        .to receive(:new)
+        .and_return(AccessTokenMock.new)
     end
     it { expect(oauth2.user_info(token)).to eq expected }
   end
-
 end

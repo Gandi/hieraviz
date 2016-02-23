@@ -4,7 +4,7 @@ module Hieraviz
     def initialize(tmpdir, base, node, user)
       @filename = File.join(tmpdir, "#{base}__#{node}__#{user}")
     end
-    
+
     def exist?
       File.exist? @filename
     end
@@ -16,9 +16,9 @@ module Hieraviz
         {}
       end
     end
-    
+
     def write(data)
-      File.open(@filename, 'wb') {|f| f.write(Marshal.dump(data)) }
+      File.open(@filename, 'wb') { |f| f.write(Marshal.dump(data)) }
     end
 
     def remove

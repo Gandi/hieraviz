@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-if !ENV['BUILD']
+unless ENV['BUILD']
   require 'rubygems'
   require 'bundler'
 
@@ -27,7 +27,7 @@ ENV['RACK_ENV'] = 'test'
 
 require 'hieraviz'
 
-RSpec.configure do |config| 
+RSpec.configure do |config|
   config.mock_with :rspec
   config.expect_with :rspec do |c|
     c.syntax = :expect
@@ -37,15 +37,15 @@ end
 module Rack
   module Test
     class Session
-      alias_method :old_env_for, :env_for
+      alias old_env_for env_for
       def rack_session
         @rack_session ||= {}
       end
-      def rack_session=(hash)
-        @rack_session = hash
-      end
+
+      attr_writer :rack_session
+
       def env_for(path, env)
-        old_env_for(path, env).merge({'rack.session' => rack_session})
+        old_env_for(path, env).merge('rack.session' => rack_session)
       end
     end
   end
