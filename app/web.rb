@@ -50,7 +50,7 @@ module HieravizApp
     when 'http'
 
       use Rack::Auth::Basic, 'Puppet Private Access' do |user, pass|
-        user == settings.configdata['http_auth']['username'] && 
+        user == settings.configdata['http_auth']['username'] &&
           pass == settings.configdata['http_auth']['password']
       end
 
@@ -72,23 +72,20 @@ module HieravizApp
       set :oauth, Hieraviz::AuthGitlab.new(settings.configdata['gitlab_auth'])
 
       helpers do
-
         def check_authorization
-          if session['access_token']
-            session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
-            if !session_info
-              if !settings.oauth.authorized?(session['access_token'])
-                flash[:fatal] = 'Sorry you are not authorized to read puppet repo on gitlab.'
-                redirect '/'
-              else
-                Hieraviz::Store.set session['access_token'], settings.oauth.user_info(session['access_token'])
-                session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
-              end
-            end
-            session_info['username']
-          else
-            redirect settings.oauth.login_url(request)
-          end
+          redirect settings.oauth.login_url(request) unless session['access_token']
+          return init_session if settings.oauth.authorized?(session['access_token'])
+          flash[:fatal] = 'Sorry you are not authorized to read puppet repo on gitlab.'
+          redirect '/'
+        end
+
+        def session_info
+          Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
+        end
+
+        def init_session
+          Hieraviz::Store.set session['access_token'], settings.oauth.user_info(session['access_token'])
+          settings.oauth.user_info(session['access_token'])['username']
         end
       end
 
@@ -146,11 +143,7 @@ module HieravizApp
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/user} do
       @username = check_authorization
-      if session[:access_token]
-        @userinfo = userinfo
-      else
-        @userinfo = {}
-      end
+      @userinfo = session[:access_token] ? userinfo : {}
       erb :user
     end
 

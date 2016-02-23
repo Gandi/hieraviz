@@ -36,7 +36,7 @@ module HieravizApp
         end
 
       when 'gitlab'
-        
+
         def username
           if session['access_token']
             session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
@@ -51,7 +51,7 @@ module HieravizApp
         def userinfo
           Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
         end
-        
+
       end
 
       def prepare_config(e, node = nil)
@@ -59,7 +59,7 @@ module HieravizApp
         path = get_path(e)[0]
         if path
           @base = get_base(path)
-          @base_name = @base.gsub(/\//,'')
+          @base_name = @base.gsub(%r{/}, '')
           get_config(path, cached_params(e, node))
         end
       end
@@ -67,9 +67,7 @@ module HieravizApp
       def cached_params(base, node)
         if node
           cache = Hieraviz::Facts.new settings.configdata['tmpdir'], base, node, username
-          if cache.exist?
-            return cache.read
-          end
+          return cache.read if cache.exist?
         end
         {}
       end
@@ -77,30 +75,25 @@ module HieravizApp
       def prepare_params(e)
         e ||= File.basename(settings.configdata['basepath'])
         path = get_path(e)[0]
-        if path
-          settings.configdata['basepath'] = path
-          settings.configdata
-        end        
+        return unless path
+        settings.configdata['basepath'] = path
+        settings.configdata
       end
-      
+
       def get_path(path)
         if settings.basepaths
           settings.basepaths.select do |p|
             path == File.basename(p)
           end
         else
-          [ settings.configdata['basepath'] ]
+          [settings.configdata['basepath']]
         end
       end
-      
+
       def get_config(path, extra)
         args = { config: Hieraviz::Config.configfile }
-        if path
-          args[:basepath] = path
-        end
-        if extra.length > 0
-          args[:params] = format_params(extra)
-        end
+        args[:basepath] = path if path
+        args[:params] = format_params(extra) unless extra.empty?
         Hieracles::Config.new args
       end
 
@@ -109,12 +102,10 @@ module HieravizApp
       end
 
       def format_params(params)
-        params.reduce([]) do |a, (k, v)|
+        params.each_with_object([]) do |(k, v), a|
           a << "#{k}=#{v}"
-          a
         end.join(',')
       end
-
     end
 
   end
