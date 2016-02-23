@@ -10,7 +10,7 @@ https://fetch.spec.whatwg.org
 */
 
 function ready(fn) {
-  if (document.readyState != 'loading') {
+  if (document.readyState !== 'loading') {
     fn();
   } else {
     document.addEventListener('DOMContentLoaded', fn);
@@ -25,7 +25,7 @@ ready( () => {
   filterBox(".side .filter input", farms);
 
   function restore_url(list) {
-    if (window.location.hash != '') {
+    if (window.location.hash !== '') {
       var target = window.location.hash.replace(/#/,'');
       var parts = target.split('/');
       Array.prototype.forEach.call(list, (item, i) => {
@@ -86,7 +86,7 @@ ready( () => {
           }
           removeClass(meat, 'wait');
         });
-    },
+    }
   };
 
   Array.prototype.forEach.call(farms, (item, i) => {

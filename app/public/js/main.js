@@ -27,7 +27,7 @@ function make_base_auth(user, password) {
 }
 
 function addClass(el, className) {
-  if (el.classList != null)
+  if (el.classList !== null)
     el.classList.add(className);
   else
     el.className += ' ' + className;
@@ -62,7 +62,7 @@ function filterBox(input, els) {
   filterinput.focus();
   filterinput.addEventListener('keyup', (ev) => {
     el = ev.target;
-    if (el.value == '') 
+    if (el.value === '') 
       Array.prototype.forEach.call(els, (item, i) => {
         item.style.display = 'block';
       });

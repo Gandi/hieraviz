@@ -22,7 +22,7 @@ ready( () => {
       var target = window.location.hash.replace(/#/,'');
       var parts = target.split('/');
       Array.prototype.forEach.call(list, (item, i) => {
-        if (item.textContent == parts[0]) {
+        if (item.textContent === parts[0]) {
           if (parts[1] != undefined) {
             Node[parts[1]](parts[0]);
           } else {
@@ -50,7 +50,7 @@ ready( () => {
 
   function build_row(top, key, params) {
     build_line(top, params['file'], key, params['value'], false);
-    if (params['overriden'] == true) {
+    if (params['overriden'] === true) {
       Array.prototype.forEach.call(params['found_in'], (values, i) => {
         build_line(top, values['file'], key, values['value'], true);
       });
@@ -136,7 +136,7 @@ ready( () => {
     fetch(req, auth_header()).
       then(res => res.json()).
       then(j => {
-        if (j.error != undefined) {
+        if (j.error !== undefined) {
           show_error(hierachy, j['error']);
         } else {
           location.reload();
@@ -152,7 +152,7 @@ ready( () => {
       then(res => res.json()).
       then(j => {
         var hierachy = document.querySelector('div.hierarchy');
-        if (j.error != undefined) {
+        if (j.error !== undefined) {
           show_error(hierachy, j['error']);
         } else {
           console.debug(j);
@@ -171,7 +171,7 @@ ready( () => {
           hierarchy.appendChild(nodeinfo);
           Array.prototype.forEach.call(Object.keys(j.info), (item, k) => {
             var index = j.vars.indexOf(item);
-            if (index > -1 && (j.facts == null || j.facts[item] == undefined)) {
+            if (index > -1 && (j.facts === null || j.facts[item] === undefined)) {
               addTo(nodeinfo, "<div class=\"var\"><div class=\"label\">"+item+"</div>" + 
                               "<div><input type=\"text\" name=\""+item+"\" value=\""+j.info[item]+"\" disabled></div></div>");
               j.vars.splice(index, 1);
@@ -182,9 +182,9 @@ ready( () => {
           var factinfo = document.createElement('div');
           factinfo.className = "factinfo";
           hierarchy.appendChild(factinfo);
-          if (j.facts == null) {
+          if (j.facts === null) {
             Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
-              if (j.defaults != null && j.defaults[j.vars[item]] != undefined) {
+              if (j.defaults !== null && j.defaults[j.vars[item]] !== undefined) {
                 addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
                                 "<div><input type=\"text\" class=\"userinput\" name=\"" +
                                 j.vars[item]+"\" value=\"" + 
@@ -192,7 +192,7 @@ ready( () => {
               }
             });
             Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
-              if (j.defaults == null || j.defaults[j.vars[item]] == undefined) {
+              if (j.defaults === null || j.defaults[j.vars[item]] === undefined) {
                 addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
                                 "<div><input type=\"text\" class=\"userinput\" name=\"" + 
                                 j.vars[item]+"\" value=\"\"></div></div>");
@@ -201,7 +201,7 @@ ready( () => {
           } else {
             Array.prototype.forEach.call(Object.keys(j.facts), (item, k) => {
               var override = '';
-              if (j.defaults != null && j.defaults[item] != undefined) {
+              if (j.defaults !== null && j.defaults[item] !== undefined) {
                 override = " <i>("+j.defaults[item]+")</i>";
               }
               addTo(factinfo, "<div class=\"var\"><div class=\"label\">" +
@@ -294,7 +294,7 @@ ready( () => {
         then(j => {
           // console.log(auth_header().headers.getAll('x-auth'));
           build_top(node);
-          if (j.error != undefined) {
+          if (j.error !== undefined) {
             show_error(meat, j['error']);
           } else {
             build_params(meat, node, j);
@@ -313,7 +313,7 @@ ready( () => {
         then(res => res.json()).
         then(j => {
           build_top(node);
-          if (j.error != undefined) {
+          if (j.error !== undefined) {
             show_error(meat, j['error']);
           } else {
             build_info(meat, node, j);
@@ -332,7 +332,7 @@ ready( () => {
         then(res => res.json()).
         then(j => {
           build_top(node);
-          if (j.error != undefined) {
+          if (j.error !== undefined) {
             show_error(meat, j['error']);
           } else {
             build_params(meat, node, j);
