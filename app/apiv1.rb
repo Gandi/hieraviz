@@ -42,7 +42,7 @@ module HieravizApp
 
     helpers do
       def get_facts(base, node)
-        Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+        Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, username)
       end
     end
 
@@ -117,7 +117,7 @@ module HieravizApp
       hieracles_config = prepare_config(base, node)
       hiera = Hieracles::Hiera.new(hieracles_config)
       nodeinfo = Hieracles::Node.new(node, hieracles_config)
-      facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+      facts = get_facts(base, node)
       res = {
         'hiera'    => hiera.hierarchy,
         'vars'     => hiera.params,

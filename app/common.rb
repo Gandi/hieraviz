@@ -7,36 +7,37 @@ module HieravizApp
     configure do
       set :app_name, 'HieraViz'
       set :configdata, Hieraviz::Config.load
-      set :config, Hieracles::Config.new({ config: Hieraviz::Config.configfile })
+      set :config, Hieracles::Config.new(config: Hieraviz::Config.configfile)
       set :basepaths, Hieraviz::Config.basepaths
       enable :session
       enable :logging
     end
 
     helpers do
-
       case settings.configdata['auth_method']
       when 'dummy'
 
-        def get_username
+        def username
           'Dummy'
         end
-        def get_userinfo
+
+        def userinfo
           { 'username' => 'Dummy' }
         end
 
       when 'http'
 
-        def get_username
+        def username
           settings.configdata['http_auth']['username']
         end
-        def get_userinfo
+
+        def userinfo
           { 'username' => settings.configdata['http_auth']['username'] }
         end
 
       when 'gitlab'
         
-        def get_username
+        def username
           if session['access_token']
             session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
             if session_info
@@ -47,7 +48,7 @@ module HieravizApp
           end
         end
 
-        def get_userinfo
+        def userinfo
           Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
         end
         
@@ -65,7 +66,7 @@ module HieravizApp
 
       def cached_params(base, node)
         if node
-          cache = Hieraviz::Facts.new settings.configdata['tmpdir'], base, node, get_username
+          cache = Hieraviz::Facts.new settings.configdata['tmpdir'], base, node, username
           if cache.exist?
             return cache.read
           end

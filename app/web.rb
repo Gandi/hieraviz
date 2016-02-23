@@ -49,9 +49,9 @@ module HieravizApp
 
     when 'http'
 
-      use Rack::Auth::Basic, "Puppet Private Access" do |username, password|
-        username == settings.configdata['http_auth']['username'] && 
-        password == settings.configdata['http_auth']['password']
+      use Rack::Auth::Basic, "Puppet Private Access" do |user, pass|
+        user == settings.configdata['http_auth']['username'] && 
+        pass == settings.configdata['http_auth']['password']
       end
 
       get '/logout' do
@@ -116,7 +116,7 @@ module HieravizApp
       if settings.basepaths
         redirect "/#{File.basename(settings.configdata['basepath'])}"
       else
-        @username = get_username
+        @username = username
         hieracles_config = prepare_config(nil)
         erb :home
       end
@@ -149,7 +149,7 @@ module HieravizApp
     get %r{^/?([-_\.a-zA-Z0-9]+)?/user} do |base|
       @username = check_authorization
       if session[:access_token]
-        @userinfo = get_userinfo 
+        @userinfo = userinfo 
       else
         @userinfo = {}
       end
@@ -157,7 +157,7 @@ module HieravizApp
     end
 
     get %r{^/([-_\.a-zA-Z0-9]+)$} do |base|
-      @username = get_username
+      @username = username
       erb :home
     end
 
@@ -176,7 +176,7 @@ module HieravizApp
     # debug pages --------------------
 
     not_found do
-      @username = get_username
+      @username = username
       erb :not_found, layout: :_layout
     end
 
