@@ -41,7 +41,9 @@ module HieravizApp
     end
 
     helpers do
-
+      def get_facts(base, node)
+        Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+      end
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/nodes} do |base|
@@ -73,20 +75,20 @@ module HieravizApp
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/facts} do |base, node|
       check_authorization
-      facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+      facts = get_facts(base, node)
       json facts.read
     end
 
     post %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/facts} do |base, node|
       check_authorization
-      facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+      facts = get_facts(base, node)
       data = JSON.parse(request.body.read.to_s)
       json facts.write(data)
     end
 
     delete %r{^/?([-_\.a-zA-Z0-9]+)?/node/([-_\.a-zA-Z0-9]+)/facts} do |base, node|
       check_authorization
-      facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
+      facts = get_facts(base, node)
       json facts.remove
     end
 

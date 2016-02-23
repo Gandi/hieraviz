@@ -24,25 +24,6 @@ ready( () => {
   focusNav('farms');
   filterBox(".side .filter input", farms);
 
-  function restore_url(list) {
-    if (window.location.hash !== '') {
-      var target = window.location.hash.replace(/#/,'');
-      var parts = target.split('/');
-      Array.prototype.forEach.call(list, (item, i) => {
-        if (item.textContent == parts[0]) {
-          if (parts[1] != undefined) {
-            Farm[parts[1]](parts[0]);
-          } else {
-            var event = document.createEvent('HTMLEvents');
-            event.initEvent('click', true, false);
-            item.dispatchEvent(event);
-          }
-        }
-      });
-    }
-  }
-
-
   function build_list(top, title, hash) {
     window.location.hash = '#'+title;
     top.innerHTML = "<h3>Farm "+title+"</h3>";
@@ -74,7 +55,7 @@ ready( () => {
       fetch('/v1/' + base + '/farm/' + farm, auth_header()).
         then(res => res.json()).
         then(j => {
-          if (j.error != undefined) {
+          if (j.error !== undefined) {
             show_error(meat, j['error']);
           } else {
             build_list(meat, farm, j);
@@ -96,6 +77,6 @@ ready( () => {
   });
 
   update_footer('/v1/' + base + '/farms');
-  restore_url(farms);
+  restore_url(Farm, farms);
 
 });

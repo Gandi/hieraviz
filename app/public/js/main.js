@@ -95,6 +95,23 @@ function auth_header() {
   return { headers: h }
 }
 
+function restore_url(list, class) {
+  if (window.location.hash !== '') {
+    var target = window.location.hash.replace(/#/,'');
+    var parts = target.split('/');
+    Array.prototype.forEach.call(list, (item, i) => {
+      if (item.textContent === parts[0]) {
+        if (parts[1] !== undefined) {
+          class[parts[1]](parts[0]);
+        } else {
+          var event = document.createEvent('HTMLEvents');
+          event.initEvent('click', true, false);
+          item.dispatchEvent(event);
+        }
+      }
+    });
+  }
+}
 
 ready( () => {
 

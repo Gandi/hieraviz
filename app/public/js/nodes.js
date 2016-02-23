@@ -17,24 +17,6 @@ ready( () => {
   focusNav('nodes');
   filterBox(".side .filter input", nodes);
 
-  function restore_url(list) {
-    if (window.location.hash != '') {
-      var target = window.location.hash.replace(/#/,'');
-      var parts = target.split('/');
-      Array.prototype.forEach.call(list, (item, i) => {
-        if (item.textContent === parts[0]) {
-          if (parts[1] != undefined) {
-            Node[parts[1]](parts[0]);
-          } else {
-            var event = document.createEvent('HTMLEvents');
-            event.initEvent('click', true, false);
-            item.dispatchEvent(event);
-          }
-        }
-      });
-    }
-  }
-
   function build_line(top, file, key, value, overriden) {
     if (overriden === true) {
       rowclass = "row overriden";
@@ -354,6 +336,6 @@ ready( () => {
   });
 
   update_footer('/v1/' + base + '/nodes');
-  restore_url(nodes);
+  restore_url(Node, nodes);
 
 });
