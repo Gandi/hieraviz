@@ -118,7 +118,7 @@ module HieravizApp
       hiera = Hieracles::Hiera.new(hieracles_config)
       nodeinfo = Hieracles::Node.new(node, hieracles_config)
       facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
-      res = { 
+      res = {
         'hiera'    => hiera.hierarchy,
         'vars'     => hiera.params,
         'info'     => nodeinfo.info,
@@ -132,9 +132,8 @@ module HieravizApp
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farm/([-_\.a-zA-Z0-9]+)$} do |base, farm|
       check_authorization
       hieracles_config = prepare_config(base)
-      nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).reduce({}) do |a, (k, v)|
+      nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).each_with_object({}) do |(k, v), a|
         a[k] = v if v['farm'] == farm
-        a
       end
       json nodes
     end
@@ -146,15 +145,15 @@ module HieravizApp
     end
 
     get '/not_logged' do
-      json({ error: "Not connected." })
+      json(error: 'Not connected.')
     end
 
     get '/unauthorized' do
-      json({ error: "Unauthorized" })
+      json(error: 'Unauthorized')
     end
 
     not_found do
-      json({ error: "endpoint not found" })
+      json(error: 'Endpoint not found')
     end
 
   end
