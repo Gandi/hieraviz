@@ -4,23 +4,23 @@ module Hieraviz
   class AuthGitlab
 
     def initialize(settings)
-      @@client ||= OAuth2::Client.new(
-        settings['application_id'], 
-        settings['secret'], 
-        :site => settings['host']
-        )
+      @client = OAuth2::Client.new(
+        settings['application_id'],
+        settings['secret'],
+        site: settings['host']
+      )
       @settings = settings
     end
 
     def access_token(request, code)
-      @@client.auth_code.get_token(code, :redirect_uri => redirect_uri(request.url))
+      @client.auth_code.get_token(code, redirect_uri: redirect_uri(request.url))
     end
 
     def get_response(url, token)
-      a_token = OAuth2::AccessToken.new(@@client, token)
+      a_token = OAuth2::AccessToken.new(@client, token)
       begin
         JSON.parse(a_token.get(url).body)
-      rescue Exception => e
+      rescue StandardError => e
         { 'error' => JSON.parse(e.message.split(/\n/)[1])['message'] }
       end
     end
@@ -34,7 +34,7 @@ module Hieraviz
     end
 
     def login_url(request)
-      @@client.auth_code.authorize_url(:redirect_uri => redirect_uri(request.url))
+      @client.auth_code.authorize_url(redirect_uri: redirect_uri(request.url))
     end
 
     def authorized?(token)
