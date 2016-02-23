@@ -213,7 +213,6 @@ describe HieravizApp::ApiV1 do
       it { expect(File).to exist(factsfile) }
     end
 
-
     describe "DELETE /v1/node/node1.example.com/facts" do
       let(:tmpdir) { "spec/files/tmp" }
       let(:base) { "" }
@@ -229,7 +228,6 @@ describe HieravizApp::ApiV1 do
       it { expect(last_response).to be_ok }
       it { expect(File).not_to exist(factsfile) }
     end
-
 
     describe "GET /v1/farms" do
       let(:expected) { { "farm1" => 0 } }
@@ -248,6 +246,43 @@ describe HieravizApp::ApiV1 do
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
+
+    describe "GET /v1/node/node1.example.com/hierarchy" do
+      let(:expected) {
+        {
+          "hiera" => [
+            "nodes/%{fqdn}",
+            "farm/%{farm}",
+            "common/common"
+          ],
+          "vars" => [
+            "fqdn",
+            "farm"
+          ],
+          "info" => {
+            "fqdn" => "node1.example.com",
+            "country" => "fr",
+            "datacenter" => "equinix",
+            "farm" => "dev",
+            "classes" => [
+              "farm1"
+            ]
+          },
+          "files" => [
+            "params/nodes/node1.example.com.yaml"
+          ],
+          "facts" => {},
+          "defaults" => nil
+        }
+      }
+      before do
+        get '/node/node1.example.com/hierarchy'
+      end
+      it { expect(last_response).to be_ok }
+      it { expect(JSON.parse last_response.body).to eq expected }
+    end
+
+
   end
 
 end

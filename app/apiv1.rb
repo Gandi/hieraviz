@@ -116,7 +116,6 @@ module HieravizApp
       hiera = Hieracles::Hiera.new(hieracles_config)
       nodeinfo = Hieracles::Node.new(node, hieracles_config)
       facts = Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, get_username)
-      puts facts.instance_variable_get(:@filename)
       res = { 
         'hiera'    => hiera.hierarchy,
         'vars'     => hiera.params,
