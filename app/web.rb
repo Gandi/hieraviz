@@ -49,7 +49,7 @@ module HieravizApp
 
     when 'http'
 
-      use Rack::Auth::Basic, "Puppet Private Access" do |user, pass|
+      use Rack::Auth::Basic, 'Puppet Private Access' do |user, pass|
         user == settings.configdata['http_auth']['username'] && 
           pass == settings.configdata['http_auth']['password']
       end
@@ -124,7 +124,7 @@ module HieravizApp
       @username = check_authorization
       hieracles_config = prepare_config(base)
       @nodes = Hieracles::Registry.nodes(hieracles_config)
-      erb :nodes 
+      erb :nodes
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farms} do |base|
