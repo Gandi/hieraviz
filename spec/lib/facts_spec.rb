@@ -32,10 +32,15 @@ describe Hieraviz::Facts do
   end
 
   describe '.read' do
-    let(:data) { { a: 'b'} }
-    before { facts.write(data) }
-    after  { File.unlink expected }
-    it { expect(facts.read).to eq data }
+    context "when there is facts recorded" do
+      let(:data) { { a: 'b'} }
+      before { facts.write(data) }
+      after  { File.unlink expected }
+      it { expect(facts.read).to eq data }
+    end
+    context "when there is no facts recorded" do
+      it { expect(facts.read).to eq Hash.new }
+    end
   end
 
 end

@@ -12,6 +12,8 @@ module Hieraviz
     def read
       if exist?
         Marshal.load(File.binread(@filename))
+      else
+        {}
       end
     end
     

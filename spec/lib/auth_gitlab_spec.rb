@@ -3,7 +3,17 @@ require 'oauth2_helper'
 
 describe Hieraviz::AuthGitlab do
 
-  let(:oauth2) { Hieraviz::AuthGitlab.new({}) }
+  let(:settings) {
+    {
+      'application_id' => '',
+      'secret' => '',
+      'host' => '',
+      'resource_required' => false,
+      'required_response_key' => '',
+      'required_response_value' => ''
+    }
+  }
+  let(:oauth2) { Hieraviz::AuthGitlab.new(settings) }
   before do
     allow(OAuth2::Client).
       to receive(:new).
@@ -56,6 +66,50 @@ describe Hieraviz::AuthGitlab do
   end
 
   describe '.authorized?' do
+    context 'when authorization is required' do
+      let(:settings) {
+        {
+          'application_id' => '',
+          'secret' => '',
+          'host' => '',
+          'resource_required' => 'http://example.com/something',
+          'required_response_key' => 'id',
+          'required_response_value' => '42'
+        }
+      }
+      context 'with a valid authorization' do
+        let(:token) { '123456' }
+        before do
+          allow(OAuth2::AccessToken).
+            to receive(:new).
+            and_return(AccessTokenMock.new)
+        end
+        it { expect(oauth2.authorized? token).to eq true }
+      end
+      context 'without a valid authorization' do
+        let(:settings) {
+          {
+            'application_id' => '',
+            'secret' => '',
+            'host' => '',
+            'resource_required' => 'fail',
+            'required_response_key' => 'id',
+            'required_response_value' => '42'
+          }
+        }
+        let(:token) { '123456' }
+        before do
+          allow(OAuth2::AccessToken).
+            to receive(:new).
+            and_return(AccessTokenMock.new)
+        end
+        it { expect(oauth2.authorized? token).to eq false }
+      end
+    end
+    context 'when no authorization is required' do
+      let(:token) { '123456' }
+      it { expect(oauth2.authorized? token).to be_truthy }
+    end
   end
 
   describe '.user_info' do

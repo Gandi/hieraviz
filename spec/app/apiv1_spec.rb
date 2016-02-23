@@ -169,6 +169,32 @@ describe HieravizApp::ApiV1 do
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse last_response.body).to eq expected }
     end
+    describe "GET /v1/node/node1.example.com/facts" do
+      context "when no facts are recorded" do
+        let(:expected) { Hash.new }
+        before do
+          get '/node/node1.example.com/facts'
+        end
+        it { expect(last_response).to be_ok }
+        it { expect(JSON.parse last_response.body).to eq expected }
+      end
+      context "when some facts are recorded" do
+        let(:tmpdir) { "spec/files/tmp" }
+        let(:base) { "" }
+        let(:node) { "node1.example.com" }
+        let(:user) { "toto" }
+        let(:facts) { Hieraviz::Facts.new tmpdir, base, node, user }
+        let(:data) { { 'a' => 'b' } }
+        let(:factsfile) { "spec/files/tmp/__node1.example.com__toto" }
+        after  { File.unlink factsfile }
+        before do
+          facts.write(data)
+          get '/node/node1.example.com/facts'
+        end
+        it { expect(last_response).to be_ok }
+        it { expect(JSON.parse last_response.body).to eq data }
+      end
+    end
     describe "GET /v1/farms" do
       let(:expected) { { "farm1" => 0 } }
       before do
