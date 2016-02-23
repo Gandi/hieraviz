@@ -4,5 +4,17 @@ engines:
     enabled: true
   duplication:
     enabled: true
+    config:
+      languages:
+      - ruby
+      - javascript
   eslint:
     enabled: true
+  bundler-audit:
+    enabled: true
+
+ratings:
+   paths:
+   - Gemfile.lock
+   - "**.rb"
+   - "**.js"
