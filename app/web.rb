@@ -17,8 +17,8 @@ module HieravizApp
 
     configure do
       set :session_secret, settings.configdata['session_seed']
-      set :public_folder, Proc.new { File.join(root, "public") }
-      set :views_folder, Proc.new { File.join(root, "views") }
+      set :public_folder, -> { File.join(root, 'public') }
+      set :views_folder, -> { File.join(root, 'views') }
       set :erb, layout: :_layout
       enable :sessions
     end
@@ -51,7 +51,7 @@ module HieravizApp
 
       use Rack::Auth::Basic, "Puppet Private Access" do |user, pass|
         user == settings.configdata['http_auth']['username'] && 
-        pass == settings.configdata['http_auth']['password']
+          pass == settings.configdata['http_auth']['password']
       end
 
       get '/logout' do
@@ -60,7 +60,7 @@ module HieravizApp
 
       helpers do
         def check_authorization
-          if !session['access_token']
+          unless session['access_token']
             session[:access_token] = settings.configdata['http_auth']['access_token']
           end
           settings.configdata['http_auth']['username']
@@ -74,13 +74,11 @@ module HieravizApp
       helpers do
 
         def check_authorization
-          if !session['access_token']
-            redirect settings.oauth.login_url(request)
-          else
+          if session['access_token']
             session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
             if !session_info
               if !settings.oauth.authorized?(session['access_token'])
-                flash[:fatal] = "Sorry you are not authorized to read puppet repo on gitlab."
+                flash[:fatal] = 'Sorry you are not authorized to read puppet repo on gitlab.'
                 redirect '/'
               else
                 Hieraviz::Store.set session['access_token'], settings.oauth.user_info(session['access_token'])
@@ -88,6 +86,8 @@ module HieravizApp
               end
             end
             session_info['username']
+          else
+            redirect settings.oauth.login_url(request)
           end
         end
       end
@@ -100,7 +100,7 @@ module HieravizApp
         access_token = settings.oauth.access_token(request, params[:code])
         session[:access_token] = access_token.token
         Hieraviz::Store.set access_token.token, settings.oauth.user_info(access_token.token)
-        flash['info'] = "Successfully authenticated with the server"
+        flash['info'] = 'Successfully authenticated with the server'
         redirect '/'
       end
 
@@ -109,7 +109,6 @@ module HieravizApp
         redirect '/'
       end
 
-    else
     end
 
     get '/' do
@@ -117,7 +116,6 @@ module HieravizApp
         redirect "/#{File.basename(settings.configdata['basepath'])}"
       else
         @username = username
-        hieracles_config = prepare_config(nil)
         erb :home
       end
     end
@@ -136,27 +134,27 @@ module HieravizApp
       erb :farms
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?/modules} do |base|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/modules} do
       @username = check_authorization
       erb :modules
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?/resources} do |base|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/resources} do
       @username = check_authorization
       erb :resources
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?/user} do |base|
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/user} do
       @username = check_authorization
       if session[:access_token]
-        @userinfo = userinfo 
+        @userinfo = userinfo
       else
         @userinfo = {}
       end
       erb :user
     end
 
-    get %r{^/([-_\.a-zA-Z0-9]+)$} do |base|
+    get %r{^/([-_\.a-zA-Z0-9]+)$} do
       @username = username
       erb :home
     end
@@ -179,7 +177,6 @@ module HieravizApp
       @username = username
       erb :not_found, layout: :_layout
     end
-
 
   end
 end
