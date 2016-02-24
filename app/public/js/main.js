@@ -9,6 +9,7 @@ let's use the fetch API for ajax calls
 https://fetch.spec.whatwg.org
 */
 
+// "use strict";
 
 function ready(fn) {
   if (document.readyState != 'loading') {
@@ -46,6 +47,7 @@ function focusNav(className) {
     removeClass(item, 'focus')
   });
   var navFocus = document.querySelector('.nav a.' + className);
+  console.log(nav);
   addClass(navFocus, 'focus');
 }
 
@@ -59,21 +61,23 @@ function shortParamFile(path) {
 
 function filterBox(input, els) {
   var filterinput = document.querySelector(input);
-  filterinput.focus();
-  filterinput.addEventListener('keyup', (ev) => {
-    el = ev.target;
-    if (el.value === '') 
-      Array.prototype.forEach.call(els, (item, i) => {
-        item.style.display = 'block';
-      });
-    else
-      Array.prototype.forEach.call(els, (item, i) => {
-        if (item.textContent.match(el.value))
+  if (filterinput !== null) {
+    filterinput.focus();
+    filterinput.addEventListener('keyup', (ev) => {
+      el = ev.target;
+      if (el.value === '') 
+        Array.prototype.forEach.call(els, (item, i) => {
           item.style.display = 'block';
-        else
-          item.style.display = 'none';
-      });
-  });
+        });
+      else
+        Array.prototype.forEach.call(els, (item, i) => {
+          if (item.textContent.match(el.value))
+            item.style.display = 'block';
+          else
+            item.style.display = 'none';
+        });
+    });
+  }
 }
 
 function start_wait(meat) {
@@ -95,14 +99,14 @@ function auth_header() {
   return { headers: h }
 }
 
-function restore_url(list, class) {
+function restore_url(list, someclass) {
   if (window.location.hash !== '') {
     var target = window.location.hash.replace(/#/,'');
     var parts = target.split('/');
     Array.prototype.forEach.call(list, (item, i) => {
       if (item.textContent === parts[0]) {
         if (parts[1] !== undefined) {
-          class[parts[1]](parts[0]);
+          someclass[parts[1]](parts[0]);
         } else {
           var event = document.createEvent('HTMLEvents');
           event.initEvent('click', true, false);
