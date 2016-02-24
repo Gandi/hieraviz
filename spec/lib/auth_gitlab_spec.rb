@@ -83,7 +83,7 @@ describe Hieraviz::AuthGitlab do
             .to receive(:new)
             .and_return(AccessTokenMock.new)
         end
-        it { expect(oauth2.authorized? token).to eq true }
+        it { expect(oauth2.authorized?(token)).to eq true }
       end
       context 'without a valid authorization' do
         let(:settings) do
@@ -102,12 +102,12 @@ describe Hieraviz::AuthGitlab do
             .to receive(:new)
             .and_return(AccessTokenMock.new)
         end
-        it { expect(oauth2.authorized? token).to eq false }
+        it { expect(oauth2.authorized?(token)).to eq false }
       end
     end
     context 'when no authorization is required' do
       let(:token) { '123456' }
-      it { expect(oauth2.authorized? token).to be_truthy }
+      it { expect(oauth2.authorized?(token)).to be_truthy }
     end
   end
 

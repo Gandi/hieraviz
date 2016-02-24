@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Hieraviz::Puppetdb do
-  let(:ppdb) { Hieraviz::Puppetdb.new Hash.new }
+  let(:ppdb) { Hieraviz::Puppetdb.new({}) }
 
   describe '.new' do
     it { expect(ppdb.instance_variable_get(:@request)).to be_a Hieracles::Puppetdb::Request }

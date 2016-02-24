@@ -8,7 +8,7 @@ describe HieravizApp::ApiV1 do
         get '/blahblah'
       end
       it { expect(last_response).not_to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
   end
 
@@ -27,7 +27,7 @@ describe HieravizApp::ApiV1 do
         get '/not_logged'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
   end
 
@@ -51,7 +51,7 @@ describe HieravizApp::ApiV1 do
         get '/unauthorized'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
   end
 
@@ -70,7 +70,7 @@ describe HieravizApp::ApiV1 do
         get '/nodes'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
 
     describe 'GET /v1/node/node1.example.com/info' do
@@ -87,7 +87,7 @@ describe HieravizApp::ApiV1 do
         get '/node/node1.example.com/info'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
 
     describe 'GET /v1/node/node1.example.com/params' do
@@ -110,7 +110,7 @@ describe HieravizApp::ApiV1 do
         get '/node/node1.example.com/params'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
 
     describe 'GET /v1/node/node1.example.com' do
@@ -133,7 +133,7 @@ describe HieravizApp::ApiV1 do
         get '/node/node1.example.com'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
 
     describe 'GET /v1/node/node1.example.com/allparams' do
@@ -171,7 +171,7 @@ describe HieravizApp::ApiV1 do
         get '/node/node1.example.com/allparams'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
 
     describe 'GET /v1/node/node1.example.com/facts' do
@@ -181,7 +181,7 @@ describe HieravizApp::ApiV1 do
           get '/node/node1.example.com/facts'
         end
         it { expect(last_response).to be_ok }
-        it { expect(JSON.parse last_response.body).to eq expected }
+        it { expect(JSON.parse(last_response.body)).to eq expected }
       end
       context 'when some facts are recorded' do
         let(:tmpdir) { 'spec/files/tmp' }
@@ -197,7 +197,7 @@ describe HieravizApp::ApiV1 do
           get '/node/node1.example.com/facts'
         end
         it { expect(last_response).to be_ok }
-        it { expect(JSON.parse last_response.body).to eq data }
+        it { expect(JSON.parse(last_response.body)).to eq data }
       end
     end
 
@@ -234,7 +234,7 @@ describe HieravizApp::ApiV1 do
         get '/farms'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
 
     describe 'GET /v1/vars' do
@@ -243,7 +243,7 @@ describe HieravizApp::ApiV1 do
         get '/vars'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
 
     describe 'GET /v1/node/node1.example.com/hierarchy' do
@@ -277,7 +277,7 @@ describe HieravizApp::ApiV1 do
         get '/node/node1.example.com/hierarchy'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
 
     describe 'GET /v1/farm/dev' do
@@ -294,7 +294,7 @@ describe HieravizApp::ApiV1 do
         get '/farm/dev'
       end
       it { expect(last_response).to be_ok }
-      it { expect(JSON.parse last_response.body).to eq expected }
+      it { expect(JSON.parse(last_response.body)).to eq expected }
     end
   end
 end

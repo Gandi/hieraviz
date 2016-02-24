@@ -3,7 +3,7 @@ require 'fileutils'
 
 describe Hieraviz::Store do
   describe '.data' do
-    it { expect(Hieraviz::Store.data).to eq Hash.new }
+    it { expect(Hieraviz::Store.data).to eq({}) }
   end
 
   describe '.set' do
@@ -103,7 +103,7 @@ describe Hieraviz::Store do
       let(:tmpdir_nodir) { File.expand_path('../../files/tmp_tmp', __FILE__) }
       before do
         allow(Hieraviz::Config).to receive(:load).and_return('tmpdir' => tmpdir_nodir)
-        tmpexpect = Hieraviz::Store.init_tmpdir
+        Hieraviz::Store.init_tmpdir
       end
       after do
         FileUtils.rm_rf(tmpdir_nodir) if Dir.exist?(tmpdir_nodir)

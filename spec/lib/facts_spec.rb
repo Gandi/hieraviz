@@ -38,7 +38,7 @@ describe Hieraviz::Facts do
       it { expect(facts.read).to eq data }
     end
     context 'when there is no facts recorded' do
-      it { expect(facts.read).to eq Hash.new }
+      it { expect(facts.read).to eq({}) }
     end
   end
 end

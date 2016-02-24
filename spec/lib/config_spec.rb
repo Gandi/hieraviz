@@ -31,12 +31,12 @@ describe Hieraviz::Config do
       context 'when path starts with a slash' do
         let(:path) { '/some/path' }
         let(:expected) { path }
-        it { expect(Hieraviz::Config.root_path path).to eq expected }
+        it { expect(Hieraviz::Config.root_path(path)).to eq expected }
       end
       context 'when path don\'t start with a slash' do
         let(:path) { 'relative/path' }
         let(:expected) { File.expand_path(File.join('../../../', path), __FILE__) }
-        it { expect(Hieraviz::Config.root_path path).to eq expected }
+        it { expect(Hieraviz::Config.root_path(path)).to eq expected }
       end
     end
   end
