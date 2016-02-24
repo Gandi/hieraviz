@@ -135,23 +135,27 @@ module HieravizApp
       erb :farms
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?/modules} do
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/modules} do |base|
+      prepare_config(base)
       @username = check_authorization
       erb :modules
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?/resources} do
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/resources} do |base|
+      prepare_config(base)
       @username = check_authorization
       erb :resources
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?/user} do
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/user} do |base|
+      prepare_config(base)
       @username = check_authorization
       @userinfo = session[:access_token] ? userinfo : {}
       erb :user
     end
 
-    get %r{^/([-_\.a-zA-Z0-9]+)$} do
+    get %r{^/([-_\.a-zA-Z0-9]+)$} do |base|
+      prepare_config(base)
       @username = username
       erb :home
     end

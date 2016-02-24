@@ -4,8 +4,8 @@
 </a>
 </div>
 
-<% if session[:access_token] && @username != ''  and @base -%>
 <div class="nav">
+<% if session[:access_token] && @username != ''  and @base -%>
 <% if settings.basepaths -%>
 <div class="base">
 <span class="current"><%= @base_name %></span>
@@ -21,13 +21,13 @@
 </div>
 </div>
 <% end -%>
+<% end -%>
 
 <a href="<%= @base %>/nodes" class="nodes">Nodes</a>
 <a href="<%= @base %>/farms" class="farms">Farms</a>
 <a href="<%= @base %>/modules" class="modules">Modules</a>
 <a href="<%= @base %>/resources" class="resources">Resources</a>
 </div>
-<% end -%>
 
 <% if session[:access_token] && @username != '' -%>
 <div class="auth">
