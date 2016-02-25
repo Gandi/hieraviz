@@ -38,11 +38,14 @@ module Hieraviz
     end
 
     def authorized?(token)
-      if @settings['resource_required']
-        resp = get_response(@settings['resource_required'], token)
+      resource_required = @settings['resource_required']
+      if resource_required
+        resp = get_response(resource_required, token)
+        resp_required_response_key = resp[@settings['required_response_key']]
+        resp_required_response_value = resp[@settings['required_response_value']]
         if resp['error'] ||
-           (resp[@settings['required_response_key']] &&
-           resp[@settings['required_response_key']] != resp[@settings['required_response_value']])
+           (resp_required_response_key &&
+           resp_required_response_key != resp_required_response_value)
           return false
         end
       end

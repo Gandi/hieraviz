@@ -42,4 +42,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'better_errors'
   spec.add_development_dependency 'bundler-audit'
   spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency 'reek'
 end
