@@ -1,4 +1,5 @@
 module Hieraviz
+  # class for storage and retrieval of customized facts that can overlay hiera facts
   class Facts
 
     def initialize(tmpdir, base, node, user)
@@ -18,7 +19,7 @@ module Hieraviz
     end
 
     def write(data)
-      File.open(@filename, 'wb') { |f| f.write(Marshal.dump(data)) }
+      File.open(@filename, 'wb') { |file| file.write(Marshal.dump(data)) }
     end
 
     def remove

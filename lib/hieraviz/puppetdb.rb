@@ -1,4 +1,5 @@
 module Hieraviz
+  # wrapper class to call hieracles puppetdb class
   class Puppetdb
 
     def initialize(config)
