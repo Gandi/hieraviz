@@ -292,6 +292,7 @@ describe HieravizApp::ApiV1 do
       end
       before do
         get '/farm/dev'
+        puts last_response.body
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse(last_response.body)).to eq expected }

@@ -19,25 +19,29 @@ module HieravizApp
 
     case settings.configdata['auth_method']
     when 'dummy'
+
       helpers do
         def check_authorization
           true
         end
       end
+
     when 'gitlab', 'http'
+
       helpers do
         def check_authorization
           if !session['access_token'] && !request.env['HTTP_X_AUTH']
             redirect '/v1/not_logged'
           else
             token = session['access_token'] || request.env['HTTP_X_AUTH']
-            session_info = Hieraviz::Store.get(token, settings.configdata['session_renew'])
-            if !session_info
+            session_info = settings.store.get(token, settings.configdata['session_renew'])
+            unless session_info['username']
               redirect '/v1/unauthorized'
             end
           end
         end
       end
+      
     end
 
     helpers do

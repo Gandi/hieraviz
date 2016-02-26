@@ -79,11 +79,11 @@ module HieravizApp
         end
 
         def session_info
-          Hieraviz::Store.get session['access_token'], settings.configdata['session_renew']
+          settings.store.get session['access_token'], settings.configdata['session_renew']
         end
 
         def init_session
-          Hieraviz::Store.set session['access_token'], settings.oauth.user_info(session['access_token'])
+          settings.store.set session['access_token'], settings.oauth.user_info(session['access_token'])
           settings.oauth.user_info(session['access_token'])['username']
         end
 
@@ -100,7 +100,7 @@ module HieravizApp
       get '/logged-in' do
         access_token = settings.oauth.access_token(request, params[:code])
         session[:access_token] = access_token.token
-        Hieraviz::Store.set access_token.token, settings.oauth.user_info(access_token.token)
+        settings.store.set access_token.token, settings.oauth.user_info(access_token.token)
         flash['info'] = 'Successfully authenticated with the server'
         redirect '/'
       end
@@ -162,7 +162,7 @@ module HieravizApp
 
     # debug pages --------------------
     # get '/store' do
-    #   # Hieraviz::Store.set 'woot', 'nada'
+    #   # settings.store.set 'woot', 'nada'
     #   erb :store
     # end
     # error 401 do

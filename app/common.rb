@@ -9,6 +9,7 @@ module HieravizApp
       set :configdata, Hieraviz::Config.load
       set :config, Hieracles::Config.new(config: Hieraviz::Config.configfile)
       set :basepaths, Hieraviz::Config.basepaths
+      set :store, Hieraviz::Store.new(settings.configdata['tmpdir'])
       enable :session
       enable :logging
     end
@@ -39,17 +40,15 @@ module HieravizApp
 
         def username
           if session['access_token']
-            session_info = Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
-            if session_info
-              session_info['username']
-            else
-              ''
-            end
+            session_info = settings.store.get(session['access_token'], settings.configdata['session_renew'])
+            session_info['username'] or ''
+          else
+            ''
           end
         end
 
         def userinfo
-          Hieraviz::Store.get(session['access_token'], settings.configdata['session_renew'])
+          settings.store.get(session['access_token'], settings.configdata['session_renew'])
         end
 
       end

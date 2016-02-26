@@ -27,6 +27,7 @@ module Hieraviz
         File.join(root, path)
       end
     end
+    
     module_function :load, :configfile, :basepaths, :root, :root_path
   end
 end

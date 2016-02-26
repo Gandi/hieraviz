@@ -3,6 +3,6 @@ Welcome to hieraviz<br>
 
 <% if settings.configdata['debug'] -%>
 <%= session['access_token'] %><br>
-<pre><%= Hieraviz::Store.get session['access_token'] if session['access_token'] %></pre>
+<pre><%= settings.store.get(session['access_token'], settings.configdata['session_renew']) if session['access_token'] %></pre>
 </div>
 <% end %>

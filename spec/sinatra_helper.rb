@@ -1,5 +1,3 @@
-ENV['HIERAVIZ_CONFIG_FILE'] = File.expand_path '../files/config.yml', __FILE__
-
 require 'spec_helper'
 
 require File.expand_path '../../app/main.rb', __FILE__
