@@ -22,6 +22,10 @@ module HieravizApp
 
       helpers do
         def check_authorization
+          logger.info session['access_token']
+          if !session['access_token'] && !request.env['HTTP_X_AUTH']
+            redirect '/v1/not_logged'
+          end
           true
         end
       end

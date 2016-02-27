@@ -11,6 +11,7 @@ require 'hieraviz'
 require File.expand_path '../common.rb', __FILE__
 
 module HieravizApp
+  # the unique web endpoints management
   class Web < Common
     helpers Sinatra::ContentFor
     register Sinatra::Flash
@@ -32,18 +33,21 @@ module HieravizApp
     when 'dummy'
 
       get '/logout' do
-        session.delete :access_token
+        session.delete 'access_token'
         erb :logout
       end
 
       get '/login' do
-        session[:access_token] = '0000'
+        session['access_token'] = '0000'
         redirect '/'
       end
 
       helpers do
         def check_authorization
-          'dummy'
+          if session['access_token']
+            return 'dummy'
+          end
+          false
         end
       end
 
@@ -60,10 +64,11 @@ module HieravizApp
 
       helpers do
         def check_authorization
+          http_auth = settings.configdata['http_auth']
           unless session['access_token']
-            session[:access_token] = settings.configdata['http_auth']['access_token']
+            session[:access_token] = http_auth['access_token']
           end
-          settings.configdata['http_auth']['username']
+          http_auth['username']
         end
       end
 
@@ -73,8 +78,10 @@ module HieravizApp
 
       helpers do
         def check_authorization
-          redirect settings.oauth.login_url(request) unless session['access_token']
-          return init_session if settings.oauth.authorized?(session['access_token'])
+          access_token = session['access_token']
+          oauth = settings.oauth
+          redirect oauth.login_url(request) unless access_token
+          return init_session(oauth, access_token) if oauth.authorized?(access_token)
           sorry
         end
 
@@ -82,9 +89,10 @@ module HieravizApp
           settings.store.get session['access_token'], settings.configdata['session_renew']
         end
 
-        def init_session
-          settings.store.set session['access_token'], settings.oauth.user_info(session['access_token'])
-          settings.oauth.user_info(session['access_token'])['username']
+        def init_session(oauth, access_token)
+          user_info = oauth.user_info(access_token)
+          settings.store.set access_token, user_info
+          user_info['username']
         end
 
         def sorry

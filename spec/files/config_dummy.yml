@@ -12,7 +12,6 @@ puppetdb:
   usessl: false
   host: puppetdb.example.com
   port: 8080
-
 auth_method: dummy
 http_auth:
   username: 'toto'

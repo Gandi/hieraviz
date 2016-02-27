@@ -23,10 +23,12 @@
 <% end -%>
 <% end -%>
 
+<% if session[:access_token] -%>
 <a href="<%= @base %>/nodes" class="nodes">Nodes</a>
 <a href="<%= @base %>/farms" class="farms">Farms</a>
 <a href="<%= @base %>/modules" class="modules">Modules</a>
 <a href="<%= @base %>/resources" class="resources">Resources</a>
+<% end -%>
 </div>
 
 <% if session[:access_token] && @username != '' -%>
