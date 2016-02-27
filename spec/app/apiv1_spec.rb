@@ -58,12 +58,11 @@ describe HieravizApp::ApiV1 do
   context 'with proper creds' do
     before do
       current_session.rack_session[:access_token] = 'sada'
-      allow(Hieraviz::Store)
+      allow(app.settings.store)
         .to receive(:get)
         .with('sada', 3600)
-        .and_return({})
+        .and_return({'username' => 'toto'})
     end
-
     describe 'GET /v1/nodes' do
       let(:expected) { ['node1.example.com'] }
       before do
@@ -292,7 +291,6 @@ describe HieravizApp::ApiV1 do
       end
       before do
         get '/farm/dev'
-        puts last_response.body
       end
       it { expect(last_response).to be_ok }
       it { expect(JSON.parse(last_response.body)).to eq expected }
