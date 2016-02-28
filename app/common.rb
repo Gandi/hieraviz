@@ -7,7 +7,6 @@ module HieravizApp
     configure do
       set :app_name, 'HieraViz'
       set :configdata, Hieraviz::Config.load
-      set :config, Hieracles::Config.new(config: Hieraviz::Config.configfile)
       set :basepaths, Hieraviz::Config.basepaths
       set :store, Hieraviz::Store.new(settings.configdata['tmpdir'])
       enable :session
