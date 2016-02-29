@@ -42,11 +42,11 @@ module Hieraviz
 
     def check_authorization(resource_required, token)
       resp = get_response(resource_required, token)
-      resp_required_response_key = resp[@settings['required_response_key']]
-      resp_required_response_value = resp[@settings['required_response_value']]
-      if resp['error'] ||
-         (resp_required_response_key &&
-         resp_required_response_key != resp_required_response_value)
+      resp_required_response_key = resp[@settings['required_response_key']].to_s
+      resp_required_response_value = @settings['required_response_value'].to_s
+      if resp['error'] || 
+        ( resp_required_response_key && 
+          resp_required_response_key != resp_required_response_value)
         return false
       end
       true

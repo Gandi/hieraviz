@@ -11,7 +11,9 @@
     <script src="/js/base-switch.js"></script>
     <% end -%>
     <% if session['access_token'] -%>
-    <script>var session_key = "<%= session['access_token'] %>";</script>
+    <script>
+      var session_key = "<%= session['access_token'] %>";
+    </script>
     <% end -%>
     <%= yield_content :more_js %>
   </head>
