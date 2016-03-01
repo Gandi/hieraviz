@@ -78,11 +78,15 @@ module HieravizApp
 
       helpers do
         def check_authorization
-          access_token = session['access_token']
-          oauth = settings.oauth
-          redirect oauth.login_url(request) unless access_token
-          return init_session(oauth, access_token) if oauth.authorized?(access_token)
-          sorry
+          if session_info['username']
+            session_info['username']
+          else
+            access_token = session['access_token']
+            oauth = settings.oauth
+            redirect oauth.login_url(request) unless access_token
+            return init_session(oauth, access_token) if oauth.authorized?(access_token)
+            sorry
+          end
         end
 
         def session_info
