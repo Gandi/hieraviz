@@ -40,7 +40,7 @@ module HieravizApp
         def username
           if session['access_token']
             session_info = settings.store.get(session['access_token'], settings.configdata['session_renew'])
-            session_info['username'] or ''
+            session_info['username'] || ''
           else
             ''
           end
@@ -52,13 +52,13 @@ module HieravizApp
 
       end
 
-      def prepare_config(e, node = nil)
-        e ||= File.basename(settings.configdata['basepath'])
-        path = get_path(e)[0]
+      def prepare_config(paths, node = nil)
+        paths ||= File.basename(settings.configdata['basepath'])
+        path = get_path(paths)[0]
         if path
           @base = get_base(path)
           @base_name = @base.gsub(%r{/}, '')
-          get_config(path, cached_params(e, node))
+          get_config(path, cached_params(paths, node))
         end
       end
 
@@ -70,9 +70,9 @@ module HieravizApp
         {}
       end
 
-      def prepare_params(e)
-        e ||= File.basename(settings.configdata['basepath'])
-        path = get_path(e)[0]
+      def prepare_params(paths)
+        paths ||= File.basename(settings.configdata['basepath'])
+        path = get_path(paths)[0]
         return unless path
         settings.configdata['basepath'] = path
         settings.configdata
@@ -80,8 +80,8 @@ module HieravizApp
 
       def get_path(path)
         if settings.basepaths
-          settings.basepaths.select do |p|
-            path == File.basename(p)
+          settings.basepaths.select do |file|
+            path == File.basename(file)
           end
         else
           [settings.configdata['basepath']]
@@ -100,8 +100,8 @@ module HieravizApp
       end
 
       def format_params(params)
-        params.each_with_object([]) do |(k, v), a|
-          a << "#{k}=#{v}"
+        params.each_with_object([]) do |(key, val), acc|
+          acc << "#{key}=#{val}"
         end.join(',')
       end
     end
