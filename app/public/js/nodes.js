@@ -93,7 +93,7 @@ ready( () => {
     fetch(req, auth_header()).
       then(res => res.json()).
       then(j => {
-        if (j.error != undefined) {
+        if (j.error !== undefined) {
           show_error(hierachy, j['error']);
         } else {
           location.reload();
@@ -324,7 +324,7 @@ ready( () => {
           }
           end_wait(meat);
         });
-    },
+    }
   }
 
   /* declaration of events for the nodes menu */
