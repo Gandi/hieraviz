@@ -137,7 +137,6 @@ ready( () => {
         if (j.error !== undefined) {
           show_error(hierachy, j['error']);
         } else {
-          console.debug(j);
           // --------------------
           addTo(hierarchy, "<h3>From hiera config</h3>");
           var hierafiles = document.createElement('div');
@@ -153,7 +152,7 @@ ready( () => {
           hierarchy.appendChild(nodeinfo);
           Array.prototype.forEach.call(Object.keys(j.info), (item, k) => {
             var index = j.vars.indexOf(item);
-            if (index > -1 && (j.facts === null || j.facts[item] === undefined)) {
+            if (index > -1 && (Object.keys(j.facts).length === 0 || j.facts[item] === undefined)) {
               addTo(nodeinfo, "<div class=\"var\"><div class=\"label\">"+item+"</div>" + 
                               "<div><input type=\"text\" name=\""+item+"\" value=\""+j.info[item]+"\" disabled></div></div>");
               j.vars.splice(index, 1);
@@ -164,7 +163,7 @@ ready( () => {
           var factinfo = document.createElement('div');
           factinfo.className = "factinfo";
           hierarchy.appendChild(factinfo);
-          if (j.facts === null) {
+          if (Object.keys(j.facts).length === 0) {
             Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
               if (j.defaults !== null && j.defaults[j.vars[item]] !== undefined) {
                 addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
@@ -174,7 +173,7 @@ ready( () => {
               }
             });
             Array.prototype.forEach.call(Object.keys(j.vars), (item, k) => {
-              if (j.defaults === null || j.defaults[j.vars[item]] === undefined) {
+              if (Object.keys(j.defaults).length === 0 || j.defaults[j.vars[item]] === undefined) {
                 addTo(factinfo, "<div class=\"var\"><div class=\"label\">"+j.vars[item]+"</div>" +
                                 "<div><input type=\"text\" class=\"userinput\" name=\"" + 
                                 j.vars[item]+"\" value=\"\"></div></div>");

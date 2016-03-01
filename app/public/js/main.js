@@ -47,7 +47,6 @@ function focusNav(className) {
     removeClass(item, 'focus')
   });
   var navFocus = document.querySelector('.nav a.' + className);
-  console.log(nav);
   addClass(navFocus, 'focus');
 }
 
