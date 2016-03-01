@@ -103,7 +103,7 @@ function restore_url(list, someclass) {
     var target = window.location.hash.replace(/#/,'');
     var parts = target.split('/');
     Array.prototype.forEach.call(list, (item, i) => {
-      if (item.textContent === parts[0]) {
+      if (item.textContent.split(' ')[0] === parts[0]) {
         if (parts[1] !== undefined) {
           someclass[parts[1]](parts[0]);
         } else {

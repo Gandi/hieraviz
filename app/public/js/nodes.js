@@ -335,6 +335,6 @@ ready( () => {
   });
 
   update_footer('/v1/' + base + '/nodes');
-  restore_url(Node, nodes);
+  restore_url(nodes, Node);
 
 });

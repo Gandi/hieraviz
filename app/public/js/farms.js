@@ -77,6 +77,6 @@ ready( () => {
   });
 
   update_footer('/v1/' + base + '/farms');
-  restore_url(Farm, farms);
+  restore_url(farms, Farm);
 
 });
