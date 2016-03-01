@@ -72,8 +72,8 @@ describe Hieraviz::AuthGitlab do
           'secret' => '',
           'host' => '',
           'resource_required' => 'http://example.com/something',
-          'required_response_key' => 'id',
-          'required_response_value' => '42'
+          'required_response_key' => 'somekey',
+          'required_response_value' => 'somevalue'
         }
       end
       context 'with a valid authorization' do
