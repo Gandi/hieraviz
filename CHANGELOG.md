@@ -1,8 +1,10 @@
 Hieraviz Changelog
 ========================
 
-### v0.2.0 - wip
+### v0.2.0 - 2014-03-03
 - fix button display on firefox
+- fixes on http simple auth
+- various refactoring
 
 ### v0.1.2 - 2016-02-22
 - add a way to write custom local facts
