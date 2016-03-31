@@ -452,10 +452,6 @@ input {
   background-color: #4d4;
   color: #000;
 }
-.flash.warning {
-  background-color: #d63;
-  color: #fff;
-}
 .flash.fatal {
   background-color: #a20;
   color: #fff;

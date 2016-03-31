@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sinatra'
   spec.add_dependency 'yajl-ruby'
   spec.add_dependency 'sinatra-contrib'
-  spec.add_dependency 'sinatra-flash'
+  spec.add_dependency 'rack-flash3'
   spec.add_dependency 'hieracles', '~> 0.3.5'
 
   spec.add_development_dependency 'bundler', '~> 1.10'

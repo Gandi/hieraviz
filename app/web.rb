@@ -1,7 +1,7 @@
 require 'sinatra/content_for'
-require 'sinatra/flash'
 
 require 'better_errors'
+require 'rack-flash'
 require 'dotenv'
 require 'oauth2'
 
@@ -14,7 +14,7 @@ module HieravizApp
   # the unique web endpoints management
   class Web < Common
     helpers Sinatra::ContentFor
-    register Sinatra::Flash
+    use Rack::Flash
 
     configure do
       set :session_secret, settings.configdata['session_seed']
@@ -113,7 +113,7 @@ module HieravizApp
         access_token = settings.oauth.access_token(request, params[:code])
         session[:access_token] = access_token.token
         settings.store.set access_token.token, settings.oauth.user_info(access_token.token)
-        flash['info'] = 'Successfully authenticated with the server'
+        flash[:info] = 'Successfully authenticated with the server'
         redirect '/'
       end
 

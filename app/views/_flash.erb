@@ -1,0 +1,5 @@
+<% if flash.has?(:fatal) %>
+<div class="flash fatal"><%= flash[:fatal] %></div>
+<% elsif flash.has?(:info) %>
+<div class="flash info"><%= flash[:info] %></div>
+<% end %>

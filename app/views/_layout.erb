@@ -23,7 +23,7 @@
         <%= erb :_head, :layout => false %>
       </div>
       <div class="content">
-        <%= styled_flash %>
+        <%= erb :_flash, :layout => false %>
         <%= yield %>
       </div>
       <div class="foot">
