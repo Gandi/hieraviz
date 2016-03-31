@@ -25,6 +25,12 @@ Development
 --------------
 Launch it with `shotgun` or `rackup`.
 
+Production
+----------------
+
+    gem install thin
+    thin -s 1 -C config.yml -R config.ru start
+
 Contributing
 ----------------
 Bug reports and pull requests are welcome on GitHub at https://github.com/Gandi/hieraviz.
