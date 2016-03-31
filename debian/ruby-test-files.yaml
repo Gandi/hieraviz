@@ -1,0 +1,12 @@
+---
+- spec/oauth2_helper.rb
+- spec/spec_helper.rb
+- spec/lib/auth_gitlab_spec.rb
+- spec/lib/config_spec.rb
+- spec/lib/store_spec.rb
+- spec/lib/facts_spec.rb
+- spec/lib/puppetdb_spec.rb
+- spec/sinatra_helper.rb
+- spec/app/web_spec.rb
+- spec/app/web_dummy_auth_spec.rb
+- spec/app/apiv1_spec.rb
