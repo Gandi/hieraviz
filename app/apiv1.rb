@@ -14,6 +14,7 @@ module HieravizApp
 
     configure do
       set :session_secret, settings.configdata['session_seed']
+      set :protection, :origin_whitelist => ['http://web.example.com']
       enable :sessions
     end
 
@@ -54,7 +55,7 @@ module HieravizApp
       end
       def cors_headers()
         headers 'Access-Control-Allow-Origin' => '*'
-        headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With'
+        headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With,X-AUTH'
         headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
       end
     end
@@ -113,8 +114,8 @@ module HieravizApp
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farms} do |base|
-      cors_headers
       check_authorization
+      cors_headers
       hieracles_config = prepare_config(base)
       json Hieracles::Registry.farms_counted(hieracles_config, base)
     end
@@ -143,9 +144,14 @@ module HieravizApp
       json res
     end
 
-    get %r{^/?([-_\.a-zA-Z0-9]+)?/farm/([-_\.a-zA-Z0-9]+)$} do |base, farm|
+    options %r{^/.*/$} do
       cors_headers
-      check_authorization
+      halt 200
+    end
+
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/farm/([-_\.a-zA-Z0-9]+)$} do |base, farm|
+      # check_authorization
+      cors_headers
       hieracles_config = prepare_config(base)
       nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).each_with_object({}) do |(key, val), acc|
         acc[key] = val if val['farm'] == farm
