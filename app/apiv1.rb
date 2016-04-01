@@ -52,6 +52,11 @@ module HieravizApp
       def get_facts(base, node)
         Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, username)
       end
+      def cors_headers()
+        headers 'Access-Control-Allow-Origin' => '*'
+        headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With'
+        headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
+      end
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/nodes} do |base|
@@ -108,6 +113,7 @@ module HieravizApp
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farms} do |base|
+      cors_headers
       check_authorization
       hieracles_config = prepare_config(base)
       json Hieracles::Registry.farms_counted(hieracles_config, base)
@@ -138,6 +144,7 @@ module HieravizApp
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farm/([-_\.a-zA-Z0-9]+)$} do |base, farm|
+      cors_headers
       check_authorization
       hieracles_config = prepare_config(base)
       nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).each_with_object({}) do |(key, val), acc|
