@@ -23,7 +23,19 @@ Install it from Rubygens:
 
 Development
 --------------
-Launch it with `shotgun` or `rackup`.
+
+Make sure you have ruby installed (version 2.1.5 from jessie works fine, or use rvm).
+
+    gem install bundler`
+    git clone https://github.com/Gandi/hieraviz.git
+    cd hieraviz
+    bundle install --path vendor
+    cp config/hieraviz.default.yml config/hieraviz.yml
+    # edit the config file
+    bundle exec shotgun
+    # or
+    bundle exec rackup
+
 
 Production
 ----------------
