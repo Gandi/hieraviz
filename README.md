@@ -26,7 +26,7 @@ Development
 
 Make sure you have ruby installed (version 2.1.5 from jessie works fine, or use rvm).
 
-    gem install bundler`
+    gem install bundler
     git clone https://github.com/Gandi/hieraviz.git
     cd hieraviz
     bundle install --path vendor
