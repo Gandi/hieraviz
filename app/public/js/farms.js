@@ -51,19 +51,19 @@ ready( () => {
   var Farm = {
     show: function(el) {
       addClass(meat, 'wait');
-      farm = el.dataset.item;
-      fetch('/v1/' + base + '/farm/' + farm, auth_header()).
+      focused = el.dataset.item;
+      fetch('/v1/' + base + '/farm/' + focused, auth_header()).
         then(res => res.json()).
         then(j => {
           if (j.error !== undefined) {
             show_error(meat, j['error']);
           } else {
-            build_list(meat, farm, j);
+            build_list(meat, focused, j);
             Array.prototype.forEach.call(farms, (item, i) => {
               removeClass(item, 'focus');
             });
             addClass(el, 'focus');
-            update_footer('/v1/' + base + '/farm/' + farm);
+            update_footer('/v1/' + base + '/farm/' + focused);
           }
           removeClass(meat, 'wait');
         });
