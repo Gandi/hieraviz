@@ -1,10 +1,10 @@
 Hieraviz Changelog
 ========================
 
-### v0.2.1 - wip
+### v0.2.1 - 2016-04-04
 - replaced sinatra-flash (weird license, no debian package) with rack-flash3
 
-### v0.2.0 - 2014-03-03
+### v0.2.0 - 2016-03-03
 - fix button display on firefox
 - fixes on http simple auth
 - various refactoring
