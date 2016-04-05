@@ -8,21 +8,21 @@ ready( () => {
 <% end %>
 <div class="meat text">
 <h1>User information</h1>
-<% if @userinfo['avatar_url'] -%>
+<% if @userinfo['avatar_url'] %>
 <img src="<%= @userinfo['avatar_url'] %>" align="left" style="margin-top:.4em;margin-right:1em;" />
-<% end -%>
+<% end %>
 <table class="info">
-<% @userinfo.each do |k,v| -%>
-<% if %w(username id created_at email).include? k -%>
+<% @userinfo.each do |k,v| %>
+<% if %w(username id created_at email).include? k %>
 <tr><td><%= k %></td><td><%= v %></td></tr>
-<% end -%>
-<% end -%>
+<% end %>
+<% end %>
 <tr><td>Session Key</td><td><%= session['access_token'] %></td></tr>
-<% if settings.configdata['auth_method'] == 'gitlab' -%>
+<% if settings.configdata['auth_method'] == 'gitlab' %>
 <tr><td>Manage authorization</td><td>
 <a href="<%= settings.configdata['gitlab_auth']['host'] %>/profile/applications">
   <%= settings.configdata['gitlab_auth']['host'] %>/profile/applications
 </a></td></tr>
-<% end -%>
+<% end %>
 </table>
 </div>

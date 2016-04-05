@@ -9,12 +9,12 @@
     <script src="/js/main.js"></script>
     <% if settings.basepaths %>
     <script src="/js/base-switch.js"></script>
-    <% end -%>
+    <% end %>
     <% if session['access_token'] %>
     <script>
       var session_key = "<%= session['access_token'] %>";
     </script>
-    <% end -%>
+    <% end %>
     <%= yield_content :more_js %>
   </head>
   <body>
