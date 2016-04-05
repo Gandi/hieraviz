@@ -1,7 +1,7 @@
 <div class="meat text">
 Welcome to hieraviz<br>
 
-<% if settings.configdata['debug'] -%>
+<% if settings.configdata['debug'] %>
 <%= session['access_token'] %><br>
 <pre><%= settings.store.get(session['access_token'], settings.configdata['session_renew']) if session['access_token'] %></pre>
 </div>
