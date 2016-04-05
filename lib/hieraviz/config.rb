@@ -12,7 +12,7 @@ module Hieraviz
     def basepaths
       basepath_dir = @_config['basepath_dir']
       if @_config && basepath_dir
-        Dir.glob(root_path(basepath_dir)).map { |path| File.expand_path(path) }
+        Dir.glob(root_path(basepath_dir)).map { |path| File.expand_path(path) }.sort
       end
     end
 

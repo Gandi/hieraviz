@@ -1,6 +1,6 @@
 require 'sinatra/content_for'
 
-require 'better_errors'
+# require 'better_errors'
 require 'rack-flash'
 require 'dotenv'
 require 'oauth2'
