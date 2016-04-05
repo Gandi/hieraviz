@@ -41,7 +41,7 @@ Production
 ----------------
 
     gem install thin
-    thin -s 1 -C config.yml -R config.ru start
+    thin -s 1 -C config/thin.yml -R config.ru start
 
 Contributing
 ----------------

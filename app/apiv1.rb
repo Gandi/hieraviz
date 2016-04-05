@@ -1,4 +1,5 @@
 require 'sinatra/json'
+require 'sinatra/cross-origin'
 
 require 'digest/sha1'
 require 'dotenv'
@@ -11,11 +12,18 @@ require File.expand_path '../common.rb', __FILE__
 
 module HieravizApp
   class ApiV1 < Common
+    register Sinatra::CrossOrigin
 
     configure do
       set :session_secret, settings.configdata['session_seed']
       set :protection, :origin_whitelist => ['http://web.example.com']
       enable :sessions
+      enable :cross_origin
+      set :allow_origin, :any
+      set :allow_methods, [:get, :post, :options]
+      set :allow_credentials, true
+      set :max_age, "1728000"
+      set :expose_headers, ['Content-Type']
     end
 
     case settings.configdata['auth_method']
@@ -53,11 +61,17 @@ module HieravizApp
       def get_facts(base, node)
         Hieraviz::Facts.new(settings.configdata['tmpdir'], base, node, username)
       end
-      def cors_headers()
-        headers 'Access-Control-Allow-Origin' => '*'
-        headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With,X-AUTH'
-        headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
-      end
+      # def cors_headers()
+      #   headers 'Access-Control-Allow-Origin' => '*'
+      #   headers 'Access-Control-Allow-Headers' => 'Authorization,Accepts,Content-Type,X-CSRF-Token,X-Requested-With,X-AUTH'
+      #   headers 'Access-Control-Allow-Methods' => 'GET,POST,PUT,DELETE,OPTIONS'
+      # end
+    end
+
+    options '*' do
+      response.headers["Allow"] = "HEAD,GET,PUT,POST,DELETE,OPTIONS"
+      response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
+      200
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/nodes} do |base|
@@ -115,7 +129,7 @@ module HieravizApp
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farms} do |base|
       check_authorization
-      cors_headers
+      cross_origin
       hieracles_config = prepare_config(base)
       json Hieracles::Registry.farms_counted(hieracles_config, base)
     end
@@ -144,17 +158,21 @@ module HieravizApp
       json res
     end
 
-    options %r{^/.*/$} do
-      cors_headers
-      halt 200
-    end
-
     get %r{^/?([-_\.a-zA-Z0-9]+)?/farm/([-_\.a-zA-Z0-9]+)$} do |base, farm|
       # check_authorization
-      cors_headers
+      cross_origin
       hieracles_config = prepare_config(base)
       nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).each_with_object({}) do |(key, val), acc|
         acc[key] = val if val['farm'] == farm
+      end
+      params = request.env['rack.request.query_hash']
+      if params.count > 0
+        puts params
+        params.each do |k, v|
+          nodes = nodes.keep_if do |key, item|
+            item[k] == v
+          end
+        end
       end
       json nodes
     end

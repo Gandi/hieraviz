@@ -1,6 +1,11 @@
 Hieraviz Changelog
 ========================
 
+### v0.2.2 - 2016-04-05
+- sort branches order
+- prepare debian package
+- add a filter on farm api calls
+
 ### v0.2.1 - 2016-04-04
 - replaced sinatra-flash (weird license, no debian package) with rack-flash3
 

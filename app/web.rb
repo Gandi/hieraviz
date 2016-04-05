@@ -1,6 +1,5 @@
 require 'sinatra/content_for'
 
-# require 'better_errors'
 require 'rack-flash'
 require 'dotenv'
 require 'oauth2'
@@ -22,11 +21,6 @@ module HieravizApp
       set :views_folder, -> { File.join(root, 'views') }
       set :erb, layout: :_layout
       enable :sessions
-    end
-
-    configure :development do
-      use BetterErrors::Middleware
-      BetterErrors.application_root = File.expand_path('../../', __FILE__)
     end
 
     case settings.configdata['auth_method']
