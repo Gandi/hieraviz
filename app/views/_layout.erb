@@ -7,10 +7,10 @@
     <link href="/css/main.css" rel="stylesheet" type="text/css">
     <script src="/js/fetch.js"></script>
     <script src="/js/main.js"></script>
-    <% if settings.basepaths -%>
+    <% if settings.basepaths %>
     <script src="/js/base-switch.js"></script>
     <% end -%>
-    <% if session['access_token'] -%>
+    <% if session['access_token'] %>
     <script>
       var session_key = "<%= session['access_token'] %>";
     </script>

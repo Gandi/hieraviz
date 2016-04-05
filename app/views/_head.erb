@@ -5,8 +5,8 @@
 </div>
 
 <div class="nav">
-<% if session[:access_token] && @username != ''  and @base -%>
-<% if settings.basepaths -%>
+<% if session[:access_token] && @username != ''  and @base %>
+<% if settings.basepaths %>
 <div class="base">
 <span class="current"><%= @base_name %></span>
 <div class="all">
@@ -15,31 +15,31 @@
 <input type="text" name="filter" />
 </form>
 
-<% settings.basepaths.map { |p| File.basename(p) }.each do |e| -%>
+<% settings.basepaths.map { |p| File.basename(p) }.each do |e| %>
 <div class="select"><%= e %></div>
-<% end -%>
+<% end %>
 </div>
 </div>
-<% end -%>
-<% end -%>
+<% end %>
+<% end %>
 
-<% if session[:access_token] -%>
+<% if session[:access_token] %>
 <a href="<%= @base %>/nodes" class="nodes">Nodes</a>
 <a href="<%= @base %>/farms" class="farms">Farms</a>
 <a href="<%= @base %>/modules" class="modules">Modules</a>
 <a href="<%= @base %>/resources" class="resources">Resources</a>
-<% end -%>
+<% end %>
 </div>
 
-<% if session[:access_token] && @username != '' -%>
+<% if session[:access_token] && @username != '' %>
 <div class="auth">
 <div class="username">
 identified as <a href="<%= @base %>/user" class="link"><%= @username %></a>
 </div>
 <a href="/logout" class="link" id="logout">Logout</a>
 </div>
-<% else -%>
+<% else %>
 <div class="auth">
 <a href="/login" class="link" id="login">Connect</a>
 </div>
-<% end -%>
+<% end %>
