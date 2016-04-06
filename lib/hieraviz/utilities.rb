@@ -7,6 +7,10 @@ module Hieraviz
       uri.path = '/logged-in'
       uri.query = nil
       uri.fragment = nil
+      if uri.port == 443
+        uri.scheme = 'https'
+        uri.port = nil
+      end
       uri.to_s
     end
 

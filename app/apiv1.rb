@@ -167,7 +167,6 @@ module HieravizApp
       end
       params = request.env['rack.request.query_hash']
       if params.count > 0
-        puts params
         params.each do |k, v|
           nodes = nodes.keep_if do |key, item|
             item[k] == v
