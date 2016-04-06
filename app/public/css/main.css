@@ -212,7 +212,7 @@ input {
   margin-left: 330px;
   position: relative;
   height: 100%;
-  overflow-y: auto;
+  padding-bottom: 3.8em;
 }
 .meat.text {
   padding: 1em 2em;
@@ -278,6 +278,8 @@ input {
 .meat .rows {
   margin-top: 3.8em;
   margin-right: 330px;
+  height: 100%;
+  overflow: auto;
 }
 .meat .row {
   word-wrap: break-word;
