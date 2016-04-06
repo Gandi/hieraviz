@@ -1,6 +1,9 @@
 Hieraviz Changelog
 ========================
 
+### v0.2.3 - 2016-04-06
+- fix the handling of ssl in the return link for gitlab auth
+
 ### v0.2.2 - 2016-04-05
 - sort branches order
 - prepare debian package
