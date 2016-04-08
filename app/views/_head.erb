@@ -5,8 +5,8 @@
 </div>
 
 <div class="nav">
-<% if session[:access_token] && @username != ''  and @base %>
-<% if settings.basepaths %>
+<% if session[:access_token] && @username != '' and @base %>
+<% if Hieraviz::Config.basepaths %>
 <div class="base">
 <span class="current"><%= @base_name %></span>
 <div class="all">
@@ -15,7 +15,7 @@
 <input type="text" name="filter" />
 </form>
 
-<% settings.basepaths.map { |p| File.basename(p) }.each do |e| %>
+<% Hieraviz::Config.basepaths.map { |p| File.basename(p) }.each do |e| %>
 <div class="select"><%= e %></div>
 <% end %>
 </div>
@@ -23,7 +23,7 @@
 <% end %>
 <% end %>
 
-<% if session[:access_token] %>
+<% if session[:access_token] && @username != '' and @base %>
 <a href="<%= @base %>/nodes" class="nodes">Nodes</a>
 <a href="<%= @base %>/farms" class="farms">Farms</a>
 <a href="<%= @base %>/modules" class="modules">Modules</a>
