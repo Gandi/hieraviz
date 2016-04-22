@@ -3,7 +3,19 @@ Section: ruby
 Priority: optional
 Maintainer: Debian Ruby Extras Maintainers <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
 Uploaders: mose <mose@gandi.net>
-Build-Depends: debhelper (>= 7.0.50~), gem2deb (>= 0.6.1~), ruby-rspec (>= 2.10.0~)
+Build-Depends: 
+ debhelper (>= 7.0.50~),
+ gem2deb (>= 0.6.1~),
+ ruby-rspec (>= 2.10.0~),
+ rubygems-integration,
+ ruby | ruby-interpreter,
+ ruby-dotenv,
+ ruby-oauth2,
+ ruby-sinatra,
+ ruby-yajl, 
+ ruby-sinatra-contrib,
+ ruby-rack-flash3,
+ ruby-hieracles (~> 0.3.5)
 Standards-Version: 3.9.4
 Vcs-Git: https://github.com/Gandi/hieraviz.git
 Homepage: https://github.com/Gandi/hieraviz
