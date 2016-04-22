@@ -1,8 +1,8 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 unless ENV['BUILD']
-  require 'rubygems'
-  require 'bundler'
+  #require 'rubygems'
+  #require 'bundler'
 
   if ENV['COV']
     require 'simplecov'
