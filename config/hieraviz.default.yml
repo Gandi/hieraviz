@@ -21,7 +21,7 @@ http_auth:
   password: 'xxx'
   access_token: '123456'
 gitlab_auth:
-  host: gitlab.example.com
+  host: https://gitlab.example.com
   application_id: xxxxxxxx
   secret: xxxxxxxx
   resource_required: '/api/v3/projects/namespace%2Fsome_repo'

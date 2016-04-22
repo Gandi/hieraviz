@@ -1,5 +1,5 @@
 config.ru                     usr/share/hieraviz
 app                           usr/share/hieraviz
 lib                           usr/share/hieraviz
-thin.yml                      etc/hieraviz
+config/thin.default.yml       etc/hieraviz
 config/hieraviz.default.yml   etc/hieraviz

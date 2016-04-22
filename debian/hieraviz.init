@@ -1,0 +1,67 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          hieraviz
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start hieraviz at boot time
+# Description:       Enable service provided by hieraviz.
+### END INIT INFO
+
+APP="hieraviz"
+RUNAS="hieraviz"
+
+THIN_CONFIG="/etc/${APP}/thin.yml"
+RUBY_APP="/usr/share/${APP}/config.ru"
+NB_THREADS="1"
+
+CMD="thin -s ${NB_THREADS} -C ${THIN_CONFIG} -R ${RUBY_APP}"
+
+start() {
+  if [ -f "$PIDFILE" ] && kill -0 $(cat $PIDFILE); then
+    echo 'Service already running' >&2
+    return 1
+  fi
+  echo 'Starting service ...' >&2
+  su -c "$CMD start" $RUNAS
+  echo 'Service started' >&2
+}
+
+stop() {
+  if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
+    echo 'Service not running' >&2
+    return 1
+  fi
+  echo 'Stopping service…' >&2
+  su -c "$CMD stop" $RUNAS
+  echo 'Service stopped' >&2
+}
+
+restart() {
+  if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
+    echo 'Service not running' >&2
+    echo 'Starting service ...' >&2
+    su -c "$CMD start" $RUNAS
+    echo 'Service started' >&2
+    return 0
+  fi
+  echo 'Stopping service…' >&2
+  su -c "$CMD restart" $RUNAS
+  echo 'Service stopped' >&2
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    restart
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+esac
