@@ -31,7 +31,7 @@ module HieravizApp
 
       helpers do
         def check_authorization
-          logger.info session['access_token']
+          # logger.info session['access_token']
           if !session['access_token'] && !request.env['HTTP_X_AUTH']
             redirect '/v1/not_logged'
           end
@@ -131,7 +131,7 @@ module HieravizApp
       check_authorization
       cross_origin
       hieracles_config = prepare_config(base)
-      json Hieracles::Registry.farms_counted(hieracles_config, base)
+      json Hieracles::Registry.farms_counted(hieracles_config, base, true)
     end
 
     get %r{^/?([-_\.a-zA-Z0-9]+)?/vars} do |base|
