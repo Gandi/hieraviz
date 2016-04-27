@@ -162,7 +162,7 @@ module HieravizApp
       # check_authorization
       cross_origin
       hieracles_config = prepare_config(base)
-      nodes =  Hieracles::Registry.nodes_data(hieracles_config, base).each_with_object({}) do |(key, val), acc|
+      nodes =  Hieracles::Registry.nodes_parameters(hieracles_config, base).each_with_object({}) do |(key, val), acc|
         acc[key] = val if val['farm'] == farm
       end
       params = request.env['rack.request.query_hash']
