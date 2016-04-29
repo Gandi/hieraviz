@@ -119,7 +119,7 @@ module HieravizApp
     end
 
     get '/' do
-      if settings.basepaths
+      if settings.configdata['basepath_dir']
         redirect "/#{File.basename(settings.configdata['basepath'])}"
       else
         @username = username

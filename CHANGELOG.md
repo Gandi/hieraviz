@@ -1,6 +1,9 @@
 Hieraviz Changelog
 ========================
 
+### v0.2.4 - 2016-04-29
+- fix the dynamic changes of puppet directories
+
 ### v0.2.3 - 2016-04-06
 - fix the handling of ssl in the return link for gitlab auth
 

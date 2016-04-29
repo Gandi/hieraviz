@@ -7,7 +7,6 @@ module HieravizApp
     configure do
       set :app_name, 'HieraViz'
       set :configdata, Hieraviz::Config.load
-      set :basepaths, Hieraviz::Config.basepaths
       set :store, Hieraviz::Store.new(settings.configdata['tmpdir'])
       enable :session
       enable :logging
@@ -79,8 +78,8 @@ module HieravizApp
       end
 
       def get_path(path)
-        if settings.basepaths
-          settings.basepaths.select do |file|
+        if settings.configdata['basepath_dir']
+          Hieraviz::Config.basepaths.select do |file|
             path == File.basename(file)
           end
         else
