@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    hieraviz (0.2.3)
+    hieraviz (0.2.4)
       dotenv
       hieracles (~> 0.3.6)
       oauth2
