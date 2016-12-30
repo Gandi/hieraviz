@@ -89,7 +89,8 @@ function end_wait(meat) {
 
 function update_footer(path) {
   var debug = document.querySelector('.foot .debug');
-  debug.innerHTML = "curl -s http://" + window.location.host + path + " | jq '.'";
+  console.log(window.location);
+  debug.innerHTML = "curl -ks " + window.location.origin + path + " | jq '.'";
 }
 
 
