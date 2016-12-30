@@ -1,6 +1,9 @@
 Hieraviz Changelog
 ========================
 
+### v0.2.5 - 2016-12-30
+- update hieracles lib
+
 ### v0.2.4 - 2016-04-29
 - fix the dynamic changes of puppet directories
 

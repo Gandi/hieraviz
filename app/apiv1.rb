@@ -134,6 +134,13 @@ module HieravizApp
       json Hieracles::Registry.farms_counted(hieracles_config, base, true)
     end
 
+    get %r{^/?([-_\.a-zA-Z0-9]+)?/modules} do |base|
+      check_authorization
+      cross_origin
+      hieracles_config = prepare_config(base)
+      json Hieracles::Registry.modules(hieracles_config, base, true)
+    end
+
     get %r{^/?([-_\.a-zA-Z0-9]+)?/vars} do |base|
       check_authorization
       hieracles_config = prepare_config(base)
@@ -162,6 +169,7 @@ module HieravizApp
       # check_authorization
       cross_origin
       hieracles_config = prepare_config(base)
+      Hieracles::Registry.reload_nodes
       nodes =  Hieracles::Registry.nodes_parameters(hieracles_config, base).each_with_object({}) do |(key, val), acc|
         acc[key] = val if val['farm'] == farm
       end

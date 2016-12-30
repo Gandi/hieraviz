@@ -1,14 +1,22 @@
 PATH
   remote: .
   specs:
-    hieraviz (0.2.4)
+    hieraviz (0.2.5)
       dotenv
-      hieracles (~> 0.3.6)
+      hieracles (~> 0.4.0)
       oauth2
       rack-flash3
       sinatra
       sinatra-contrib
       yajl-ruby
+
+PATH
+  remote: ../hieracles
+  specs:
+    hieracles (0.4.0)
+      awesome_print
+      deep_merge
+      httparty
 
 GEM
   remote: https://rubygems.org/
@@ -50,10 +58,6 @@ GEM
     eventmachine (1.2.0.1)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
-    hieracles (0.3.6)
-      awesome_print
-      deep_merge
-      httparty
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -149,6 +153,7 @@ DEPENDENCIES
   bundler (~> 1.10)
   bundler-audit
   coveralls
+  hieracles!
   hieraviz!
   rake (~> 10.0)
   reek
